@@ -572,56 +572,56 @@ HTTP 원본서버 트래픽 통계를 제공한다.
 ========================== =================================== ========== ===================================================================
 OID                        Name                                Type       Description
 ========================== =================================== ========== ===================================================================
-.1. ``[vhostMin]``         http.inbound                        Integer    원본서버로부터 받는 평균 HTTP 트래픽(Bytes)
-.2. ``[vhostMin]``         http.outbound                       Integer    원본서버로 보내는 평균 HTTP 트래픽(Bytes)
-.3. ``[vhostMin]``         http.allSessionAverage              Integer    원본서버 평균 HTTP세션 수
-.4. ``[vhostMin]``         http.activeSessionAverage           Integer    원본서버 평균 HTTP세션 중 전송 중인 평균 세션수
-.10. ``[vhostMin]``        http.reqHeaderSize                  Integer    원본서버로 보내는 평균 HTTP Header 트래픽(Bytes)
-.11. ``[vhostMin]``        http.reqBodySize                    Integer    원본서버로 보내는 평균 HTTP Body 트래픽(Bytes)
-.12. ``[vhostMin]``        http.resHeaderSize                  Integer    원본서버로부터 받는 평균 HTTP Header트래픽(Bytes)
-.13. ``[vhostMin]``        http.resBodySize                    Integer    원본서버로부터 받는 평균 HTTP Body트래픽(Bytes)
-.14. ``[vhostMin]``        http.reqAverage                     Integer    원본서버로 보낸 평균 HTTP요청 개수
-.15. ``[vhostMin]``        http.reqCount                       Integer    원본서버로 보낸 HTTP요청 개수
-.20. ``[vhostMin]``        http.res2xxAverage                  Integer    원본서버가 보낸 평균 2xx응답 개수
-.21. ``[vhostMin]``        http.res2xxCompleteAverage          Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
-.22. ``[vhostMin]``        http.res2xxTimeRes                  Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
-.23. ``[vhostMin]``        http.res2xxTimeComplete             Integer    원본서버로부터 2xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
-.24. ``[vhostMin]``        http.res2xxCount                    Integer    원본서버가 보낸 2xx응답 개수
-.25. ``[vhostMin]``        http.res2xxCompleteCount            Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
-.30. ``[vhostMin]``        http.res3xxAverage                  Integer    원본서버가 보낸 평균 3xx응답 개수
-.31. ``[vhostMin]``        http.res3xxCompleteAverage          Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
-.32. ``[vhostMin]``        http.res3xxTimeRes                  Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
-.33. ``[vhostMin]``        http.res3xxTimeComplete             Integer    원본서버로부터 3xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
-.34. ``[vhostMin]``        http.res3xxCount                    Integer    원본서버가 보낸 3xx응답 개수
-.35. ``[vhostMin]``        http.res3xxCompleteCount            Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
-.40. ``[vhostMin]``        http.res4xxAverage                  Integer    원본서버가 보낸 평균 4xx응답 개수
-.41. ``[vhostMin]``        http.res4xxCompleteAverage          Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
-.42. ``[vhostMin]``        http.res4xxTimeRes                  Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
-.43. ``[vhostMin]``        http.res4xxTimeComplete             Integer    원본서버로부터 4xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
-.44. ``[vhostMin]``        http.res4xxCount                    Integer    원본서버가 보낸 4xx응답 개수
-.45. ``[vhostMin]``        http.res4xxCompleteCount            Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
-.50. ``[vhostMin]``        http.res5xxAverage                  Integer    원본서버가 보낸 평균 5xx응답 개수
-.51. ``[vhostMin]``        http.res5xxCompleteAverage          Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
-.52. ``[vhostMin]``        http.res5xxTimeRes                  Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
-.53. ``[vhostMin]``        http.res5xxTimeComplete             Integer    원본서버로부터 5xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
-.54. ``[vhostMin]``        http.res5xxCount                    Integer    원본서버가 보낸 5xx응답 개수
-.55. ``[vhostMin]``        http.res5xxCompleteCount            Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
-.80. ``[vhostMin]``        http.resTotalAverage                Integer    원본서버가 보낸 전체 평균 HTTP응답 개수
-.81. ``[vhostMin]``        http.resTotalCompleteAverage        Integer    원본서버로부터 성공한 평균 HTTP트랜잭션 개수
-.82. ``[vhostMin]``        http.resTotalTimeRes                Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
-.83. ``[vhostMin]``        http.resTotalTimeComplete           Integer    원본서버로부터 응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
-.84. ``[vhostMin]``        http.resTotalCount                  Integer    원본서버가 보낸 전체 HTTP응답 개수
-.85. ``[vhostMin]``        http.resTotalCompleteCount          Integer    원본서버로부터 성공한 HTTP트랜잭션 개수
-.90. ``[vhostMin]``        http.connectTimeoutAverage          Integer    평균 원본서버 접속실패 횟수
-.91. ``[vhostMin]``        http.receiveTimeoutAverage          Integer    평균 원본서버 전송실패 횟수
-.92. ``[vhostMin]``        http.connectAverage                 Integer    평균 원본서버 접속성공 횟수
-.93. ``[vhostMin]``        http.dnsQueryTime                   Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
-.94. ``[vhostMin]``        http.connectTime                    Integer    원본서버 평균 접속 소요시간(0.01ms)
-.95. ``[vhostMin]``        http.connectTimeoutCount            Integer    원본서버 접속실패 횟수
-.96. ``[vhostMin]``        http.receiveTimeoutCount            Integer    원본서버 전송실패 횟수
-.97. ``[vhostMin]``        http.connectCount                   Integer    원본서버 접속성공 횟수
-.98. ``[vhostMin]``        http.closeAverage                   Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
-.99. ``[vhostMin]``        http.closeCount                     Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
+.1. ``[vhostMin]``         inbound                             Integer    원본서버로부터 받는 평균 HTTP 트래픽(Bytes)
+.2. ``[vhostMin]``         outbound                            Integer    원본서버로 보내는 평균 HTTP 트래픽(Bytes)
+.3. ``[vhostMin]``         allSessionAverage                   Integer    원본서버 평균 HTTP세션 수
+.4. ``[vhostMin]``         activeSessionAverage                Integer    원본서버 평균 HTTP세션 중 전송 중인 평균 세션수
+.10. ``[vhostMin]``        reqHeaderSize                       Integer    원본서버로 보내는 평균 HTTP Header 트래픽(Bytes)
+.11. ``[vhostMin]``        reqBodySize                         Integer    원본서버로 보내는 평균 HTTP Body 트래픽(Bytes)
+.12. ``[vhostMin]``        resHeaderSize                       Integer    원본서버로부터 받는 평균 HTTP Header트래픽(Bytes)
+.13. ``[vhostMin]``        resBodySize                         Integer    원본서버로부터 받는 평균 HTTP Body트래픽(Bytes)
+.14. ``[vhostMin]``        reqAverage                          Integer    원본서버로 보낸 평균 HTTP요청 개수
+.15. ``[vhostMin]``        reqCount                            Integer    원본서버로 보낸 HTTP요청 개수
+.20. ``[vhostMin]``        res2xxAverage                       Integer    원본서버가 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]``        res2xxCompleteAverage               Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
+.22. ``[vhostMin]``        res2xxTimeRes                       Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.23. ``[vhostMin]``        res2xxTimeComplete                  Integer    원본서버로부터 2xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]``        res2xxCount                         Integer    원본서버가 보낸 2xx응답 개수
+.25. ``[vhostMin]``        res2xxCompleteCount                 Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
+.30. ``[vhostMin]``        res3xxAverage                       Integer    원본서버가 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]``        res3xxCompleteAverage               Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
+.32. ``[vhostMin]``        res3xxTimeRes                       Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.33. ``[vhostMin]``        res3xxTimeComplete                  Integer    원본서버로부터 3xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]``        res3xxCount                         Integer    원본서버가 보낸 3xx응답 개수
+.35. ``[vhostMin]``        res3xxCompleteCount                 Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
+.40. ``[vhostMin]``        res4xxAverage                       Integer    원본서버가 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]``        res4xxCompleteAverage               Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
+.42. ``[vhostMin]``        res4xxTimeRes                       Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.43. ``[vhostMin]``        res4xxTimeComplete                  Integer    원본서버로부터 4xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]``        res4xxCount                         Integer    원본서버가 보낸 4xx응답 개수
+.45. ``[vhostMin]``        res4xxCompleteCount                 Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
+.50. ``[vhostMin]``        res5xxAverage                       Integer    원본서버가 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]``        res5xxCompleteAverage               Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
+.52. ``[vhostMin]``        res5xxTimeRes                       Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.53. ``[vhostMin]``        res5xxTimeComplete                  Integer    원본서버로부터 5xx응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]``        res5xxCount                         Integer    원본서버가 보낸 5xx응답 개수
+.55. ``[vhostMin]``        res5xxCompleteCount                 Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
+.80. ``[vhostMin]``        resTotalAverage                     Integer    원본서버가 보낸 전체 평균 HTTP응답 개수
+.81. ``[vhostMin]``        resTotalCompleteAverage             Integer    원본서버로부터 성공한 평균 HTTP트랜잭션 개수
+.82. ``[vhostMin]``        resTotalTimeRes                     Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.83. ``[vhostMin]``        resTotalTimeComplete                Integer    원본서버로부터 응답 HTTP 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]``        resTotalCount                       Integer    원본서버가 보낸 전체 HTTP응답 개수
+.85. ``[vhostMin]``        resTotalCompleteCount               Integer    원본서버로부터 성공한 HTTP트랜잭션 개수
+.90. ``[vhostMin]``        connectTimeoutAverage               Integer    평균 원본서버 접속실패 횟수
+.91. ``[vhostMin]``        receiveTimeoutAverage               Integer    평균 원본서버 전송실패 횟수
+.92. ``[vhostMin]``        connectAverage                      Integer    평균 원본서버 접속성공 횟수
+.93. ``[vhostMin]``        dnsQueryTime                        Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
+.94. ``[vhostMin]``        connectTime                         Integer    원본서버 평균 접속 소요시간(0.01ms)
+.95. ``[vhostMin]``        connectTimeoutCount                 Integer    원본서버 접속실패 횟수
+.96. ``[vhostMin]``        receiveTimeoutCount                 Integer    원본서버 전송실패 횟수
+.97. ``[vhostMin]``        connectCount                        Integer    원본서버 접속성공 횟수
+.98. ``[vhostMin]``        closeAverage                        Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
+.99. ``[vhostMin]``        closeCount                          Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
 ========================== =================================== ========== ===================================================================
                            
                            
@@ -920,33 +920,33 @@ OID                        Name                                       Type      
 .14. ``[vhostMin]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
 .15. ``[vhostMin]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
 .20. ``[vhostMin]``        NetConnection.Connect                      Integer    NetConnection.Connect 응답통계
-.20.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.20.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.20.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.20.1. ``[vhostMin]``      NetConnection.Connect.Success              Integer    성공응답 평균개수
+.20.2. ``[vhostMin]``      NetConnection.Connect.Fail                 Integer    실패응답 평균개수
+.20.3. ``[vhostMin]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
 .21. ``[vhostMin]``        NetConnection.CreateStream                 Integer    NetConnection.CreateStream 응답통계
-.21.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.21.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.21.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.21.1. ``[vhostMin]``      NetConnection.CreateStream.Success         Integer    성공응답 평균개수
+.21.2. ``[vhostMin]``      NetConnection.CreateStream.Fail            Integer    실패응답 평균개수
+.21.3. ``[vhostMin]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
 .30. ``[vhostMin]``        NetStream.Play                             Integer    NetStream.Play 응답통계
-.30.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.30.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.30.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.30.1. ``[vhostMin]``      NetStream.Play.Success                     Integer    성공응답 평균개수
+.30.2. ``[vhostMin]``      NetStream.Play.Fail                        Integer    실패응답 평균개수
+.30.3. ``[vhostMin]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .31. ``[vhostMin]``        NetStream.Close                            Integer    NetStream.Close 응답통계
-.31.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.31.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.31.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.31.1. ``[vhostMin]``      NetStream.Close.Success                    Integer    성공응답 평균개수
+.31.2. ``[vhostMin]``      NetStream.Close.Fail                       Integer    실패응답 평균개수
+.31.3. ``[vhostMin]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 .32. ``[vhostMin]``        NetStream.Delete                           Integer    NetStream.Delete 응답통계
-.32.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.32.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.32.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.32.1. ``[vhostMin]``      NetStream.Delete.Success                   Integer    성공응답 평균개수
+.32.2. ``[vhostMin]``      NetStream.Delete.Fail                      Integer    실패응답 평균개수
+.32.3. ``[vhostMin]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
 .33. ``[vhostMin]``        NetStream.Seek                             Integer    NetStream.Seek 응답통계
-.33.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.33.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.33.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.33.1. ``[vhostMin]``      NetStream.Seek.Success                     Integer    성공응답 평균개수
+.33.2. ``[vhostMin]``      NetStream.Seek.Fail                        Integer    실패응답 평균개수
+.33.3. ``[vhostMin]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .34. ``[vhostMin]``        NetStream.Pause                            Integer    NetStream.Pause 응답통계
-.34.1. ``[vhostMin]``      Success                                    Integer    성공응답 평균개수
-.34.2. ``[vhostMin]``      Fail                                       Integer    실패응답 평균개수
-.34.3. ``[vhostMin]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.34.1. ``[vhostMin]``      NetStream.Pause.Success                    Integer    성공응답 평균개수
+.34.2. ``[vhostMin]``      NetStream.Pause.Fail                       Integer    실패응답 평균개수
+.34.3. ``[vhostMin]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 ========================== ========================================== ========== =============================================================
 
 
@@ -1439,33 +1439,33 @@ OID                                           Name                              
 .14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
 .15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
 .20. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.Connect                      Integer    NetConnection.Connect 응답통계
-.20.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.20.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.20.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.20.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.Success              Integer    성공응답 평균개수
+.20.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.Fail                 Integer    실패응답 평균개수
+.20.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
 .21. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.CreateStream                 Integer    NetConnection.CreateStream 응답통계
-.21.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.21.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.21.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.21.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.Success         Integer    성공응답 평균개수
+.21.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.Fail            Integer    실패응답 평균개수
+.21.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
 .30. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Play                             Integer    NetStream.Play 응답통계
-.30.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.30.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.30.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.30.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.Success                     Integer    성공응답 평균개수
+.30.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.Fail                        Integer    실패응답 평균개수
+.30.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .31. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Close                            Integer    NetStream.Close 응답통계
-.31.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.31.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.31.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.31.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.Success                    Integer    성공응답 평균개수
+.31.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.Fail                       Integer    실패응답 평균개수
+.31.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 .32. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Delete                           Integer    NetStream.Delete 응답통계
-.32.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.32.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.32.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.32.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.Success                   Integer    성공응답 평균개수
+.32.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.Fail                      Integer    실패응답 평균개수
+.32.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
 .33. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Seek                             Integer    NetStream.Seek 응답통계
-.33.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.33.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.33.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.33.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.Success                     Integer    성공응답 평균개수
+.33.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.Fail                        Integer    실패응답 평균개수
+.33.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .34. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Pause                            Integer    NetStream.Pause 응답통계
-.34.1. ``[vhostMin]`` . ``[vhostIndex]``      Success                                    Integer    성공응답 평균개수
-.34.2. ``[vhostMin]`` . ``[vhostIndex]``      Fail                                       Integer    실패응답 평균개수
-.34.3. ``[vhostMin]`` . ``[vhostIndex]``      TimeRes                                    Integer    응답 평균 소요시간(0.01ms)
+.34.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.Success                    Integer    성공응답 평균개수
+.34.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.Fail                       Integer    실패응답 평균개수
+.34.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 ============================================= ========================================== ========== =============================================================
 
 
