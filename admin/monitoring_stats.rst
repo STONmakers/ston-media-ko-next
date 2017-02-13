@@ -728,52 +728,48 @@ RTMP 통계는 다음과 같다. ::
          "Fail":52,                                    <Fail Sum="0">18</Count>   
          "TimeRes":0,                                  <TimeRes>666</TimeRes>     
        },                                            </Pause>
-       "Seek":                                       <OnPlayStatus Sum="0">0</OnPlayStatus>
-       {                                             <OnStatus Sum="0">0</OnStatus>
-         "Success":0,                              </NetStream>
-         "Fail":52,                                <RequestHit                  
-         "TimeRes":0,                                 TCP_NONE="0"              
-       },                                             TCP_HIT="0"               
-       "Pause":                                       TCP_IMS_HIT="0"           
-       {                                              TCP_REFRESH_HIT="0"       
-         "Success":0,                                 TCP_REF_FAIL_HIT="0"      
-         "Fail":52,                                   TCP_NEGATIVE_HIT="0"      
-         "TimeRes":0,                                 TCP_REDIRECT_HIT="0"      
-       },                                             TCP_MISS="0"              
-       "OnPlayStatusSu                                TCP_REFRESH_MISS="0".
-       "OnPlayStatus":                                TCP_CLIENT_REFRESH_MISS="0"
-       "OnStatusSum":0                                TCP_DENIED="0"
-       "OnStatus":0,                                  TCP_ERROR="0" />            
-       "RequestHit":                               <RequestHitSum                    
-       {                                              TCP_NONE="0"                
-         "TCP_NONE":0,                                TCP_HIT="0"                 
-         "TCP_HIT":0,                                 TCP_IMS_HIT="0"                                     
-         "TCP_IMS_HIT":0,                             TCP_REFRESH_HIT="0"                                 
-         "TCP_REFRESH_HIT":0,                         TCP_REF_FAIL_HIT="0"                                
-         "TCP_REF_FAIL_HIT":0,                        TCP_NEGATIVE_HIT="0"                                
-         "TCP_NEGATIVE_HIT":0,                        TCP_REDIRECT_HIT="0"                                
-         "TCP_REDIRECT_HIT":0,                        TCP_MISS="0"                                        
-         "TCP_MISS":0,                                TCP_REFRESH_MISS="0".                               
-         "TCP_REFRESH_MISS":0,                        TCP_CLIENT_REFRESH_MISS="0"      
-         "TCP_CLIENT_REFRESH_MISS":0,                 TCP_DENIED="0"                   
-         "TCP_DENIED":0,                              TCP_ERROR="0" />                                               
-         "TCP_ERROR":0                           </Rtmp>               
-       },                                                         
-       "RequestHitSum":                                                                    
-       {                                                                                   
-         "TCP_NONE":0,                                                                     
-         "TCP_HIT":0,                                                                      
+       "Seek":                                     </NetStream>  
+       {                                           <RequestHit                                                        
+         "Success":0,                                 TCP_NONE="0"                                                   
+         "Fail":52,                                   TCP_HIT="0"                                                    
+         "TimeRes":0,                                 TCP_IMS_HIT="0"                                                
+       },                                             TCP_REFRESH_HIT="0"                                            
+       "Pause":                                       TCP_REF_FAIL_HIT="0"                                           
+       {                                              TCP_NEGATIVE_HIT="0"                                           
+         "Success":0,                                 TCP_REDIRECT_HIT="0"                                           
+         "Fail":52,                                   TCP_MISS="0"                                                   
+         "TimeRes":0,                                 TCP_REFRESH_MISS="0".                                          
+       },                                             TCP_CLIENT_REFRESH_MISS="0"                                    
+       "RequestHit":                                  TCP_DENIED="0"                                                 
+       {                                              TCP_ERROR="0" />                                               
+         "TCP_NONE":0,                             <RequestHitSum                                                    
+         "TCP_HIT":0,                                 TCP_NONE="0"                                                   
+         "TCP_IMS_HIT":0,                             TCP_HIT="0"                                                    
+         "TCP_REFRESH_HIT":0,                         TCP_IMS_HIT="0"                                                
+         "TCP_REF_FAIL_HIT":0,                        TCP_REFRESH_HIT="0"                                            
+         "TCP_NEGATIVE_HIT":0,                        TCP_REF_FAIL_HIT="0"                                           
+         "TCP_REDIRECT_HIT":0,                        TCP_NEGATIVE_HIT="0"                                           
+         "TCP_MISS":0,                                TCP_REDIRECT_HIT="0"                                           
+         "TCP_REFRESH_MISS":0,                        TCP_MISS="0"                                                   
+         "TCP_CLIENT_REFRESH_MISS":0,                 TCP_REFRESH_MISS="0".                                          
+         "TCP_DENIED":0,                              TCP_CLIENT_REFRESH_MISS="0"                                    
+         "TCP_ERROR":0                                TCP_DENIED="0"                                                 
+       },                                             TCP_ERROR="0" />                                               
+       "RequestHitSum":                          </Rtmp>                 
+       {                                           
+         "TCP_NONE":0,                           
+         "TCP_HIT":0,                                             
          "TCP_IMS_HIT":0,                                                                  
          "TCP_REFRESH_HIT":0,                                                              
-         "TCP_REF_FAIL_HIT":0,                                                           
-         "TCP_NEGATIVE_HIT":0,                                                           
-         "TCP_REDIRECT_HIT":0,                                                           
-         "TCP_MISS":0,                                               
-         "TCP_REFRESH_MISS":0,                              
-         "TCP_CLIENT_REFRESH_MISS":0,                                                           
-         "TCP_DENIED":0,                                                                        
-         "TCP_ERROR":0                                                       
-       }                         
+         "TCP_REF_FAIL_HIT":0,                                                             
+         "TCP_NEGATIVE_HIT":0,                                                             
+         "TCP_REDIRECT_HIT":0,                                                             
+         "TCP_MISS":0,                                                                     
+         "TCP_REFRESH_MISS":0,                                                           
+         "TCP_CLIENT_REFRESH_MISS":0,                                                    
+         "TCP_DENIED":0,                                                                 
+         "TCP_ERROR":0                                               
+       }                                                    
      },                            
 
 
@@ -794,8 +790,6 @@ RTMP 통계는 다음과 같다. ::
       -  ``Success`` 성공처리 횟수
       -  ``Fail`` 실패처리 횟수
       -  ``TimeRes`` 응답에 소요된 시간 (ms)
-   -  ``OnPlayStatus`` 클라이언트에게 OnPlayStatus를 보낸 횟수  
-   -  ``OnStatus`` 클라이언트에게 OnStatus를 보낸 횟수  
 
 
 .. _api-monitoring-vhostlist:
