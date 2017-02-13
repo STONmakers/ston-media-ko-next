@@ -4,16 +4,16 @@
 ******************
 
 이 장에서는 모니터링과 통계에 대해 설명한다.
-모니터링과 통계는 용도에 따라 서로 다르게 이해되는 경우가 많다.
-하지만 서비스는 숫자로 이야기한다는 관점에서 둘은 같다.
+모니터링과 통계는 용도에 따라 서로 다르게 이해되는 
+경우도 있지만 서비스는 숫자로 이야기한다는 관점에서 둘은 같다고 볼 수 있다.
 
-여기서 가장 중요한 요소는 실시간성이다.
+서비스 인프라의 가장 중요한 요소는 실시간성이다.
 5분도 너무 길다.
 실시간으로 서비스 상태변화를 볼 수 있어야 한다.
 수 많은 정책이 적용과 동시에 효과를 내는지 즉시 알 수 있어야 한다.
-모든 통계는 1초단위로 수집되며 최소 단위가 된다.
+STON에서 모든 통계는 1초단위로 수집되며 최소 단위가 된다.
 
-모든 통계는 가상호스트별로 따로 수집될 뿐만 아니라 실시간(1초), 5분 평균으로 제공된다. 
+통계는 가상호스트별로 따로 수집될 뿐만 아니라 실시간(1초), 5분 평균으로 제공된다. 
 고객이 통계를 보다 쉽게 분석, 가공할 수 있도록 JSON과 XML 포맷으로 제공한다. ::
 
     http://127.0.0.1:10040/monitoring/realtime?type=[JSON 또는 XML]
@@ -31,79 +31,6 @@
 
 
 
-수집범위
-====================================
-
-통계수집 범위를 설정한다. ::
-
-   # server.xml - <Server><VHostDefault>
-   # vhosts.xml - <Vhosts><Vhost>
-
-   <Stats>
-      <DirDepth>0</DirDepth>
-      <DirDepthAccum>OFF</DirDepthAccum>
-      <HttpsTraffic>OFF</HttpsTraffic>
-      <ClientLocal>OFF</ClientLocal>
-      <OriginLocal>OFF</OriginLocal>
-   </Stats>
-    
--  ``<DirDepth> (기본: 0)`` 
-   
-   디렉토리별로 통계를 수집한다. 
-   0으로 설정된 경우 모든 통계를 루트(/) 디렉토리로 수집한다. 
-   1로 설정하면 통계는 첫 번째 Depth 디렉토리별로 수집된다. 
-   
-   .. note:
-      
-      값의 제한은 없지만 수 만개 이상의 디렉토리 통계를 수집할 경우 자칫 메모리 문제를 초래할 수 있다.
-   
--  ``<DirDepthAccum>`` 
-
-   디렉토리별로 통계수집할 때 상위 디렉토리 통계 합산여부를 설정한다.
-   ``<DirDepth>`` 이 0이라면 이 설정은 무시된다.
-   
-   - ``OFF (기본)`` 상위 디렉토리로 통계를 합산하지 않는다.
-   
-   - ``ON`` 상위 디렉토리로 통계를 합산한다.
-   
-   예를 들어, ``<DirDepth>`` 이 2이고 모든 디렉토리에 동일하게 10만큼의 트래픽이 발생하고 있다고 가정한다. 
-   ``<DirDepthAccum>`` 이 ``OFF`` 라면 좌측 그림처럼 트래픽이 발생하는 디렉토리별로 따로 통계가 수집된다.
-   ``ON`` 이라면 우측 그림처럼 하위 디렉토리의 모든 통계가    부모 디렉토리로 누적된다.
-   
-   .. figure:: img/stats_dirdepth.jpg
-      :align: center
-          
-      상위 디렉토리 누적통계
-   
-   예를 들어 /img 디렉토리는 하위 디렉토리의 트래픽과 자신의 트래픽을 더한 30을    통계 값으로 가지며 이 트래픽은 부모 디렉토리로 합산된다.
-
--  ``<HttpsTraffic>`` 
-
-   - ``OFF (기본)`` HTTPS트래픽을 SSL통계로만 수집한다.
-   
-   - ``ON`` HTTPS트래픽을 SSL과 HTTP양쪽 통계에 같이 수집한다. 
-   
-   기본적으로 SSL레이어를 통과하면 별도의 SSL 통계로 수집한다.
-   HTTPS의 경우 상위 프로토콜에서 HTTP로 처리되기 때문에 보다 세세한 통계수집이 가능하다. 
-   하지만 SSL통계와 HTTP통계 양쪽에 중복 통계수집이 되므로 HTTP통계만을 신뢰할 것을 권장한다.
-
--  ``<ClientLocal>`` 
-
-   Loopback 클라이언트와 STON구간의 트래픽을 통계로 집계한다.
-
-   - ``OFF (기본)`` 집계하지 않는다.
-   
-   - ``ON`` 집계한다.
-
--  ``<OriginLocal>`` 
-
-   STON구간과 Loopback 원본서버 구간의 트래픽을 통계로 집계한다.
-
-   - ``OFF (기본)`` 집계하지 않는다.
-   
-   - ``ON`` 집계한다.
-   
-
 호스트 종합통계
 ====================================
 
@@ -115,137 +42,68 @@
      {                                            Name="localhost"                       
        "Version":"2.0.0",                         State="Healthy"                        
        "Name":"localhost",                        Uptime="155986"                        
-       "State":"Healthy",                         OriginSession="32"                     
-       "Uptime":155996,                           OriginActiveSession="20"               
-       "OriginSession":33,                        OriginInbound="1140741"                
-       "OriginActiveSession":20,                  OriginOutbound="10059"                 
-       "OriginInbound":688177,                    OriginReqCount="42"                    
-       "OriginOutbound":14184,                    OriginResTotalCount="42"               
-       "OriginReqCount":62,                       OriginResTotalTimeRes="5071"           
-       "OriginResTotalCount":62,                  OriginResTotalTimeComplete="10288"     
-       "OriginResTotalTimeRes":2375,              OriginRes2xxCount="19"                 
-       "OriginResTotalTimeComplete":2509,         OriginRes2xxTimeRes="9989"             
-       "OriginRes2xxCount":54,                    OriginRes2xxTimeComplete="21521"       
-       "OriginRes2xxTimeRes":2327,                OriginRes3xxCount="23"                 
-       "OriginRes2xxTimeComplete":2481,           OriginRes3xxTimeRes="1008"             
-       "OriginRes3xxCount":8,                     OriginRes3xxTimeComplete="1008"        
-       "OriginRes3xxTimeRes":2700,                OriginRes4xxCount="0"                  
-       "OriginRes3xxTimeComplete":2700,           OriginRes4xxTimeRes="0"                
-       "OriginRes4xxCount":0,                     OriginRes4xxTimeComplete="0"           
-       "OriginRes4xxTimeRes":0,                   OriginRes5xxCount="0"                  
-       "OriginRes4xxTimeComplete":0,              OriginRes5xxTimeRes="0"                
-       "OriginRes5xxCount":0,                     OriginRes5xxTimeComplete="0"           
-       "OriginRes5xxTimeRes":0,                   ClientSession="165"                    
-       "OriginRes5xxTimeComplete":0,              ClientActiveSession="80"               
-       "ClientSession":155,                       ClientInbound="14792"                  
-       "ClientActiveSession":80                   ClientOutbound="1981700"               
-       "ClientInbound":35748,                     ClientReqCount="64"                    
-       "ClientOutbound":972906,                   ClientResTotalCount="64"               
-       "ClientReqCount":152,                      ClientResTotalTimeRes="5535"           
-       "ClientResTotalCount":152,                 ClientResTotalTimeComplete="6840"      
-       "ClientResTotalTimeRes":1411,              ClientRes2xxCount="44"                 
-       "ClientResTotalTimeComplete":1479,         ClientRes2xxTimeRes="8050"             
-       "ClientRes2xxCount":93,                    ClientRes2xxTimeComplete="9943"        
-       "ClientRes2xxTimeRes":2305,                ClientRes3xxCount="20"                 
-       "ClientRes2xxTimeComplete":2409,           ClientRes3xxTimeRes="5"                
-       "ClientRes3xxCount":59,                    ClientRes3xxTimeComplete="15"          
-       "ClientRes3xxTimeRes":3,                   ClientRes4xxCount="0"                  
-       "ClientRes3xxTimeComplete":13,             ClientRes4xxTimeRes="0"                
-       "ClientRes4xxCount":0,                     ClientRes4xxTimeComplete="0"           
-       "ClientRes4xxTimeRes":0,                   ClientRes5xxCount="0"                  
-       "ClientRes4xxTimeComplete":0,              ClientRes5xxTimeRes="0"                
-       "ClientRes5xxCount":0,                     ClientRes5xxTimeComplete="0"           
-       "ClientRes5xxTimeRes":0,                   RequestHitRatio="6923"                 
-       "ClientRes5xxTimeComplete":0,              ByteHitRatio="4243">                   
-       "RequestHitRatio":6387,                    <HttpCountSum                          
-       "ByteHitRatio":2926,                         OriginReqCount="0"                   
-       "HttpCountSum" :                             OriginResTotalCount="0"              
-       {                                            OriginRes2xxCount="0"                
-         "OriginReqCount" : 0,                      OriginRes3xxCount="0"                
-         "OriginResTotalCount" : 0,                 OriginRes4xxCount="0"                
-         "OriginRes2xxCount" : 0,                   OriginRes5xxCount="0"                
-         "OriginRes3xxCount" : 0,                   ClientReqCount="0"                   
-         "OriginRes4xxCount" : 0,                   ClientResTotalCount="0"              
-         "OriginRes5xxCount" : 0,                   ClientRes2xxCount="0"                
-         "ClientReqCount" : 0,                      ClientRes3xxCount="0"                
-         "ClientResTotalCount" : 0,                 ClientRes4xxCount="0"                
-         "ClientRes2xxCount" : 0,                   ClientRes5xxCount="0"/>              
-         "ClientRes3xxCount" : 0,                 <HttpRequestHitSum                     
-         "ClientRes4xxCount" : 0,                   TCP_NONE="0"                         
-         "ClientRes5xxCount" : 0                    TCP_HIT="0"                          
-       },                                           TCP_IMS_HIT="0"                      
-       "HttpRequestHitSum" :                        TCP_REFRESH_HIT="0"                  
-       {                                            TCP_REF_FAIL_HIT="0"                 
-         "TCP_NONE" : 0,                            TCP_NEGATIVE_HIT="0"                 
-         "TCP_HIT" : 0,                             TCP_REDIRECT_HIT="0"                 
-         "TCP_IMS_HIT" : 0,                         TCP_MISS="0"                         
-         "TCP_REFRESH_HIT" : 0,                     TCP_REFRESH_MISS="0"                 
-         "TCP_REF_FAIL_HIT" : 0,                    TCP_CLIENT_REFRESH_MISS="0"          
-         "TCP_NEGATIVE_HIT" : 0,                    TCP_DENIED="0"                       
-         "TCP_REDIRECT_HIT" : 0,                    TCP_ERROR="0"/>                      
-         "TCP_MISS" : 0,                          <FileSystem>                           
-         "TCP_REFRESH_MISS" : 0,                    <RequestHitRatio>0</RequestHitRatio> 
-         "TCP_CLIENT_REFRESH_MISS" : 0,             <ByteHitRatio>0</ByteHitRatio>       
-         "TCP_DENIED" : 0,                          <Outbound>0</Outbound>               
-         "TCP_ERROR" : 0                            <Session>0</Session>                 
-       },                                         </FileSystem>                          
-       "FileSystem":                              <System> ... </System>                 
-       {                                          <VirtualHost> ... </VirtualHost>       
-         "RequestHitRatio":0,                     <VirtualHost> ... </VirtualHost>       
-         "ByteHitRatio":0,                        <VirtualHost> ... </VirtualHost>       
-         "Outbound":0,                            <View> ... </View>                     
-         "Session":0                              <View> ... </View>                     
-       },                                       </Host>                                  
-       "System":{ ... },                                                                 
-       "VirtualHost": [ ... ]
-       "View": [ ... ]
-     }
+       "State":"Healthy",                         AllOriginSession="0" 
+       "Uptime":155996,                           AllOriginActiveSession="0" 
+       "AllOriginSession":33,                     AllOriginInbound="0" 
+       "AllOriginActiveSession":20,               AllOriginOutbound="0" 
+       "AllOriginInbound":688177,                 HttpOriginSession="0" 
+       "AllOriginOutbound":14184,                 HttpOriginActiveSession="0" 
+       "HttpOriginSession":62,                    HttpOriginInbound="0" 
+       "HttpOriginActiveSession":62,              HttpOriginOutbound="0" 
+       "HttpOriginInbound":2375,                  AllClientSession="0" 
+       "HttpOriginOutbound":2509,                 AllClientActiveSession="0" 
+       "AllClientSession":54,                     AllClientInbound="0" 
+       "AllClientActiveSession":2327,             AllClientOutbound="0" 
+       "AllClientInbound":2481,                   HttpClientSession="0" 
+       "AllClientOutbound":8,                     HttpClientActiveSession="0" 
+       "HttpClientSession":54,                    HttpClientInbound="0" 
+       "HttpClientActiveSession":2327,            HttpClientOutbound="0" 
+       "HttpClientInbound":2481,                  HlsClientSession="0" 
+       "HttpClientOutbound":8,                    HlsClientActiveSession="0" 
+       "HlsClientSession":54,                     HlsClientInbound="0" 
+       "HlsClientActiveSession":2327,             HlsClientOutbound="0" 
+       "HlsClientInbound":2481,                   RtmpClientSession="0" 
+       "HlsClientOutbound":8,                     RtmpClientActiveSession="0" 
+       "RtmpClientSession":54,                    RtmpClientInbound="0" 
+       "RtmpClientActiveSession":2327,            RtmpClientOutbound="0" 
+       "RtmpClientInbound":2481,                  RequestHitRatio="0" 
+       "RtmpClientOutbound":8,                    ByteHitRatio="0" >
+       "RequestHitRatio":6387,                      <VirtualHost> ... </VirtualHost>
+       "ByteHitRatio":2926,                         <VirtualHost> ... </VirtualHost>
+       "System":{ ... },                            <VirtualHost> ... </VirtualHost>
+       "VirtualHost": [ ... ]                       <View> ... </View>
+       "View": [ ... ]                              <View> ... </View>.
+     }                                            </Host>
    }
    
 -  ``Version`` STON 버전
 -  ``Name`` 호스트이름. 설정하지 않았다면 시스템 이름을 보여준다.
 -  ``State`` 서비스 상태. (Healthy=정상 서비스, Inactive=라이센스 비활성화, Emergency)
 -  ``Uptime (단위: 초)`` 서비스 실행시간
--  ``OriginSession`` 원본세션 수
--  ``OriginActiveSession`` 전송 중인 원본세션 수
--  ``OriginInbound (단위: Bytes, 평균)`` 원본서버부터 받은 양
--  ``OriginReqCount (평균)`` 원본서버로 보낸 요청횟수
--  ``OriginOutbound (단위: Bytes, 평균)`` 원본서버로 보낸 양
--  ``OriginResTotalCount (평균)`` 원본서버 응답횟수
--  ``OriginResTotalTimeRes (단위: 0.01ms, 평균)`` 원본서버 응답시간 (HTTP요청 전송 ~ HTTP응답 첫 수신)
--  ``OriginResTotalTimeComplete (단위: 0.01ms, 평균)`` 원본서버 HTTP 트랜잭션 완료시간 (HTTP요청 전송 ~ HTTP응답 완료)
--  ``OriginRes2xxCount (평균)`` 원본서버 2xx응답횟수
--  ``OriginRes2xxTimeRes (단위: 0.01ms, 평균)`` 원본서버 2xx응답시간
--  ``OriginRes2xxTimeComplete (단위: 0.01ms, 평균)`` 원본서버 2xx 트랜잭션 완료시간
--  ``OriginRes3xxCount (평균)`` 원본서버 3xx응답횟수
--  ``OriginRes3xxTimeRes (단위: 0.01ms, 평균)`` 원본서버 3xx응답시간
--  ``OriginRes3xxTimeComplete (단위: 0.01ms, 평균)`` 원본서버 3xx 트랜잭션 완료시간
--  ``OriginRes4xxCount (평균)`` 원본서버 4xx응답횟수
--  ``OriginRes4xxTimeRes (단위: 0.01ms, 평균)`` 원본서버 4xx응답시간
--  ``OriginRes4xxTimeComplete (단위: 0.01ms, 평균)`` 원본서버 4xx 트랜잭션 완료시간
--  ``OriginRes5xxCount (평균)`` 원본서버 5xx응답횟수
--  ``OriginRes5xxTimeRes (단위: 0.01ms, 평균)`` 원본서버 5xx응답시간
--  ``OriginRes5xxTimeComplete (단위: 0.01ms, 평균)`` 원본서버 5xx 트랜잭션 완료시간
--  ``ClientSession`` 클라이언트 세션 수
--  ``ClientActiveSession`` 전송 중인 클라이언트 세션 수
--  ``ClientInbound (단위: Bytes, 평균)`` 클라이언트로부터 받은 양
--  ``ClientOutbound (단위: Bytes, 평균)`` 클라이언트로에게 보낸 양
--  ``ClientReqCount (평균)`` 클라이언트로 받은 요청횟수
--  ``ClientResTotalCount (평균)`` 클라이언트 응답횟수
--  ``ClientResTotalTimeRes (단위: 0.01ms, 평균)`` 클라이언트 응답시간 (HTTP요청 수신 ~ HTTP응답 전송)
--  ``ClientResTotalTimeComplete (단위: 0.01ms, 평균)`` 클라이언트 HTTP 트랜잭션 완료시간 (HTTP요청 수신 ~ HTTP응답 완료)
--  ``ClientRes2xxCount (평균)`` 클라이언트 2xx응답횟수
--  ``ClientRes2xxTimeRes (단위: 0.01ms, 평균)`` 클라이언트 2xx응답시간
--  ``ClientRes2xxTimeComplete (단위: 0.01ms, 평균)`` 클라이언트 2xx 트랜잭션 완료시간
--  ``ClientRes3xxCount (평균)`` 클라이언트 3xx응답횟수
--  ``ClientRes3xxTimeRes (단위: 0.01ms, 평균)`` 클라이언트 3xx응답시간
--  ``ClientRes3xxTimeComplete (단위: 0.01ms, 평균)`` 클라이언트 3xx 트랜잭션 완료시간
--  ``ClientRes4xxCount (평균)`` 클라이언트 4xx응답횟수
--  ``ClientRes4xxTimeRes (단위: 0.01ms, 평균)`` 클라이언트 4xx응답시간
--  ``ClientRes4xxTimeComplete (단위: 0.01ms, 평균)`` 클라이언트 4xx 트랜잭션 완료시간
--  ``ClientRes5xxCount (평균)`` 클라이언트 5xx응답횟수
--  ``ClientRes5xxTimeRes (단위: 0.01ms, 평균)`` 클라이언트 5xx응답시간
--  ``ClientRes5xxTimeComplete (단위: 0.01ms, 평균)`` 클라이언트 5xx 트랜잭션 완료시간
+-  ``AllOriginSession`` 전체 원본세션 수
+-  ``AllOriginActiveSession`` ``AllOriginSession`` 중 전송 중인 세션 수
+-  ``AllOriginInbound (단위: Bytes, 평균)`` 전체 원본서버부터 받은 양
+-  ``AllOriginOutbound (단위: Bytes, 평균)`` 전체 원본서버로 보낸 양
+-  ``HttpOriginSession`` HTTP 원본세션 수
+-  ``HttpOriginActiveSession`` ``HttpOriginSession`` 중 전송 중인 세션 수
+-  ``HttpOriginInbound (단위: Bytes, 평균)`` HTTP를 이용해 원본서버부터 받은 양
+-  ``HttpOriginOutbound (단위: Bytes, 평균)`` HTTP를 이용해  원본서버로 보낸 양
+-  ``AllClientSession`` 전체 클라이언트 세션 수
+-  ``AllClientActiveSession`` ``AllClientSession``  중 전송 중인 세션 수
+-  ``AllClientInbound (단위: Bytes, 평균)`` 전체 클라이언트로부터 받은 양
+-  ``AllClientOutbound (단위: Bytes, 평균)`` 전체 클라이언트로에게 보낸 양
+-  ``HttpClientSession`` HTTP 클라이언트 세션 수
+-  ``HttpClientActiveSession`` ``HttpClientSession`` 중 전송 중인 세션 수
+-  ``HttpClientInbound (단위: Bytes, 평균)`` HTTP를 이용해 클라이언트로부터 받은 양
+-  ``HttpClientOutbound (단위: Bytes, 평균)`` HTTP를 이용해 클라이언트로 보낸 양
+-  ``HlsClientSession`` HLS 클라이언트 세션 수
+-  ``HlsClientActiveSession`` ``HlsClientSession`` 중 전송 중인 세션 수
+-  ``HlsClientInbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로부터 받은 양
+-  ``HlsClientOutbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로 보낸 양
+-  ``RtmpClientSession`` RTMP 클라이언트 세션 수
+-  ``RtmpClientActiveSession`` ``RtmpClientSession`` 중 전송 중인 세션 수
+-  ``RtmpClientInbound (단위: Bytes, 평균)`` RTMP를 이용해 클라이언트로부터 받은 양
+-  ``RtmpClientOutbound (단위: Bytes, 평균)`` RTMP를 이용해 클라이언트로 보낸 양
 -  ``RequestHitRatio (단위: 0.01%, 평균)`` Hit율. 
    캐싱객체가 생성되어 있고 해당 객체가 초기화되어 있다면 Hit이다. 
    반대로 캐싱객체가 없거나 해당 객체가 원본서버로부터 초기화되지 않았다면 Hit로 치지 않는다. 
@@ -265,22 +123,9 @@
       (클라이언트 Outbound - 원본서버 Inbound) / 클라이언트 Outbound
       
    원본서버가 훨씬 빠른 속도를 가지고 있거나 클라이언트 세션이 금방 끊어진다면 음수가 된다.
-   
--  ``FileSystem`` 독립적인 FileSystem 통계로 다른 통계 수치에 취합되지 않는다.
 
-   - ``RequestHitRatio (단위: 0.01%, 평균)`` File I/O를 통한 Hit율
-   - ``ByteHitRatio (단위: 0.01%, 평균)`` 원본서버 대비 File I/O 전송률
-   - ``Outbound (단위: Bytes, 평균)`` File I/O로 서비스한 데이터 크기
-   - ``Session (평균)`` File I/O 진행 중인 Thread 수
-      
-.. note::
 
-   5분 통계에서만 제공되는 항목.
-   
-   -  ``HttpCountSum`` HTTP 트랜잭션의 총 개수   
-   -  ``HttpRequestHitSum`` 캐시 HIT 결과
-   
-   
+
 System 통계
 ====================================
 
@@ -444,116 +289,59 @@ System 통계
 ====================================
 
 가상호스트별로 통계가 제공된다. 
-가상호스트 통계는 HTTP전송(디렉토리 별), URL바이패스, 포트바이패스, SSL로 구분된다. ::
+가상호스트 통계는 프로토콜별로 구분된다. ::
 
-   "VirtualHost":                               <VirtualHost                                              
-   [                                                Name="image.11st.co.kr"                               
-     {                                              Uptime="155956"                                       
-       "Name":"image.11st.co.kr",                   OriginSession="12"                                    
-       "Uptime":155966,                             OriginActiveSession="6"                               
-       "OriginSession":12,                          OriginInbound="106914"                                
-       "OriginActiveSession":6,                     OriginOutbound="3238"                                 
-       "OriginInbound":169,                         OriginReqCount="42"                                   
-       "OriginOutbound":269,                        OriginResTotalCount="13"                              
-       "OriginReqCount":62,                         OriginResTotalTimeRes="1553"                          
-       "OriginResTotalCount":1,                     OriginResTotalTimeComplete="6630"                     
-       "OriginResTotalTimeRes":3300,                OriginRes2xxCount="1"                                 
-       "OriginResTotalTimeComplete":3300,           OriginRes2xxTimeRes="3300"                            
-       "OriginRes2xxCount":0,                       OriginRes2xxTimeComplete="69300"                      
-       "OriginRes2xxTimeRes":0,                     OriginRes3xxCount="12"                                
-       "OriginRes2xxTimeComplete":0,                OriginRes3xxTimeRes="1408"                            
-       "OriginRes3xxCount":1,                       OriginRes3xxTimeComplete="1408"                       
-       "OriginRes3xxTimeRes":3300,                  OriginRes4xxCount="0"                                 
-       "OriginRes3xxTimeComplete":3300,             OriginRes4xxTimeRes="0"                               
-       "OriginRes4xxCount":0,                       OriginRes4xxTimeComplete="0"                          
-       "OriginRes4xxTimeRes":0,                     OriginRes5xxCount="0"                                 
-       "OriginRes4xxTimeComplete":0,                OriginRes5xxTimeRes="0"                               
-       "OriginRes5xxCount":0,                       OriginRes5xxTimeComplete="0"                          
-       "OriginRes5xxTimeRes":0,                     ClientSession="30"                                    
-       "OriginRes5xxTimeComplete":0,                ClientActiveSession="12"                              
-       "ClientSession":26,                          ClientInbound="4113"                                  
-       "ClientActiveSession":16,                    ClientOutbound="895937"                               
-       "ClientInbound":13968,                       ClientReqCount="64"                                   
-       "ClientOutbound":110398,                     ClientResTotalCount="18"                              
-       "ClientReqCount":152,                        ClientResTotalTimeRes="666"                           
-       "ClientResTotalCount":52,                    ClientResTotalTimeComplete="4377"                     
-       "ClientResTotalTimeRes":94,                  ClientRes2xxCount="10"                                
-       "ClientResTotalTimeComplete":107,            ClientRes2xxTimeRes="1200"                            
-       "ClientRes2xxCount":1,                       ClientRes2xxTimeComplete="7870"                       
-       "ClientRes2xxTimeRes":4700,                  ClientRes3xxCount="8"                                 
-       "ClientRes2xxTimeComplete":4800,             ClientRes3xxTimeRes="0"                               
-       "ClientRes3xxCount":51,                      ClientRes3xxTimeComplete="12"                         
-       "ClientRes3xxTimeRes":3,                     ClientRes4xxCount="0"                                 
-       "ClientRes3xxTimeComplete":15,               ClientRes4xxTimeRes="0"                               
-       "ClientRes4xxCount":0,                       ClientRes4xxTimeComplete="0"                          
-       "ClientRes4xxTimeRes":0,                     ClientRes5xxCount="0"                                 
-       "ClientRes4xxTimeComplete":0,                ClientRes5xxTimeRes="0"                               
-       "ClientRes5xxCount":0,                       ClientRes5xxTimeComplete="0"                          
-       "ClientRes5xxTimeRes":0,                     RequestHitRatio="10000"                               
-       "ClientRes5xxTimeComplete":0,                ByteHitRatio="8806">                                  
-       "RequestHitRatio":10000,                   <FileSystem>                                            
-       "ByteHitRatio":9984,                         <RequestHitRatio>0</RequestHitRatio>                  
-       "FileSystem":                                <ByteHitRatio>0</ByteHitRatio>                        
-       {                                            <Outbound>0</Outbound>                                
-         "RequestHitRatio":0,                       <Session>0</Session>                                  
-         "ByteHitRatio":0,                        </FileSystem>
-         "Outbound":0,                            <Memory>784786700</Memory>.
-         "Session":0                              <SecuredMemory>0</SecuredMemory>.
-       },                                         <Disk> ... </Disk>
-       "Memory":785740769,                        <Session> ... </Session>
-       "SecuredMemory":0,                         <Dims> ... </Dims>
-       "Disk": { ... },                           <Compression> ... </Compression>
-       "Session": { ... },                        <File Total="458278" Opened="15" Instance="458292"/>
-       "Dims": { ... },                           <Cached> ... </Cached>
-       "Compression": { ... },                    <CacheFileEvent> ... </CacheFileEvent>
-       "FileTotal":458308,                        <WaitingFiles2Delete>1087593</WaitingFiles2Delete>
-       "FileOpened":15,                           <CacheFileEvent Create=\"%u\" Swap=\"%u\" Erase=\"%u\" Purge=\"%u\" Expire=\"%u\" />
-       "FileInstance":458320,                     <ClientHttpReqBypass Sum="8100">27</ClientHttpReqBypass>
-       "Cached": { ... },                         <ClientHttpReqDenied Sum="400">1</ClientHttpReqDenied>
-       "CacheFileEvent": { ... },                 <OriginTraffic> ... </OriginTraffic>
-       "WaitingFiles2Delete":1087595,             <PortBypass> ... </PortBypass>
-       "ClientHttpReqBypassSum":8100,             <ClientTraffic> ... </ClientTraffic>
-       "ClientHttpReqBypass":27,                  <UrlBypass> ... </UrlBypass>
-       "ClientHttpReqDeniedSum":400,            </VirtualHost>
-       "ClientHttpReqDenied":1,                 <VirtualHost> ... </VirtualHost>
-       "OriginTraffic": { ... },                <VirtualHost> ... </VirtualHost>
-       "PortBypass": { ... },                   <VirtualHost> ... </VirtualHost>
-       "ClientTraffic": { ... },                
-       "UrlBypass": { ... }                   
-       
+   "VirtualHost":                              <VirtualHost                                 
+   [                                               Name="example.com"                                                                   
+     {                                             Uptime="155986"              
+       "Name":"example.com",                       AllOriginSession="0"                                   
+       "Uptime":155996,                            AllOriginActiveSession="0"   
+       "AllOriginSession":33,                      AllOriginInbound="0"                                    
+       "AllOriginActiveSession":20,                AllOriginOutbound="0"                                   
+       "AllOriginInbound":688177,                  HttpOriginSession="0"                                   
+       "AllOriginOutbound":14184,                  HttpOriginActiveSession="0"                             
+       "HttpOriginSession":62,                     HttpOriginInbound="0"                                   
+       "HttpOriginActiveSession":62,               HttpOriginOutbound="0"                                  
+       "HttpOriginInbound":2375,                   AllClientSession="0"                                    
+       "HttpOriginOutbound":2509,                  AllClientActiveSession="0"                              
+       "AllClientSession":54,                      AllClientInbound="0"                                    
+       "AllClientActiveSession":2327,              AllClientOutbound="0"                                   
+       "AllClientInbound":2481,                    HttpClientSession="0"                                   
+       "AllClientOutbound":8,                      HttpClientActiveSession="0"                             
+       "HttpClientSession":54,                     HttpClientInbound="0"                                   
+       "HttpClientActiveSession":2327,             HttpClientOutbound="0"                                  
+       "HttpClientInbound":2481,                   HlsClientSession="0"                                    
+       "HttpClientOutbound":8,                     HlsClientActiveSession="0"                              
+       "HlsClientSession":54,                      HlsClientInbound="0"                                    
+       "HlsClientActiveSession":2327,              HlsClientOutbound="0"                                   
+       "HlsClientInbound":2481,                    RtmpClientSession="0"                                   
+       "HlsClientOutbound":8,                      RtmpClientActiveSession="0"                             
+       "RtmpClientSession":54,                     RtmpClientInbound="0"                                   
+       "RtmpClientActiveSession":2327,             RtmpClientOutbound="0"                                  
+       "RtmpClientInbound":2481,                   RequestHitRatio="0"                                     
+       "RtmpClientOutbound":8,                     ByteHitRatio="0">
+       "RequestHitRatio":6387,                   <Memory>784786700</Memory>
+       "ByteHitRatio":2926                       <SecuredMemory>0</SecuredMemory>
+       "Memory":785740769,                       <Disk> ... </Disk>
+       "SecuredMemory":0,                        <CacheFileEvent> ... </CacheFileEvent>
+       "Disk": { ... },                          <OriginTraffics> ... </OriginTraffics>
+       "CacheFileEvent": { ... },                <ClientTraffic> ... </ClientTraffic>
+       "OriginTraffics": { ... },              </VirtualHost>
+       "ClientTraffics": { ... },
      },
      ...
    ]
    
 .. note:
 
-   ※ Name부터 FileSystem까지 호스트 통계와 동일하다.
+   ※ Name부터 ByteHitRatio까지 호스트 통계와 동일하다.
    
 -  ``Memory (단위: Bytes)`` 메모리에 적재된 컨텐츠 양
 -  ``SecuredMemory (단위: Bytes)`` 메모리에서 삭제한 컨텐츠 양
 -  ``Disk`` 디스크 정보
--  ``Session`` 세션 정보
--  ``Dims`` DIMS변환 통계
--  ``Compression`` 압축 통계
--  ``FileTotal`` 전체파일 개수
--  ``FileOpened`` 열려져 있는 로컬파일 개수
--  ``FileInstance`` 캐싱파일 개수
--  ``Cached`` 캐싱 정보
 -  ``CacheFileEvent`` 캐싱파일 이벤트
--  ``WaitingFiles2Delete`` 삭제대기 중인 파일개수
--  ``ClientHttpReqBypass`` 바이패스한 클라이언트 HTTP요청 횟수
--  ``ClientHttpReqDenied`` HTTP요청이 차단된 횟수
--  ``OriginTraffic`` 원본서버 트래픽 통계
--  ``PortBypass`` 포트 바이패스 트래픽 통계
--  ``ClientTraffic`` 클라이언트 트래픽 통계
--  ``UrlBypass`` URL매칭 또는 ``<BypassNoCacheRequest>`` 를 통해 원본서버로변환 통계되는 HTTP트래픽 통계
-
-.. note::
-
-   5분 통계에서만 제공되는 항목.
-   
-   -  ``ClientHttpReqBypassSum`` 바이패스되는 HTTP요청의 총 개수   
-   -  ``ClientHttpReqDeniedSum`` Deny되는 HTTP요청의 총 개수
+-  ``OriginTraffics`` 원본서버 트래픽 통계
+-  ``ClientTraffics`` 클라이언트 트래픽 통계
 
 
 디스크 통계
@@ -641,125 +429,66 @@ System 통계
    - ``O16G`` 16GB 이상 파일 개수
 
 
-세션 통계
-------------------------------
-
-가상호스트가 사용하는 디스크통계를 제공한다. ::
-
-   "Session":                                   <Session            
-   {                                              Client="30"       
-     "Client":30,                                 ActiveClient="20" 
-     "ActiveClient":20,                           Origin="12"       
-     "Origin":12,                                 ActiveOrigin="7" />
-     "ActiveOrigin":7
-   },
-   
--  ``Client`` 전체 HTTP 클라이언트 세션수
--  ``ActiveClient`` 전체 HTTP 클라이언트 중 전송 중인 세션수
--  ``Origin`` 전체 원본서버 세션수
--  ``ActiveOrigin`` 전체 원본서버 세션수 중 전송 중인 세션수
-
-
-
-DIMS 통계
-------------------------------
-
-DIMS의 성능지표를 제공한다. ::
-
-   "Dims":                                   <Dims
-   {                                           Requests="30"
-     "Requests": 30,                           Converted="29"
-     "Converted": 29,                          Failed="1"
-     "Failed": 1,                              AvgSrcSize="1457969"
-     "AvgSrcSize": 1457969,                    AvgDestSize="598831"
-     "AvgDestSize": 598831,                    AvgTime="34" />
-     "AvgTime": 34
-   },
-   
--  ``Requests`` 변환요청 횟수
--  ``Converted`` 변환성공 횟수
--  ``Failed`` 변환실패 횟수
--  ``AvgSrcSize (단위: Bytes)`` 원본 이미지의 평균 크기
--  ``AvgDestSize (단위: Bytes)`` 변환된 이미지의 평균 크기
--  ``AvgTime (단위: ms)`` 변환 소요시간
-
-
-압축 통계
-------------------------------
-
-압축의 성능지표를 제공한다. ::
-
-   "Compression":                             <Compression
-   {                                           Requests="30"
-     "Requests": 30,                           Converted="29"
-     "Converted": 29,                          Failed="1"
-     "Failed": 1,                              AvgSrcSize="1457969"
-     "AvgSrcSize": 1457969,                    AvgDestSize="598831"
-     "AvgDestSize": 598831,                    AvgTime="34" />
-     "AvgTime": 34
-   },
-   
--  ``Requests`` 압축요청 횟수
--  ``Converted`` 압축성공 횟수
--  ``Failed`` 압축실패 횟수
--  ``AvgSrcSize (단위: Bytes)`` 원본 파일의 평균 크기
--  ``AvgDestSize (단위: Bytes)`` 압축된 파일의 평균 크기
--  ``AvgTime (단위: ms)`` 압축 소요시간
-
-
-
 원본 통계
 ------------------------------
 
-STON과 원본서버 사이에 발생하는 트래픽통계를 제공한다. ::
+STON과 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
 
-   "OriginTraffic":                             <OriginTraffic>                                  
-   {                                              <HttpReqCount Sum="600">2</HttpReqCount>       
-     "HttpReqCountSum":0,                         <HttpReqHeaderSize>3238</HttpReqHeaderSize>    
-     "HttpReqCount":0,                            <HttpReqBodySize>0</HttpReqBodySize>           
-     "HttpReqHeaderSize":269,                     <HttpResHeaderSize>2020</HttpResHeaderSize>    
-     "HttpReqBodySize":0,                         <HttpResBodySize>104894</HttpResBodySize>      
-     "HttpResHeaderSize":169,                     <Response>                                     
-     "HttpResBodySize":0,                           <ResTotal>                                   
-     "Response":                                      <Count Sum="8100">13</Count>               
-     {                                                <Completed Sum="8100">12</Completed>       
-       "ResTotal":                                    <TimeRes>1553</TimeRes>                    
-       {                                              <TimeComplete>6630</TimeComplete>          
-         "CountSum":0,                              </ResTotal>                                  
-         "Count":1,                                 <Res2xx>                                     
-         "CompletedSum":0,                            <Count Sum="8100">1</Count>                
-         "Completed":1,                               <Completed Sum="8100">1</Completed>        
-         "TimeRes":3300,                              <TimeRes>3300</TimeRes>                    
-         "TimeComplete":3300                          <TimeComplete>69300</TimeComplete>         
-       },                                           </Res2xx>                                    
-       "Res2xx":                                    <Res3xx>                                     
-       {                                              <Count Sum="8100">12</Count>               
-         "CountSum":0,                                <Completed Sum="8100">11</Completed>       
-         "Count":0,                                   <TimeRes>1408</TimeRes>                    
-         "CompletedSum":0,                            <TimeComplete>1408</TimeComplete>          
-         "Completed":0,                             </Res3xx>                                    
-         "TimeRes":0,                               <Res4xx>                                     
-         "TimeComplete":0                             <Count Sum="8100">0</Count>                
-       },                                             <Completed Sum="8100">0</Completed>        
-       "Res3xx":                                      <TimeRes>0</TimeRes>                       
-       {                                              <TimeComplete>0</TimeComplete>             
-         "CountSum":0,                              </Res4xx>                                    
-         "Count":1,                                 <Res5xx>                                     
-         "CompletedSum":0,                            <Count Sum="8100">0</Count>                
-         "Completed":1,                               <Completed Sum="8100">0</Completed>        
-         "TimeRes":3300,                              <TimeRes>0</TimeRes>                       
-         "TimeComplete":3300                          <TimeComplete>0</TimeComplete>             
-       },                                           </Res5xx>                                    
-       "Res4xx":                                    <ConnectTimeout Sum="8100">0</ConnectTimeout>
-       {                                            <ReceiveTimeout Sum="8100">0</ReceiveTimeout>
-         "CountSum":0,                              <Close Sum="8100">0</Close>                  
-         "Count":0,                               </Response>                                    
-         "CompletedSum":0,                        <Connect>                                      
-         "Completed":0,                             <Count>0</Count>                             
-         "TimeRes":0,                               <AvgDNSQueryTime>0</AvgDNSQueryTime>         
-         "TimeComplete":0                           <AvgConnTime>0</AvgConnTime>                 
-       },                                         </Connect>                                     
-       "Res5xx":                                </OriginTraffic>                                 
+   "OriginTraffics":                             <OriginTraffics>
+   {                                               <Http>
+     "Http": { ... }                                 ...
+   }                                               </Http>
+                                                 </OriginTraffics>
+
+현재는 HTTP만 지원된다. ::
+
+   "Http":                                       <Http>                                             
+   {                                               <ReqCount Sum="600">2</ReqCount>       
+     "ReqCountSum":0,                              <ReqHeaderSize>3238</ReqHeaderSize>    
+     "ReqCount":0,                                 <ReqBodySize>0</ReqBodySize>           
+     "ReqHeaderSize":269,                          <ResHeaderSize>2020</ResHeaderSize>    
+     "ReqBodySize":0,                              <ResBodySize>104894</ResBodySize>      
+     "ResHeaderSize":169,                          <Response>                                     
+     "ResBodySize":0,                                <ResTotal>                                   
+     "Response":                                       <Count Sum="8100">13</Count>               
+     {                                                 <Completed Sum="8100">12</Completed>       
+       "ResTotal":                                     <TimeRes>1553</TimeRes>                    
+       {                                               <TimeComplete>6630</TimeComplete>          
+         "CountSum":0,                               </ResTotal>                                  
+         "Count":1,                                  <Res2xx>                                     
+         "CompletedSum":0,                             <Count Sum="8100">1</Count>                
+         "Completed":1,                                <Completed Sum="8100">1</Completed>        
+         "TimeRes":3300,                               <TimeRes>3300</TimeRes>                    
+         "TimeComplete":3300                           <TimeComplete>69300</TimeComplete>         
+       },                                            </Res2xx>                                    
+       "Res2xx":                                     <Res3xx>                                     
+       {                                               <Count Sum="8100">12</Count>               
+         "CountSum":0,                                 <Completed Sum="8100">11</Completed>       
+         "Count":0,                                    <TimeRes>1408</TimeRes>                    
+         "CompletedSum":0,                             <TimeComplete>1408</TimeComplete>          
+         "Completed":0,                              </Res3xx>                                    
+         "TimeRes":0,                                <Res4xx>                                     
+         "TimeComplete":0                              <Count Sum="8100">0</Count>                
+       },                                              <Completed Sum="8100">0</Completed>        
+       "Res3xx":                                       <TimeRes>0</TimeRes>                       
+       {                                               <TimeComplete>0</TimeComplete>             
+         "CountSum":0,                               </Res4xx>                                    
+         "Count":1,                                  <Res5xx>                                     
+         "CompletedSum":0,                             <Count Sum="8100">0</Count>                
+         "Completed":1,                                <Completed Sum="8100">0</Completed>        
+         "TimeRes":3300,                               <TimeRes>0</TimeRes>                       
+         "TimeComplete":3300                           <TimeComplete>0</TimeComplete>             
+       },                                            </Res5xx>                                    
+       "Res4xx":                                     <ConnectTimeout Sum="8100">0</ConnectTimeout>
+       {                                             <ReceiveTimeout Sum="8100">0</ReceiveTimeout>
+         "CountSum":0,                               <Close Sum="8100">0</Close>                  
+         "Count":0,                                </Response>                                    
+         "CompletedSum":0,                         <Connect>                                      
+         "Completed":0,                              <Count>0</Count>                             
+         "TimeRes":0,                                <AvgDNSQueryTime>0</AvgDNSQueryTime>         
+         "TimeComplete":0                            <AvgConnTime>0</AvgConnTime>                 
+       },                                          </Connect>                                     
+       "Res5xx":                                 </Http>                                 
        {
          "CountSum":0,
          "Count":0,
@@ -781,13 +510,13 @@ STON과 원본서버 사이에 발생하는 트래픽통계를 제공한다. ::
        "AvgDNSQueryTime":0,
        "AvgConnTime":0
      }
-   },
-
--  ``HttpReqCount`` 원본서버로 보낸 HTTP 요청 횟수
--  ``HttpReqHeaderSize (단위: Bytes)`` 원본서버로 보낸 HTTP 헤더 크기
--  ``HttpReqBodySize (단위: Bytes)`` 원본서버로 보낸 HTTP Body 크기
--  ``HttpResHeaderSize (단위: Bytes)`` 원본서버에서 받은 HTTP 헤더 크기
--  ``HttpResBodySize (단위: Bytes)`` 원본서버에서 받은 HTTP Body 크기
+   }, 
+      
+-  ``ReqCount`` 원본서버로 보낸 HTTP 요청 횟수
+-  ``ReqHeaderSize (단위: Bytes)`` 원본서버로 보낸 HTTP 헤더 크기
+-  ``ReqBodySize (단위: Bytes)`` 원본서버로 보낸 HTTP Body 크기
+-  ``ResHeaderSize (단위: Bytes)`` 원본서버에서 받은 HTTP 헤더 크기
+-  ``ResBodySize (단위: Bytes)`` 원본서버에서 받은 HTTP Body 크기
 -  ``Response`` 원본서버에서 보낸 응답 (ResXXX)
 
    -  ``Count`` 응답횟수
@@ -806,7 +535,7 @@ STON과 원본서버 사이에 발생하는 트래픽통계를 제공한다. ::
    -  ``Count`` 접속횟수
    -  ``AvgDNSQueryTime (단위: 0.01ms)`` 평균 DNS쿼리 시간
    -  ``AvgConnTime (단위: 0.01ms)`` 평균 접속시간 (TCP SYN전송 ~ TCP SYN ACK수신)
-   
+
 .. note::
 
    5분 통계에서만 제공되는 항목.
@@ -817,45 +546,7 @@ STON과 원본서버 사이에 발생하는 트래픽통계를 제공한다. ::
    -  ``ConnectTimeoutSum`` 원본서버 접속실패 총 회수
    -  ``ReceiveTimeoutSum`` 원본서버 전송지연 총 회수
    -  ``CloseSum`` 원본서버에서 먼저 연결을 종료한 총 회수
-      
    
-
-포트바이패스 통계
-------------------------------
-
-``<PortBypass>`` 를 통해 발생한 트래픽통계를 제공한다. ::
-
-   "PortBypass":                                            <PortBypass SrcPort="1935" DestPost="1935">
-   [                                                          <Session>0</Session>                     
-     {                                                        <Hit Established="0"                     
-       "SrcPort":1935, "DestPort":1935, "Session":0,               ClientClosed="0"                    
-       "Hit":                                                      OriginClosed="0"                    
-       {                                                           OriginCT="0" />                     
-         "Established":0, "ClientClosed":0,                   <ClientTraffic In="0" Out="0"/>          
-         "OriginClosed":0, "OriginCT":0                       <OriginTraffic In="0" Out="0"/>          
-       },                                                   </PortBypass>                              
-       "ClientTraffic": { "In":0, "Out":0 },                <PortBypass SrcPort="1936" DestPost="1936">
-       "OriginTraffic": { "In":0, "Out":0 }                   <Session>17</Session>                    
-     },                                                       ...                                      
-     {                                                      </PortBypass>                              
-       "SrcPort":1936, "DestPort":1936, "Session":17,
-       ...
-     }
-   ],
-   
-   
--  ``SrcPort/DestPort`` 바이패스 하는 STON포트/원본서버 포트
--  ``Session`` 현재 연결된 세션 수
--  ``Hit`` 바이패스 접속 통계
-
-   -  ``Established`` 성립된 연결 개수
-   -  ``ClientClosed`` 클라이언트가 연결 종료한 횟수
-   -  ``OriginClosed`` 원본서버에서 연결 종료한 횟수
-   -  ``OriginCT`` 원본서버 접속실패 횟수
-
--  ``ClientTraffic (단위: Bytes)`` 클라이언트 트래픽 (In=Inbound, Out=Outbound)
--  ``OriginTraffic (단위: Bytes)`` 원본서버 트래픽 (In=Inbound, Out=Outbound)
-
 
 
 .. _monitoring_stats_vhost_client:
@@ -863,331 +554,250 @@ STON과 원본서버 사이에 발생하는 트래픽통계를 제공한다. ::
 클라이언트 통계
 ------------------------------
 
-클라이언트 트래픽은 디렉토리별 통계설정 여부에 의해 "Traffic"이 멀티로 표현된다. 
-디렉토리별 통계를 설정하지 않았다면 모든 트래픽은 루트(/)로 집계된다. 
-디렉토리 통계가 설정되어 있다면 루트(/)와 트래픽이 발생한 디렉토리만 제공된다. ::
+클라이언트 통계는 HTTP, HLS, RTMP로 구분되어 제공된다. ::
 
-   "ClientTraffic":                             <ClientTraffics Depth="0" Accum="OFF" HttpsTraffic="OFF">
-   {                                              <TrafficCount>1</TrafficCount>                         
-     "Depth":0,                                   <Traffic RequestHitRatio="0">                          
-     "Accum":"OFF",                                 <Path>/</Path>                                       
-     "HttpsTraffic":"OFF",                          <HttpReqCount Sum="0">0</HttpReqCount>               
-     "TrafficCount":1,                              <HttpReqHeaderSize>4113</HttpReqHeaderSize>          
-     "Traffic":                                     <HttpReqBodySize>0</HttpReqBodySize>                 
-     [                                              <HttpResHeaderSize>3066</HttpResHeaderSize>          
-       {                                            <HttpResBodySize>892871</HttpResBodySize>            
-         "RequestHitRatio" : 9984,                  <Response>                                           
-         "Path":"/",                                  <ResTotal>                                         
-         "HttpReqCountSum":0,                           <Count Sum="0">18</Count>                        
-         "HttpReqCount":100,                            <Completed Sum="0">18</Completed>                
-         "HttpReqHeaderSize":13968,                     <TimeRes>666</TimeRes>                           
-         "HttpReqBodySize":0,                           <TimeComplete>4377</TimeComplete>                
-         "HttpResHeaderSize":5654,                    </ResTotal>                                        
-         "HttpResBodySize":104744,                    <Res2xx>                                           
-         "Response":                                    <Count Sum="0">10</Count>                        
-         {                                              <Completed Sum="0">10</Completed>                
-           "ResTotal":                                  <TimeRes>1200</TimeRes>                          
-           {                                            <TimeComplete>7870</TimeComplete>                
-             "CountSum":0,                            </Res2xx>                                          
-             "Count":52,                              <Res3xx>                                           
-             "CompletedSum":0,                          <Count Sum="0">8</Count>                         
-             "Completed":52,                            <Completed Sum="0">8</Completed>                 
-             "TimeRes":94,                              <TimeRes>0</TimeRes>                             
-             "TimeComplete":107                         <TimeComplete>12</TimeComplete>                  
-           },                                         </Res3xx>                                          
-           "Res2xx":                                  <Res4xx>                                           
-           {                                            <Count Sum="0">0</Count>                         
-             "CountSum":0,                              <Completed Sum="0">0</Completed>                 
-             "Count":1,                                 <TimeRes>0</TimeRes>                             
-             "CompletedSum":0,                          <TimeComplete>0</TimeComplete>                   
-             "Completed":1,                           </Res4xx>                                          
-             "TimeRes":4700,                          <Res5xx>                                           
-             "TimeComplete":4800                        <Count Sum="0">0</Count>                         
-           },                                           <Completed Sum="0">0</Completed>                 
-           "Res3xx":                                    <TimeRes>0</TimeRes>                             
-           {                                            <TimeComplete>0</TimeComplete>                   
-             "CountSum":0,                            </Res5xx>                                          
-             "Count":51,                            </Response>                                          
-             "CompletedSum":0,                      <SSL RecvSize="0" SendSize="0"/>                     
-             "Completed":51,                        <RequestHit                                          
-             "TimeRes":3,                             TCP_NONE="0"                                       
-             "TimeComplete":15                        TCP_HIT="0"                                        
-           },                                         TCP_IMS_HIT="0"                                    
-           "Res4xx":                                  TCP_REFRESH_HIT="0"                                
-           {                                          TCP_REF_FAIL_HIT="0"                               
-             "CountSum":0,                            TCP_NEGATIVE_HIT="0"                               
-             "Count":0,                               TCP_REDIRECT_HIT="0"                               
-             "CompletedSum":0,                        TCP_MISS="0"                                       
-             "Completed":0,                           TCP_REFRESH_MISS="0"                               
-             "TimeRes":0,                             TCP_CLIENT_REFRESH_MISS="0"                        
-             "TimeComplete":0                         TCP_DENIED="0"                                     
-           },                                         TCP_ERROR="0"/>                                    
-           "Res5xx":                                <RequestHitSum                                       
-           {                                          TCP_NONE="0"                                       
-             "CountSum":0,                            TCP_HIT="0"                                        
-             "Count":0,                               TCP_IMS_HIT="0"                                    
-             "CompletedSum":0,                        TCP_REFRESH_HIT="0"                                
-             "Completed":0,                           TCP_REF_FAIL_HIT="0"                               
-             "TimeRes":0,                             TCP_NEGATIVE_HIT="0"                               
-             "TimeComplete":0                         TCP_REDIRECT_HIT="0"                               
-           }                                          TCP_MISS="0"                                       
-         },                                           TCP_REFRESH_MISS="0"                               
-         "SSL":                                       TCP_CLIENT_REFRESH_MISS="0"                        
-         {                                            TCP_DENIED="0"                                     
-           "RecvSize":0,                              TCP_ERROR="0"/>                                    
-           "SendSize":0                           </Traffic>                                             
-         },                                       <FileSystem>                                           
-         "RequestHit":                              <GetAttr                                             
-         {                                            TimeRes="0"                                        
-           "TCP_NONE":0,                              FileCount="0"                                      
-           "TCP_HIT":0,                               DirCount="0"                                       
-           "TCP_IMS_HIT":0,                           FailCount="0">0</GetAttr>                          
-           "TCP_REFRESH_HIT":0,                     <Open TimeRes="0">0</Open>                           
-           "TCP_REF_FAIL_HIT":0,                    <Read                                                
-           "TCP_NEGATIVE_HIT":0,                      TimeRes="0"                                        
-           "TCP_REDIRECT_HIT":0,                      BufferSize="0"                                     
-           "TCP_MISS":0,                              BufferFilled="0">0</Read>                          
-           "TCP_REFRESH_MISS":0,                    <RequestHit                                          
-           "TCP_CLIENT_REFRESH_MISS":0,               TCP_NONE="0"                                       
-           "TCP_DENIED":0,                            TCP_HIT="0"                                        
-           "TCP_ERROR":0                              TCP_IMS_HIT="0"                                    
-         },                                           TCP_REFRESH_HIT="0"                                
-         "RequestHitSum":                             TCP_REF_FAIL_HIT="0"                               
-         {                                            TCP_NEGATIVE_HIT="0"                               
-           "TCP_NONE":0,                              TCP_REDIRECT_HIT="0"                               
-           "TCP_HIT":0,                               TCP_MISS="0"                                       
-           "TCP_IMS_HIT":0,                           TCP_REFRESH_MISS="0"                               
-           "TCP_REFRESH_HIT":0,                       TCP_CLIENT_REFRESH_MISS="0"                        
-           "TCP_REF_FAIL_HIT":0,                      TCP_DENIED="0"                                     
-           "TCP_NEGATIVE_HIT":0,                      TCP_ERROR="0"/>                                    
-           "TCP_REDIRECT_HIT":0,                    <RequestHitSum                                       
-           "TCP_MISS":0,                              TCP_NONE="0"                                       
-           "TCP_REFRESH_MISS":0,                      TCP_HIT="0"                                        
-           "TCP_CLIENT_REFRESH_MISS":0,               TCP_IMS_HIT="0"                                    
-           "TCP_DENIED":0,                            TCP_REFRESH_HIT="0"                                
-           "TCP_ERROR":0                              TCP_REF_FAIL_HIT="0"                               
-         },                                           TCP_NEGATIVE_HIT="0"                               
-         "FileSystem":                                TCP_REDIRECT_HIT="0"                               
-         {                                            TCP_MISS="0"                                       
-           "GetAttr" :                                TCP_REFRESH_MISS="0"                               
-           {                                          TCP_CLIENT_REFRESH_MISS="0"                        
-             "TimeRes" : 0,                           TCP_DENIED="0"                                     
-             "FileCount" : 0,                         TCP_ERROR="0"/>                                    
-             "DirCount" : 0,                      </FileSystem>                                          
-             "FailCount" : 0,                   </ClientTraffics>                                        
-             "TotalCount" : 0
-           },
-           "Open" :
-           {
-             "TimeRes" : 0,
-             "Count" : 0
-           },
-           "Read" :
-           {
-             "TimeRes" : 0,
-             "BufferSize" : 0,
-             "BufferFilled" : 0,
-             "Count" : 0
-           },
-           "RequestHit":
-           {
-             "TCP_NONE":0,
-             "TCP_HIT":0,
-             "TCP_IMS_HIT":0,
-             "TCP_REFRESH_HIT":0,
-             "TCP_REF_FAIL_HIT":0,
-             "TCP_NEGATIVE_HIT":0,
-             "TCP_REDIRECT_HIT":0,
-             "TCP_MISS":0,
-             "TCP_REFRESH_MISS":0,
-             "TCP_CLIENT_REFRESH_MISS":0,
-             "TCP_DENIED":0,
-             "TCP_ERROR":0
-           },
-           "RequestHitSum":
-           {
-             "TCP_NONE":0,
-             "TCP_HIT":0,
-             "TCP_IMS_HIT":0,
-             "TCP_REFRESH_HIT":0,
-             "TCP_REF_FAIL_HIT":0,
-             "TCP_NEGATIVE_HIT":0,
-             "TCP_REDIRECT_HIT":0,
-             "TCP_MISS":0,
-             "TCP_REFRESH_MISS":0,
-             "TCP_CLIENT_REFRESH_MISS":0,
-             "TCP_DENIED":0,
-             "TCP_ERROR":0
-           }
-         }
-       }
-     ]
+   "ClientTraffics":                             <ClientTraffics>
+   {                                               <Http> ... </Http>
+     "Http": { ... },                              <Hls> ... </Hls>
+     "Hls": { ... },                               <Rtmp> ... </Rtmp>
+     "Rtmp": { ... },                            </ClientTraffics>
    }
-   
--  ``Depth`` 통계를 수집할 디렉토리 Depth
--  ``Accum`` 디렉토리 통계가 설정된 경우 하위 디렉토리의 통계를 상위 디렉토리로 누적시키는 설정
--  ``HttpsTraffic`` HTTPS트래픽을 HTTP트래픽으로 중복하여 집계하는 설정
--  ``TrafficCount`` 집계된 트래픽 카운트
--  ``Traffic`` 디렉토리별 통계. 루트(/)는 항상 존재한다.
 
-   -  ``Path`` 서비스 디렉토리
-   -  ``HttpReqCount(단위: Bytes)`` 클라이언트가 보낸 HTTP 요청 개수
-   -  ``HttpReqHeaderSize(단위: Bytes)`` 클라이언트가 보낸 HTTP 요청 헤더 크기
-   -  ``HttpReqBodySize(단위: Bytes)`` 클라이언트가 보낸 HTTP 요청 Body 크기
-   -  ``HttpResHeaderSize(단위: Bytes)`` STON이 보낸 HTTP 응답 헤더 크기
-   -  ``HttpResBodySize(단위: Bytes)`` STON이 보낸 HTTP 응답 Body 크기
-   -  ``Response`` STON이 보낸 응답
-   
-      -  ``Count`` 응답횟수
-      -  ``Completed`` 정상적으로 전송완료된 HTTP트랜잭션 횟수
-      -  ``TimeRes`` HTTP 응답시간
-      -  ``TimeComplete`` HTTP 트랜잭션 완료시간
-        
--  ``SSL(단위: Bytes)`` HTTPS 트래픽 (RecvSize=수신크기, SendSize=송신크기)
+HTTP 통계는 다음과 같다. ::
+
+   "Http":                                       <Http RequestHitRatio="9998">
+   {                                               <ReqCount Sum="0">0</ReqCount>
+     "RequestHitRatio":9998                        <ReqHeaderSize>4113</ReqHeaderSize>          
+     "ReqCountSum":0,                              <ReqBodySize>0</ReqBodySize>
+     "ReqCount":100,                               <ResHeaderSize>0</ResHeaderSize>
+     "ReqHeaderSize":13968,                        <ResBodySize>892871</ResBodySize>
+     "ReqBodySize":0,                              <Response> 
+     "ResHeaderSize":5654,                           <ResTotal>                          
+     "ResBodySize":104744,                             <Count Sum="0">18</Count>         
+     "Response":                                       <Completed Sum="0">18</Completed>                       
+     {                                                 <TimeRes>666</TimeRes>                                
+       "ResTotal":                                     <TimeComplete>4377</TimeComplete>                     
+       {                                             </ResTotal>
+         "CountSum":0,                               <Res2xx>                                      
+         "Count":52,                                   <Count Sum="0">10</Count>          
+         "CompletedSum":0,                             <Completed Sum="0">10</Completed>                         
+         "Completed":52,                               <TimeRes>1200</TimeRes>                               
+         "TimeRes":94,                                 <TimeComplete>7870</TimeComplete>                     
+         "TimeComplete":107                          </Res2xx>                                               
+       },                                            <Res3xx>                                                
+       "Res2xx":                                       <Count Sum="0">8</Count>                              
+       {                                               <Completed Sum="0">8</Completed>                      
+         "CountSum":0,                                 <TimeRes>0</TimeRes>                                  
+         "Count":1,                                    <TimeComplete>12</TimeComplete>                       
+         "CompletedSum":0,                           </Res3xx>                                               
+         "Completed":1,                              <Res4xx>                                                
+         "TimeRes":4700,                               <Count Sum="0">0</Count>                              
+         "TimeComplete":4800                           <Completed Sum="0">0</Completed>                      
+       },                                              <TimeRes>0</TimeRes>                                  
+       "Res3xx":                                       <TimeComplete>0</TimeComplete>                        
+       {                                             </Res4xx>                                               
+         "CountSum":0,                               <Res5xx>                                                
+         "Count":51,                                   <Count Sum="0">0</Count>                              
+         "CompletedSum":0,                             <Completed Sum="0">0</Completed>                      
+         "Completed":51,                               <TimeRes>0</TimeRes>                                  
+         "TimeRes":3,                                  <TimeComplete>0</TimeComplete>                        
+         "TimeComplete":15                           </Res5xx>
+       },                                          </Response>          
+       "Res4xx":                                   <RequestHit                                          
+       {                                              TCP_NONE="0"                  
+         "CountSum":0,                                TCP_HIT="0"                   
+         "Count":0,                                   TCP_IMS_HIT="0"                                        
+         "CompletedSum":0,                            TCP_REFRESH_HIT="0"                                    
+         "Completed":0,                               TCP_REF_FAIL_HIT="0"                                   
+         "TimeRes":0,                                 TCP_NEGATIVE_HIT="0"                                   
+         "TimeComplete":0                             TCP_REDIRECT_HIT="0"                                   
+       },                                             TCP_MISS="0"                                           
+       "Res5xx":                                      TCP_REFRESH_MISS="0"                                   
+       {                                              TCP_CLIENT_REFRESH_MISS="0"                            
+         "CountSum":0,                                TCP_DENIED="0"                                         
+         "Count":0,                                   TCP_ERROR="0" />                                        
+         "CompletedSum":0,                         <RequestHitSum
+         "Completed":0,                               TCP_NONE="0"                                         
+         "TimeRes":0,                                 TCP_HIT="0"                                          
+         "TimeComplete":0                             TCP_IMS_HIT="0"                   
+       }                                              TCP_REFRESH_HIT="0"               
+     },                                               TCP_REF_FAIL_HIT="0"              
+     "RequestHit":                                    TCP_NEGATIVE_HIT="0"        
+     {                                                TCP_REDIRECT_HIT="0"        
+       "TCP_NONE":0,                                  TCP_MISS="0"                
+       "TCP_HIT":0,                                   TCP_REFRESH_MISS="0"        
+       "TCP_IMS_HIT":0,                               TCP_CLIENT_REFRESH_MISS="0" 
+       "TCP_REFRESH_HIT":0,                           TCP_DENIED="0"              
+       "TCP_REF_FAIL_HIT":0,                          TCP_ERROR="0" />
+       "TCP_NEGATIVE_HIT":0,                     </Http>
+       "TCP_REDIRECT_HIT":0,                     
+       "TCP_MISS":0,                             
+       "TCP_REFRESH_MISS":0,                     
+       "TCP_CLIENT_REFRESH_MISS":0,              
+       "TCP_DENIED":0,                           
+       "TCP_ERROR":0                             
+     },                                          
+     "RequestHitSum":                            
+     {                                           
+       "TCP_NONE":0,                             
+       "TCP_HIT":0,                              
+       "TCP_IMS_HIT":0,                          
+       "TCP_REFRESH_HIT":0,                      
+       "TCP_REF_FAIL_HIT":0,                     
+       "TCP_NEGATIVE_HIT":0,                     
+       "TCP_REDIRECT_HIT":0,                     
+       "TCP_MISS":0,                             
+       "TCP_REFRESH_MISS":0,                     
+       "TCP_CLIENT_REFRESH_MISS":0,              
+       "TCP_DENIED":0,                           
+       "TCP_ERROR":0                             
+     }
+   }
+
 -  ``RequestHit`` 캐싱 HIT결과
--  ``FileSystem`` FileSystem 접근
-
-   -  ``GetAttr`` getattr함수 호출회수와 응답시간. (FileCount: File응답, DirCount: Dir응답, FailCount: 실패응답)
-   -  ``Open`` open함수 호출회수와 응답시간
-   -  ``Read`` read함수 호출회수와 응답시간, 요청크기(BufferSize)와 응답크기(BufferFilled)
-   -  ``RequestHit`` (File I/O 접근) 캐싱 HIT결과
-
+-  ``ReqCount(단위: Bytes)`` 클라이언트가 보낸  요청수
+-  ``ReqHeaderSize(단위: Bytes)`` 클라이언트가 보낸  요청 헤더 크기
+-  ``ReqBodySize(단위: Bytes)`` 클라이언트가 보낸 요청 Body 크기
+-  ``ResHeaderSize(단위: Bytes)`` STON이 보낸  응답 헤더 크기
+-  ``ResBodySize(단위: Bytes)`` STON이 보낸 응답 Body 크기
+-  ``Response`` STON이 보낸 응답
+   
+   -  ``Count`` 응답횟수
+   -  ``Completed`` 정상적으로 전송완료된 트랜잭션 횟수
+   -  ``TimeRes`` 응답에 소요된 시간 (ms)
+   -  ``TimeComplete`` 트랜잭션 완료시간 (ms)
 
 .. note::
 
    5분 통계에서만 제공되는 항목.
    
-   -  ``HttpReqCountSum`` HTTP요청의 총 회수
-   -  ``CountSum`` HTTP응답의 총 회수
-   -  ``CompletedSum`` 완료된 HTTP 트랜잭션의 총 회수
+   -  ``ReqCountSum`` 클라이언트가 보낸 요청수 누적
+   -  ``CountSum`` 응답의 총 회수
+   -  ``CompletedSum`` 완료된 트랜잭션의 총 회수
    -  ``RequestHitSum`` 캐시 HIT 결과
-   
-   
-
-View
-====================================
-
-View는 가상호스트들을 하나로 묶어 통계를 추출하는 방식이다. 
-Database에서 여러 Table을 마치 하나인 것처럼 다루는 View에서 따온 개념이다. 
-구성은 다음과 같이 아주 간단하다. ::
-
-   # vhosts.xml
-
-   <Vhosts>
-     <Vhost> ... </Vhost>
-     <Vhost> ... </Vhost>
-     ... (생략) ... 
-     <View Name="SK">
-       <Vhost>...</Vhost>
-       <Vhost>...</Vhost>
-     </View>
-     <View Name="KT">
-       <Vhost>...</Vhost>
-       <Vhost>...</Vhost>
-       <Vhost>...</Vhost>
-     </View>
-     <View Name="LG">
-       <Vhost>...</Vhost>
-       <Vhost>...</Vhost>
-     </View>
-   </Vhosts>
-   
-존재하지 않는 가상호스트로 View를 구성해도 상관없다. 
-View가 제공하는 통계는 다음과 같다. ::
-
--  Realtime XML/JSON
--  SNMP - cache(1.3.6.1.4.1.40001.1.4).10 ~ 12
-
-이해를 돕기 위해 View가 필요한 예를 들어보자. 
-류헌진, 서장혼, 박지송은 각각 자신이 좋아하는 스포츠 커뮤니티 사이트를 운영하고 있다. ::
-
-   # vhosts.xml
-
-   <Vhosts>
-     <Vhost Name="baseball.com"> ... </Vhost>
-     <Vhost Name="basketball.com"> ... </Vhost>
-     <Vhost Name="football.com"> ... </Vhost>
-   </Vhosts>
-   
-평소 친분이 있던 셋은 의기투합하여 스포츠 종합 커뮤니티 서비스를 오픈하기로 결정했다. 
-도메인도 서비스를 모두 아우를 수 있는 sports.com으로 정했다. 
-개발/운영팀이 해결해야하는 미션은 다음과 같다.
-
-- 통합 서비스는 sports.com으로 한다.
-- 기존 사용자를 위해 기존 도메인과 서비스는 그대로 유지한다.
-- 개발팀은 통합한다. 운영팀은 통합한다.
-- 대문(첫 페이지)만 신규 개발한다. 링크를 통해 기존 서비스를 이용한다.
-- 예산이 없다. 사람이 없다. 시간이 없다. 정신이 없다.
-- 이미 모든 구매절차가 끝났다.
-
-이 모든 요구사항을 처리하는 현실적인 방법으로 개발팀은 다음과 같이 1번째 디렉토리에 
-기존 도메인을 명시하는 규칙을 사용하기로 결정했다. ::
-
-   # 기존 서비스
-   http://baseball.com/standing/list.html
-   http://basketball.com/stats/2014/view.html
-   http://football.com/player/messi.php
-
-   # 통합 서비스
-   http://sports.com/baseball/standing/list.html
-   http://sports.com/basketball/stats/2014/view.html
-   http://sports.com/football/player/messi.php
-   
-URL 전처리를 사용하면 간단히 설정할 수 있다. ::
-
-   # vhosts.xml
-
-   <Vhosts>
-     <Vhost Name="baseball.com"> ... </Vhost>
-     <Vhost Name="basketball.com"> ... </Vhost>
-     <Vhost Name="football.com"> ... </Vhost>
-     <URLRewrite>
-       <Pattern>sports.com/(.*)/(.*)</Pattern>
-       <Replace>#1.com/#2</Replace>
-     </URLRewrite>  
-   </Vhosts>
-   
-통합된 운영팀에서는 이제 각각의 서비스 뿐만 아니라 통합된 서비스(트래픽, 세션, 응답코드 등)에 
-대해서도 모니터링해야 한다. 
-대부분 SNMP에 익숙한 관리자들이며 통합된 지표를 얻기 위해 다음과 같이 View를 구성한다.
-
-.. figure:: img/view1.png
-   :align: center
-
-::
-
-   # vhosts.xml
-
-   <Vhosts>
-      <Vhost Name="baseball.com"> ... </Vhost>
-      <Vhost Name="basketball.com"> ... </Vhost>
-      <Vhost Name="football.com"> ... </Vhost>
-      <URLRewrite>
-         <Pattern>sports.com/(.*)/(.*)</Pattern>
-         <Replace>#1.com/#2</Replace>
-      </URLRewrite>
-      <View Name="sports.com">
-         <Vhost>baseball.com</Vhost>
-         <Vhost>basketball.com</Vhost>
-         <Vhost>football.com</Vhost>
-      </View>  
-   </Vhosts>
-   
-이상의 예에서 알 수 있듯이 URL Rewrite와 View의 조합은 기존 사이트를 하나로 묶어 서비스할 때 효과적이다.
 
 
-View 통계
-----------------------------
+HLS는 상위 태그만 제외하고 HTTP통계와 모든 필드/의미가 동일하다. ::
 
-가상호스트와 동일한 통계를 제공한다. 다음과 같이 태그 이름만 다르다. ::
+   "Hls": { ... }                                <Hls RequestHitRatio="0"> ... </Hls>
 
-   "View":                                  <View ...>        
-   [                                           ...            
-     { ... },                               </View>           
-     { ... },                               <View> ... </View>
-   ]                                        <View> ... </View>
-   
-   
+
+RTMP 통계는 다음과 같다. ::
+
+   "Rtmp":                                       <Rtmp RequestHitRatio="9998">
+   {                                               <ReqCount Sum="0">0</ReqCount>
+     "RequestHitRatio":9998                        <ReqHeaderSize>4113</ReqHeaderSize>          
+     "ReqCountSum":0,                              <ReqBodySize>0</ReqBodySize>
+     "ReqCount":100,                               <ResHeaderSize>0</ResHeaderSize>
+     "ReqHeaderSize":13968,                        <ResBodySize>892871</ResBodySize>
+     "ReqBodySize":0,                              <NetConnection> 
+     "ResHeaderSize":5654,                           <Connect>                          
+     "ResBodySize":104744,                             <Success Sum="0">18</Count>
+     "NetConnection":                                  <Fail Sum="0">18</Count>
+     {                                                 <TimeRes>666</TimeRes>
+       "Connect":                                    </Connect>
+       {                                             <CreateStream>                    
+         "Success":0,                                  <Success Sum="0">18</Count>
+         "Fail":52,                                    <Fail Sum="0">18</Count>   
+         "TimeRes":0,                                  <TimeRes>666</TimeRes>     
+       },                                            </CreateStream>
+       "CreateStream":                             </NetConnection>
+       {                                           <NetStream>
+         "Success":0,                                <Play>
+         "Fail":52,                                    <Success Sum="0">18</Count>
+         "TimeRes":0,                                  <Fail Sum="0">18</Count>                                 
+       },                                              <TimeRes>666</TimeRes>
+     },                                              </Play>
+     "NetStream":                                    <Close>
+     {                                                 <Success Sum="0">18</Count>
+       "Play":                                         <Fail Sum="0">18</Count>   
+       {                                               <TimeRes>666</TimeRes>     
+         "Success":0,                                </Close>
+         "Fail":52,                                  <Delete>
+         "TimeRes":0,                                  <Success Sum="0">18</Count>
+       },                                              <Fail Sum="0">18</Count>   
+       "Close":                                        <TimeRes>666</TimeRes>     
+       {                                             </Delete>
+         "Success":0,                                <Seek>
+         "Fail":52,                                    <Success Sum="0">18</Count>
+         "TimeRes":0,                                  <Fail Sum="0">18</Count>   
+       },                                              <TimeRes>666</TimeRes>     
+       "Delete":                                     </Seek>
+       {                                             <Pause>
+         "Success":0,                                  <Success Sum="0">18</Count>
+         "Fail":52,                                    <Fail Sum="0">18</Count>   
+         "TimeRes":0,                                  <TimeRes>666</TimeRes>     
+       },                                            </Pause>
+       "Seek":                                       <OnPlayStatus Sum="0">0</OnPlayStatus>
+       {                                             <OnStatus Sum="0">0</OnStatus>
+         "Success":0,                              </NetStream>
+         "Fail":52,                                <RequestHit                  
+         "TimeRes":0,                                 TCP_NONE="0"              
+       },                                             TCP_HIT="0"               
+       "Pause":                                       TCP_IMS_HIT="0"           
+       {                                              TCP_REFRESH_HIT="0"       
+         "Success":0,                                 TCP_REF_FAIL_HIT="0"      
+         "Fail":52,                                   TCP_NEGATIVE_HIT="0"      
+         "TimeRes":0,                                 TCP_REDIRECT_HIT="0"      
+       },                                             TCP_MISS="0"              
+       "OnPlayStatusSu                                TCP_REFRESH_MISS="0".
+       "OnPlayStatus":                                TCP_CLIENT_REFRESH_MISS="0"
+       "OnStatusSum":0                                TCP_DENIED="0"
+       "OnStatus":0,                                  TCP_ERROR="0" />            
+       "RequestHit":                               <RequestHitSum                    
+       {                                              TCP_NONE="0"                
+         "TCP_NONE":0,                                TCP_HIT="0"                 
+         "TCP_HIT":0,                                 TCP_IMS_HIT="0"                                     
+         "TCP_IMS_HIT":0,                             TCP_REFRESH_HIT="0"                                 
+         "TCP_REFRESH_HIT":0,                         TCP_REF_FAIL_HIT="0"                                
+         "TCP_REF_FAIL_HIT":0,                        TCP_NEGATIVE_HIT="0"                                
+         "TCP_NEGATIVE_HIT":0,                        TCP_REDIRECT_HIT="0"                                
+         "TCP_REDIRECT_HIT":0,                        TCP_MISS="0"                                        
+         "TCP_MISS":0,                                TCP_REFRESH_MISS="0".                               
+         "TCP_REFRESH_MISS":0,                        TCP_CLIENT_REFRESH_MISS="0"      
+         "TCP_CLIENT_REFRESH_MISS":0,                 TCP_DENIED="0"                   
+         "TCP_DENIED":0,                              TCP_ERROR="0" />                                               
+         "TCP_ERROR":0                           </Rtmp>               
+       },                                                         
+       "RequestHitSum":                                                                    
+       {                                                                                   
+         "TCP_NONE":0,                                                                     
+         "TCP_HIT":0,                                                                      
+         "TCP_IMS_HIT":0,                                                                  
+         "TCP_REFRESH_HIT":0,                                                              
+         "TCP_REF_FAIL_HIT":0,                                                           
+         "TCP_NEGATIVE_HIT":0,                                                           
+         "TCP_REDIRECT_HIT":0,                                                           
+         "TCP_MISS":0,                                               
+         "TCP_REFRESH_MISS":0,                              
+         "TCP_CLIENT_REFRESH_MISS":0,                                                           
+         "TCP_DENIED":0,                                                                        
+         "TCP_ERROR":0                                                       
+       }                         
+     },                            
+
+
+-  ``RequestHit`` 캐싱 HIT결과
+-  ``ReqCount(단위: Bytes)`` 클라이언트가 보낸  요청수
+-  ``ReqHeaderSize(단위: Bytes)`` 클라이언트가 보낸  요청 헤더 크기
+-  ``ReqBodySize(단위: Bytes)`` 클라이언트가 보낸 요청 Body 크기
+-  ``ResHeaderSize(단위: Bytes)`` STON이 보낸  응답 헤더 크기
+-  ``ResBodySize(단위: Bytes)`` STON이 보낸 응답 Body 크기
+-  ``NetConnection``
+   -  ``Connect``, ``CreateStream`` 메소드 호출 응답
+      -  ``Success`` 성공처리 횟수
+      -  ``Fail`` 실패처리 횟수
+      -  ``TimeRes`` 응답에 소요된 시간 (ms)
+
+-  ``NetStream``
+   -  ``Play``, ``Close``, ``Delete``, ``Seek``, ``Pause`` 메소드 호출 응답   
+      -  ``Success`` 성공처리 횟수
+      -  ``Fail`` 실패처리 횟수
+      -  ``TimeRes`` 응답에 소요된 시간 (ms)
+   -  ``OnPlayStatus`` 클라이언트에게 OnPlayStatus를 보낸 횟수  
+   -  ``OnStatus`` 클라이언트에게 OnStatus를 보낸 횟수  
+
+
 .. _api-monitoring-vhostlist:
    
 가상호스트 목록조회
@@ -1205,9 +815,6 @@ View 통계
         "status": "OK",
         "result": [ "www.example.com","www.winesoft.com", "site1.com" ] 
     }
-
-
-
 
 
 
