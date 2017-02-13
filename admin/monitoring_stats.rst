@@ -440,7 +440,7 @@ STON과 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공�
    }
                                                  
 
-현재는 HTTP만 지원된다. ::
+HTTP는 다음과 같다. ::
 
    "Http":                                       <Http>                                             
    {                                               <ReqCount Sum="600">2</ReqCount>       
