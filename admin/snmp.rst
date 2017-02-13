@@ -1141,6 +1141,34 @@ OID                                           Name                              
 
 
 
+                           
+.. _snmp-cache-vhost-traffic-origin-hls:
+
+cache.vhost.traffic.origin.hls
+---------------------
+
+::
+   
+    OID = 1.3.6.1.4.1.40002.1.4.3.1.11.10.11
+
+(지원예정) HLS 원본서버 트래픽 통계를 제공한다.
+
+
+
+.. _snmp-cache-vhost-traffic-origin-rtmp:
+
+cache.vhost.traffic.origin.rtmp
+---------------------
+
+::
+   
+    OID = 1.3.6.1.4.1.40002.1.4.1.11.10.12
+
+(지원예정) RTMP 원본서버 트래픽 통계를 제공한다.
+                           
+                           
+
+
 .. _snmp-cache-vhost-traffic-client:
 
 cache.vhost.traffic.client
