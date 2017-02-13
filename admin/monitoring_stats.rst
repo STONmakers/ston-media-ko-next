@@ -435,10 +435,10 @@ System 통계
 STON과 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
 
    "OriginTraffics":                             <OriginTraffics>
-   {                                               <Http>
-     "Http": { ... }                                 ...
-   }                                               </Http>
-                                                 </OriginTraffics>
+   {                                               <Http> ... </Http>
+     "Http": { ... }                             </OriginTraffics>    ...
+   }
+                                                 
 
 현재는 HTTP만 지원된다. ::
 
