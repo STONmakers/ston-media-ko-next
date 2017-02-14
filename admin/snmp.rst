@@ -880,88 +880,88 @@ cache.host.traffic.client.rtmp
                                                                                                                                               
 RTMP 클라이언트 트래픽 통계를 제공한다. 
 
-========================== ========================================== ========== =============================================================
-OID                        Name                                       Type       Description                                                  
-========================== ========================================== ========== =============================================================
-.1. ``[vhostMin]``         inbound                                    Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
-.2. ``[vhostMin]``         outbound                                   Integer    클라이언트로 보내는 평균 트래픽(Bytes)
-.3. ``[vhostMin]``         allSessionAverage                          Integer    클라이언트 평균 세션수
-.4. ``[vhostMin]``         activeSessionAverage                       Integer    클라이언트 중 전송 중인 평균 세션수
-.5. ``[vhostMin]``         requestHitRatio                            Integer    Request Hit Ratio(100%)
-.6. ``[vhostMin]``                                                               Request Hit Ratio(10000%)
-.7                         requestHitAverage                          OID        평균 캐시 HIT결과
-.7.1. ``[vhostMin]``       requestHitAverage.TCP_HIT                  Integer    TCP_HIT
-.7.2. ``[vhostMin]``       requestHitAverage.TCP_IMS_HIT              Integer    TCP_IMS_HIT
-.7.3. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_HIT          Integer    TCP_REFRESH_HIT
-.7.4. ``[vhostMin]``       requestHitAverage.TCP_REF_FAIL_HIT         Integer    TCP_REF_FAIL_HIT
-.7.5. ``[vhostMin]``       requestHitAverage.TCP_NEGATIVE_HIT         Integer    TCP_NEGATIVE_HIT
-.7.6. ``[vhostMin]``       requestHitAverage.TCP_MISS                 Integer    TCP_MISS
-.7.7. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_MISS         Integer    TCP_REFRESH_MISS
-.7.8. ``[vhostMin]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS  Integer    TCP_CLIENT_REFRESH_MISS
-.7.9. ``[vhostMin]``       requestHitAverage.TCP_DENIED               Integer    TCP_DENIED
-.7.10. ``[vhostMin]``      requestHitAverage.TCP_ERROR                Integer    TCP_ERROR
-.7.11. ``[vhostMin]``      requestHitAverage.TCP_REDIRECT_HIT         Integer    TCP_REDIRECT_HIT
-.8                         requestHitCount                            OID        캐시 HIT결과 개수
-.8.1. ``[vhostMin]``       requestHitCount.TCP_HIT                    Integer    TCP_HIT
-.8.2. ``[vhostMin]``       requestHitCount.TCP_IMS_HIT                Integer    TCP_IMS_HIT
-.8.3. ``[vhostMin]``       requestHitCount.TCP_REFRESH_HIT            Integer    TCP_REFRESH_HIT
-.8.4. ``[vhostMin]``       requestHitCount.TCP_REF_FAIL_HIT           Integer    TCP_REF_FAIL_HIT
-.8.5. ``[vhostMin]``       requestHitCount.TCP_NEGATIVE_HIT           Integer    TCP_NEGATIVE_HIT
-.8.6. ``[vhostMin]``       requestHitCount.TCP_MISS                   Integer    TCP_MISS
-.8.7. ``[vhostMin]``       requestHitCount.TCP_REFRESH_MISS           Integer    TCP_REFRESH_MISS
-.8.8. ``[vhostMin]``       requestHitCount.TCP_CLIENT_REFRESH_MISS    Integer    TCP_CLIENT_REFRESH_MISS
-.8.9. ``[vhostMin]``       requestHitCount.TCP_DENIED                 Integer    TCP_DENIED
-.8.10. ``[vhostMin]``      requestHitCount.TCP_ERROR                  Integer    TCP_ERROR
-.8.11. ``[vhostMin]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
-.10. ``[vhostMin]``        reqHeaderSize                              Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
-.11. ``[vhostMin]``        reqBodySize                                Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
-.12. ``[vhostMin]``        resHeaderSize                              Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
-.13. ``[vhostMin]``        resBodySize                                Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
-.14. ``[vhostMin]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
-.15. ``[vhostMin]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
-.20. ``[vhostMin]``        NetConnection.Connect                      Integer    NetConnection.Connect 응답통계
-.20.1. ``[vhostMin]``      NetConnection.Connect.SuccessAverage       Integer    성공응답 평균개수 (평균)
-.20.2. ``[vhostMin]``      NetConnection.Connect.SuccessCount         Integer    성공응답 평균개수
-.20.3. ``[vhostMin]``      NetConnection.Connect.FailAverage          Integer    실패응답 평균개수 (평균)
-.20.4. ``[vhostMin]``      NetConnection.Connect.FailCount            Integer    실패응답 평균개수
-.20.5. ``[vhostMin]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
-.21. ``[vhostMin]``        NetConnection.CreateStream                 Integer    NetConnection.CreateStream 응답통계
-.21.1. ``[vhostMin]``      NetConnection.CreateStream.SuccessAverage  Integer    성공응답 평균개수 (평균)
-.21.2. ``[vhostMin]``      NetConnection.CreateStream.SuccessCount    Integer    성공응답 평균개수
-.21.3. ``[vhostMin]``      NetConnection.CreateStream.FailAverage     Integer    실패응답 평균개수 (평균)
-.21.4. ``[vhostMin]``      NetConnection.CreateStream.FailCount       Integer    실패응답 평균개수
-.21.5. ``[vhostMin]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
-.30. ``[vhostMin]``        NetStream.Play                             Integer    NetStream.Play 응답통계
-.30.1. ``[vhostMin]``      NetStream.Play.SuccessAverage              Integer    성공응답 평균개수 (평균)
-.30.2. ``[vhostMin]``      NetStream.Play.SuccessCount                Integer    성공응답 평균개수
-.30.3. ``[vhostMin]``      NetStream.Play.FailAverage                 Integer    실패응답 평균개수 (평균)
-.30.4. ``[vhostMin]``      NetStream.Play.FailCount                   Integer    실패응답 평균개수
-.30.5. ``[vhostMin]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
-.31. ``[vhostMin]``        NetStream.Close                            Integer    NetStream.Close 응답통계
-.31.1. ``[vhostMin]``      NetStream.Close.SuccessAverage             Integer    성공응답 평균개수 (평균)
-.31.2. ``[vhostMin]``      NetStream.Close.SuccessCount               Integer    성공응답 평균개수
-.31.3. ``[vhostMin]``      NetStream.Close.FailAverage                Integer    실패응답 평균개수 (평균)
-.31.4. ``[vhostMin]``      NetStream.Close.FailCount                  Integer    실패응답 평균개수
-.31.5. ``[vhostMin]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
-.32. ``[vhostMin]``        NetStream.Delete                           Integer    NetStream.Delete 응답통계
-.32.1. ``[vhostMin]``      NetStream.Delete.SuccessAverage            Integer    성공응답 평균개수 (평균)
-.32.2. ``[vhostMin]``      NetStream.Delete.SuccessCount              Integer    성공응답 평균개수
-.32.3. ``[vhostMin]``      NetStream.Delete.FailAverage               Integer    실패응답 평균개수 (평균)
-.32.4. ``[vhostMin]``      NetStream.Delete.FailCount                 Integer    실패응답 평균개수
-.32.5. ``[vhostMin]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
-.33. ``[vhostMin]``        NetStream.Seek                             Integer    NetStream.Seek 응답통계
-.33.1. ``[vhostMin]``      NetStream.Seek.SuccessAverage              Integer    성공응답 평균개수 (평균)
-.33.2. ``[vhostMin]``      NetStream.Seek.SuccessCount                Integer    성공응답 평균개수
-.33.3. ``[vhostMin]``      NetStream.Seek.FailAverage                 Integer    실패응답 평균개수 (평균)
-.33.4. ``[vhostMin]``      NetStream.Seek.FailCount                   Integer    실패응답 평균개수
-.33.5. ``[vhostMin]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
-.34. ``[vhostMin]``        NetStream.Pause                            Integer    NetStream.Pause 응답통계
-.34.1. ``[vhostMin]``      NetStream.Pause.SuccessAverage             Integer    성공응답 평균개수 (평균)
-.34.2. ``[vhostMin]``      NetStream.Pause.SuccessCount               Integer    성공응답 평균개수
-.34.3. ``[vhostMin]``      NetStream.Pause.FailAverage                Integer    실패응답 평균개수 (평균)
-.34.4. ``[vhostMin]``      NetStream.Pause.FailCount                  Integer    실패응답 평균개수
-.34.5. ``[vhostMin]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
-========================== ========================================== ========== =============================================================
+========================== ============================================= ========== =============================================================
+OID                        Name                                          Type       Description                                                  
+========================== ============================================= ========== =============================================================
+.1. ``[vhostMin]``         inbound                                       Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
+.2. ``[vhostMin]``         outbound                                      Integer    클라이언트로 보내는 평균 트래픽(Bytes)
+.3. ``[vhostMin]``         allSessionAverage                             Integer    클라이언트 평균 세션수
+.4. ``[vhostMin]``         activeSessionAverage                          Integer    클라이언트 중 전송 중인 평균 세션수
+.5. ``[vhostMin]``         requestHitRatio                               Integer    Request Hit Ratio(100%)
+.6. ``[vhostMin]``                                                                  Request Hit Ratio(10000%)
+.7                         requestHitAverage                             OID        평균 캐시 HIT결과
+.7.1. ``[vhostMin]``       requestHitAverage.TCP_HIT                     Integer    TCP_HIT
+.7.2. ``[vhostMin]``       requestHitAverage.TCP_IMS_HIT                 Integer    TCP_IMS_HIT
+.7.3. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_HIT             Integer    TCP_REFRESH_HIT
+.7.4. ``[vhostMin]``       requestHitAverage.TCP_REF_FAIL_HIT            Integer    TCP_REF_FAIL_HIT
+.7.5. ``[vhostMin]``       requestHitAverage.TCP_NEGATIVE_HIT            Integer    TCP_NEGATIVE_HIT
+.7.6. ``[vhostMin]``       requestHitAverage.TCP_MISS                    Integer    TCP_MISS
+.7.7. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_MISS            Integer    TCP_REFRESH_MISS
+.7.8. ``[vhostMin]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS     Integer    TCP_CLIENT_REFRESH_MISS
+.7.9. ``[vhostMin]``       requestHitAverage.TCP_DENIED                  Integer    TCP_DENIED
+.7.10. ``[vhostMin]``      requestHitAverage.TCP_ERROR                   Integer    TCP_ERROR
+.7.11. ``[vhostMin]``      requestHitAverage.TCP_REDIRECT_HIT            Integer    TCP_REDIRECT_HIT
+.8                         requestHitCount                               OID        캐시 HIT결과 개수
+.8.1. ``[vhostMin]``       requestHitCount.TCP_HIT                       Integer    TCP_HIT
+.8.2. ``[vhostMin]``       requestHitCount.TCP_IMS_HIT                   Integer    TCP_IMS_HIT
+.8.3. ``[vhostMin]``       requestHitCount.TCP_REFRESH_HIT               Integer    TCP_REFRESH_HIT
+.8.4. ``[vhostMin]``       requestHitCount.TCP_REF_FAIL_HIT              Integer    TCP_REF_FAIL_HIT
+.8.5. ``[vhostMin]``       requestHitCount.TCP_NEGATIVE_HIT              Integer    TCP_NEGATIVE_HIT
+.8.6. ``[vhostMin]``       requestHitCount.TCP_MISS                      Integer    TCP_MISS
+.8.7. ``[vhostMin]``       requestHitCount.TCP_REFRESH_MISS              Integer    TCP_REFRESH_MISS
+.8.8. ``[vhostMin]``       requestHitCount.TCP_CLIENT_REFRESH_MISS       Integer    TCP_CLIENT_REFRESH_MISS
+.8.9. ``[vhostMin]``       requestHitCount.TCP_DENIED                    Integer    TCP_DENIED
+.8.10. ``[vhostMin]``      requestHitCount.TCP_ERROR                     Integer    TCP_ERROR
+.8.11. ``[vhostMin]``      requestHitCount.TCP_REDIRECT_HIT              Integer    TCP_REDIRECT_HIT
+.10. ``[vhostMin]``        reqHeaderSize                                 Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
+.11. ``[vhostMin]``        reqBodySize                                   Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
+.12. ``[vhostMin]``        resHeaderSize                                 Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
+.13. ``[vhostMin]``        resBodySize                                   Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
+.14. ``[vhostMin]``        reqAverage                                    Integer    클라이언트로부터 받은 평균요청 개수
+.15. ``[vhostMin]``        reqCount                                      Integer    클라이언트로부터 받은 누적요청 개수
+.20. ``[vhostMin]``        NetConnection.Connect                         Integer    NetConnection.Connect 응답통계
+.20.1. ``[vhostMin]``      NetConnection.Connect.SuccessAverage          Integer    성공응답 평균개수 (평균)
+.20.2. ``[vhostMin]``      NetConnection.Connect.SuccessCount            Integer    성공응답 평균개수
+.20.3. ``[vhostMin]``      NetConnection.Connect.FailAverage             Integer    실패응답 평균개수 (평균)
+.20.4. ``[vhostMin]``      NetConnection.Connect.FailCount               Integer    실패응답 평균개수
+.20.5. ``[vhostMin]``      NetConnection.Connect.TimeRes                 Integer    응답 평균 소요시간(0.01ms)
+.21. ``[vhostMin]``        NetConnection.CreateStream                    Integer    NetConnection.CreateStream 응답통계
+.21.1. ``[vhostMin]``      NetConnection.CreateStream.SuccessAverage     Integer    성공응답 평균개수 (평균)
+.21.2. ``[vhostMin]``      NetConnection.CreateStream.SuccessCount       Integer    성공응답 평균개수
+.21.3. ``[vhostMin]``      NetConnection.CreateStream.FailAverage        Integer    실패응답 평균개수 (평균)
+.21.4. ``[vhostMin]``      NetConnection.CreateStream.FailCount          Integer    실패응답 평균개수
+.21.5. ``[vhostMin]``      NetConnection.CreateStream.TimeRes            Integer    응답 평균 소요시간(0.01ms)
+.30. ``[vhostMin]``        NetStream.Play                                Integer    NetStream.Play 응답통계
+.30.1. ``[vhostMin]``      NetStream.Play.SuccessAverage                 Integer    성공응답 평균개수 (평균)
+.30.2. ``[vhostMin]``      NetStream.Play.SuccessCount                   Integer    성공응답 평균개수
+.30.3. ``[vhostMin]``      NetStream.Play.FailAverage                    Integer    실패응답 평균개수 (평균)
+.30.4. ``[vhostMin]``      NetStream.Play.FailCount                      Integer    실패응답 평균개수
+.30.5. ``[vhostMin]``      NetStream.Play.TimeRes                        Integer    응답 평균 소요시간(0.01ms)
+.31. ``[vhostMin]``        NetStream.Close                               Integer    NetStream.Close 응답통계
+.31.1. ``[vhostMin]``      NetStream.Close.SuccessAverage                Integer    성공응답 평균개수 (평균)
+.31.2. ``[vhostMin]``      NetStream.Close.SuccessCount                  Integer    성공응답 평균개수
+.31.3. ``[vhostMin]``      NetStream.Close.FailAverage                   Integer    실패응답 평균개수 (평균)
+.31.4. ``[vhostMin]``      NetStream.Close.FailCount                     Integer    실패응답 평균개수
+.31.5. ``[vhostMin]``      NetStream.Close.TimeRes                       Integer    응답 평균 소요시간(0.01ms)
+.32. ``[vhostMin]``        NetStream.Delete                              Integer    NetStream.Delete 응답통계
+.32.1. ``[vhostMin]``      NetStream.Delete.SuccessAverage               Integer    성공응답 평균개수 (평균)
+.32.2. ``[vhostMin]``      NetStream.Delete.SuccessCount                 Integer    성공응답 평균개수
+.32.3. ``[vhostMin]``      NetStream.Delete.FailAverage                  Integer    실패응답 평균개수 (평균)
+.32.4. ``[vhostMin]``      NetStream.Delete.FailCount                    Integer    실패응답 평균개수
+.32.5. ``[vhostMin]``      NetStream.Delete.TimeRes                      Integer    응답 평균 소요시간(0.01ms)
+.33. ``[vhostMin]``        NetStream.Seek                                Integer    NetStream.Seek 응답통계
+.33.1. ``[vhostMin]``      NetStream.Seek.SuccessAverage                 Integer    성공응답 평균개수 (평균)
+.33.2. ``[vhostMin]``      NetStream.Seek.SuccessCount                   Integer    성공응답 평균개수
+.33.3. ``[vhostMin]``      NetStream.Seek.FailAverage                    Integer    실패응답 평균개수 (평균)
+.33.4. ``[vhostMin]``      NetStream.Seek.FailCount                      Integer    실패응답 평균개수
+.33.5. ``[vhostMin]``      NetStream.Seek.TimeRes                        Integer    응답 평균 소요시간(0.01ms)
+.34. ``[vhostMin]``        NetStream.Pause                               Integer    NetStream.Pause 응답통계
+.34.1. ``[vhostMin]``      NetStream.Pause.SuccessAverage                Integer    성공응답 평균개수 (평균)
+.34.2. ``[vhostMin]``      NetStream.Pause.SuccessCount                  Integer    성공응답 평균개수
+.34.3. ``[vhostMin]``      NetStream.Pause.FailAverage                   Integer    실패응답 평균개수 (평균)
+.34.4. ``[vhostMin]``      NetStream.Pause.FailCount                     Integer    실패응답 평균개수
+.34.5. ``[vhostMin]``      NetStream.Pause.TimeRes                       Integer    응답 평균 소요시간(0.01ms)
+========================== ============================================= ========== =============================================================
 
 
 
@@ -1413,86 +1413,86 @@ cache.vhost.traffic.client.rtmp
                                                                                                                                               
 RTMP 클라이언트 트래픽 통계를 제공한다. 
 
-============================================= ========================================== ========== =============================================================
-OID                                           Name                                       Type       Description                                                  
-============================================= ========================================== ========== =============================================================
-.1. ``[vhostMin]`` . ``[vhostIndex]``         inbound                                    Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
-.2. ``[vhostMin]`` . ``[vhostIndex]``         outbound                                   Integer    클라이언트로 보내는 평균 트래픽(Bytes)
-.3. ``[vhostMin]`` . ``[vhostIndex]``         allSessionAverage                          Integer    클라이언트 평균 세션수
-.4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                       Integer    클라이언트 중 전송 중인 평균 세션수
-.5. ``[vhostMin]`` . ``[vhostIndex]``         requestHitRatio                            Integer    Request Hit Ratio(100%)
-.6. ``[vhostMin]`` . ``[vhostIndex]``                                                               Request Hit Ratio(10000%)
-.7                                            requestHitAverage                          OID        평균 캐시 HIT결과
-.7.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_HIT                  Integer    TCP_HIT
-.7.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_IMS_HIT              Integer    TCP_IMS_HIT
-.7.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_HIT          Integer    TCP_REFRESH_HIT
-.7.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REF_FAIL_HIT         Integer    TCP_REF_FAIL_HIT
-.7.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_NEGATIVE_HIT         Integer    TCP_NEGATIVE_HIT
-.7.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_MISS                 Integer    TCP_MISS
-.7.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_MISS         Integer    TCP_REFRESH_MISS
-.7.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS  Integer    TCP_CLIENT_REFRESH_MISS
-.7.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_DENIED               Integer    TCP_DENIED
-.7.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_ERROR                Integer    TCP_ERROR
-.7.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_REDIRECT_HIT         Integer    TCP_REDIRECT_HIT
-.8                                            requestHitCount                            OID        캐시 HIT결과 개수
-.8.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_HIT                    Integer    TCP_HIT
-.8.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_IMS_HIT                Integer    TCP_IMS_HIT
-.8.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_HIT            Integer    TCP_REFRESH_HIT
-.8.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REF_FAIL_HIT           Integer    TCP_REF_FAIL_HIT
-.8.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_NEGATIVE_HIT           Integer    TCP_NEGATIVE_HIT
-.8.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_MISS                   Integer    TCP_MISS
-.8.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_MISS           Integer    TCP_REFRESH_MISS
-.8.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_CLIENT_REFRESH_MISS    Integer    TCP_CLIENT_REFRESH_MISS
-.8.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_DENIED                 Integer    TCP_DENIED
-.8.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_ERROR                  Integer    TCP_ERROR
-.8.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
-.10. ``[vhostMin]`` . ``[vhostIndex]``        reqHeaderSize                              Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
-.11. ``[vhostMin]`` . ``[vhostIndex]``        reqBodySize                                Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
-.12. ``[vhostMin]`` . ``[vhostIndex]``        resHeaderSize                              Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
-.13. ``[vhostMin]`` . ``[vhostIndex]``        resBodySize                                Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
-.14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
-.15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
-.20. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.Connect                      Integer    NetConnection.Connect 응답통계
-.20.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessAverage       Integer    성공응답 평균개수 (평균)
-.20.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessCount         Integer    성공응답 평균개수
-.20.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailAverage          Integer    실패응답 평균개수 (평균)
-.20.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailCount            Integer    실패응답 평균개수
-.20.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
-.21. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.CreateStream                 Integer    NetConnection.CreateStream 응답통계
-.21.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessAverage  Integer    성공응답 평균개수 (평균)
-.21.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessCount    Integer    성공응답 평균개수
-.21.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailAverage     Integer    실패응답 평균개수 (평균)
-.21.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailCount       Integer    실패응답 평균개수
-.21.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
-.30. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Play                             Integer    NetStream.Play 응답통계
-.30.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessAverage              Integer    성공응답 평균개수 (평균)
-.30.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessCount                Integer    성공응답 평균개수
-.30.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailAverage                 Integer    실패응답 평균개수 (평균)
-.30.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailCount                   Integer    실패응답 평균개수
-.30.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
-.31. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Close                            Integer    NetStream.Close 응답통계
-.31.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessAverage             Integer    성공응답 평균개수 (평균)
-.31.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessCount               Integer    성공응답 평균개수
-.31.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailAverage                Integer    실패응답 평균개수 (평균)
-.31.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailCount                  Integer    실패응답 평균개수
-.31.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
-.32. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Delete                           Integer    NetStream.Delete 응답통계
-.32.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessAverage            Integer    성공응답 평균개수 (평균)
-.32.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessCount              Integer    성공응답 평균개수
-.32.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailAverage               Integer    실패응답 평균개수 (평균)
-.32.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailCount                 Integer    실패응답 평균개수
-.32.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
-.33. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Seek                             Integer    NetStream.Seek 응답통계
-.33.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessAverage              Integer    성공응답 평균개수 (평균)
-.33.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessCount                Integer    성공응답 평균개수
-.33.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailAverage                 Integer    실패응답 평균개수 (평균)
-.33.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailCount                   Integer    실패응답 평균개수
-.33.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
-.34. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Pause                            Integer    NetStream.Pause 응답통계
-.34.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessAverage             Integer    성공응답 개수 (평균)
-.34.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessCount               Integer    성공응답 개수
-.34.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailAverage                Integer    실패응답 개수 (평균)
-.34.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailCount                  Integer    실패응답 개수
-.34.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
-============================================= ========================================== ========== =============================================================
+============================================= ============================================= ========== =============================================================
+OID                                           Name                                          Type       Description                                                  
+============================================= ============================================= ========== =============================================================
+.1. ``[vhostMin]`` . ``[vhostIndex]``         inbound                                       Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
+.2. ``[vhostMin]`` . ``[vhostIndex]``         outbound                                      Integer    클라이언트로 보내는 평균 트래픽(Bytes)
+.3. ``[vhostMin]`` . ``[vhostIndex]``         allSessionAverage                             Integer    클라이언트 평균 세션수
+.4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                          Integer    클라이언트 중 전송 중인 평균 세션수
+.5. ``[vhostMin]`` . ``[vhostIndex]``         requestHitRatio                               Integer    Request Hit Ratio(100%)
+.6. ``[vhostMin]`` . ``[vhostIndex]``                                                                  Request Hit Ratio(10000%)
+.7                                            requestHitAverage                             OID        평균 캐시 HIT결과
+.7.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_HIT                     Integer    TCP_HIT
+.7.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_IMS_HIT                 Integer    TCP_IMS_HIT
+.7.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_HIT             Integer    TCP_REFRESH_HIT
+.7.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REF_FAIL_HIT            Integer    TCP_REF_FAIL_HIT
+.7.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_NEGATIVE_HIT            Integer    TCP_NEGATIVE_HIT
+.7.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_MISS                    Integer    TCP_MISS
+.7.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_MISS            Integer    TCP_REFRESH_MISS
+.7.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS     Integer    TCP_CLIENT_REFRESH_MISS
+.7.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_DENIED                  Integer    TCP_DENIED
+.7.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_ERROR                   Integer    TCP_ERROR
+.7.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_REDIRECT_HIT            Integer    TCP_REDIRECT_HIT
+.8                                            requestHitCount                               OID        캐시 HIT결과 개수
+.8.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_HIT                       Integer    TCP_HIT
+.8.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_IMS_HIT                   Integer    TCP_IMS_HIT
+.8.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_HIT               Integer    TCP_REFRESH_HIT
+.8.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REF_FAIL_HIT              Integer    TCP_REF_FAIL_HIT
+.8.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_NEGATIVE_HIT              Integer    TCP_NEGATIVE_HIT
+.8.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_MISS                      Integer    TCP_MISS
+.8.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_MISS              Integer    TCP_REFRESH_MISS
+.8.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_CLIENT_REFRESH_MISS       Integer    TCP_CLIENT_REFRESH_MISS
+.8.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_DENIED                    Integer    TCP_DENIED
+.8.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_ERROR                     Integer    TCP_ERROR
+.8.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_REDIRECT_HIT              Integer    TCP_REDIRECT_HIT
+.10. ``[vhostMin]`` . ``[vhostIndex]``        reqHeaderSize                                 Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
+.11. ``[vhostMin]`` . ``[vhostIndex]``        reqBodySize                                   Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
+.12. ``[vhostMin]`` . ``[vhostIndex]``        resHeaderSize                                 Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
+.13. ``[vhostMin]`` . ``[vhostIndex]``        resBodySize                                   Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
+.14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                                    Integer    클라이언트로부터 받은 평균요청 개수
+.15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                                      Integer    클라이언트로부터 받은 누적요청 개수
+.20. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.Connect                         Integer    NetConnection.Connect 응답통계
+.20.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessAverage          Integer    성공응답 평균개수 (평균)
+.20.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessCount            Integer    성공응답 평균개수
+.20.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailAverage             Integer    실패응답 평균개수 (평균)
+.20.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailCount               Integer    실패응답 평균개수
+.20.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.TimeRes                 Integer    응답 평균 소요시간(0.01ms)
+.21. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.CreateStream                    Integer    NetConnection.CreateStream 응답통계
+.21.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessAverage     Integer    성공응답 평균개수 (평균)
+.21.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessCount       Integer    성공응답 평균개수
+.21.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailAverage        Integer    실패응답 평균개수 (평균)
+.21.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailCount          Integer    실패응답 평균개수
+.21.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.TimeRes            Integer    응답 평균 소요시간(0.01ms)
+.30. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Play                                Integer    NetStream.Play 응답통계
+.30.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessAverage                 Integer    성공응답 평균개수 (평균)
+.30.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessCount                   Integer    성공응답 평균개수
+.30.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailAverage                    Integer    실패응답 평균개수 (평균)
+.30.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailCount                      Integer    실패응답 평균개수
+.30.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.TimeRes                        Integer    응답 평균 소요시간(0.01ms)
+.31. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Close                               Integer    NetStream.Close 응답통계
+.31.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessAverage                Integer    성공응답 평균개수 (평균)
+.31.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessCount                  Integer    성공응답 평균개수
+.31.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailAverage                   Integer    실패응답 평균개수 (평균)
+.31.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailCount                     Integer    실패응답 평균개수
+.31.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.TimeRes                       Integer    응답 평균 소요시간(0.01ms)
+.32. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Delete                              Integer    NetStream.Delete 응답통계
+.32.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessAverage               Integer    성공응답 평균개수 (평균)
+.32.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessCount                 Integer    성공응답 평균개수
+.32.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailAverage                  Integer    실패응답 평균개수 (평균)
+.32.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailCount                    Integer    실패응답 평균개수
+.32.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.TimeRes                      Integer    응답 평균 소요시간(0.01ms)
+.33. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Seek                                Integer    NetStream.Seek 응답통계
+.33.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessAverage                 Integer    성공응답 평균개수 (평균)
+.33.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessCount                   Integer    성공응답 평균개수
+.33.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailAverage                    Integer    실패응답 평균개수 (평균)
+.33.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailCount                      Integer    실패응답 평균개수
+.33.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.TimeRes                        Integer    응답 평균 소요시간(0.01ms)
+.34. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Pause                               Integer    NetStream.Pause 응답통계
+.34.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessAverage                Integer    성공응답 개수 (평균)
+.34.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessCount                  Integer    성공응답 개수
+.34.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailAverage                   Integer    실패응답 개수 (평균)
+.34.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailCount                     Integer    실패응답 개수
+.34.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.TimeRes                       Integer    응답 평균 소요시간(0.01ms)
+============================================= ============================================= ========== =============================================================
 
