@@ -1439,33 +1439,47 @@ OID                                           Name                              
 .14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
 .15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
 .20. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.Connect                      Integer    NetConnection.Connect 응답통계
-.20.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.Success              Integer    성공응답 평균개수
-.20.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.Fail                 Integer    실패응답 평균개수
-.20.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
+.20.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessAverage       Integer    성공응답 평균개수 (평균)
+.20.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.SuccessCount         Integer    성공응답 평균개수
+.20.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailAverage          Integer    실패응답 평균개수 (평균)
+.20.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.FailCount            Integer    실패응답 평균개수
+.20.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.Connect.TimeRes              Integer    응답 평균 소요시간(0.01ms)
 .21. ``[vhostMin]`` . ``[vhostIndex]``        NetConnection.CreateStream                 Integer    NetConnection.CreateStream 응답통계
-.21.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.Success         Integer    성공응답 평균개수
-.21.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.Fail            Integer    실패응답 평균개수
-.21.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
+.21.1. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessAverage  Integer    성공응답 평균개수 (평균)
+.21.2. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.SuccessCount    Integer    성공응답 평균개수
+.21.3. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailAverage     Integer    실패응답 평균개수 (평균)
+.21.4. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.FailCount       Integer    실패응답 평균개수
+.21.5. ``[vhostMin]`` . ``[vhostIndex]``      NetConnection.CreateStream.TimeRes         Integer    응답 평균 소요시간(0.01ms)
 .30. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Play                             Integer    NetStream.Play 응답통계
-.30.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.Success                     Integer    성공응답 평균개수
-.30.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.Fail                        Integer    실패응답 평균개수
-.30.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
+.30.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessAverage              Integer    성공응답 평균개수 (평균)
+.30.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.SuccessCount                Integer    성공응답 평균개수
+.30.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailAverage                 Integer    실패응답 평균개수 (평균)
+.30.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.FailCount                   Integer    실패응답 평균개수
+.30.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Play.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .31. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Close                            Integer    NetStream.Close 응답통계
-.31.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.Success                    Integer    성공응답 평균개수
-.31.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.Fail                       Integer    실패응답 평균개수
-.31.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
+.31.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessAverage             Integer    성공응답 평균개수 (평균)
+.31.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.SuccessCount               Integer    성공응답 평균개수
+.31.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailAverage                Integer    실패응답 평균개수 (평균)
+.31.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.FailCount                  Integer    실패응답 평균개수
+.31.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Close.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 .32. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Delete                           Integer    NetStream.Delete 응답통계
-.32.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.Success                   Integer    성공응답 평균개수
-.32.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.Fail                      Integer    실패응답 평균개수
-.32.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
+.32.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessAverage            Integer    성공응답 평균개수 (평균)
+.32.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.SuccessCount              Integer    성공응답 평균개수
+.32.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailAverage               Integer    실패응답 평균개수 (평균)
+.32.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.FailCount                 Integer    실패응답 평균개수
+.32.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Delete.TimeRes                   Integer    응답 평균 소요시간(0.01ms)
 .33. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Seek                             Integer    NetStream.Seek 응답통계
-.33.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.Success                     Integer    성공응답 평균개수
-.33.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.Fail                        Integer    실패응답 평균개수
-.33.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
+.33.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessAverage              Integer    성공응답 평균개수 (평균)
+.33.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.SuccessCount                Integer    성공응답 평균개수
+.33.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailAverage                 Integer    실패응답 평균개수 (평균)
+.33.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.FailCount                   Integer    실패응답 평균개수
+.33.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Seek.TimeRes                     Integer    응답 평균 소요시간(0.01ms)
 .34. ``[vhostMin]`` . ``[vhostIndex]``        NetStream.Pause                            Integer    NetStream.Pause 응답통계
-.34.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.Success                    Integer    성공응답 평균개수
-.34.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.Fail                       Integer    실패응답 평균개수
-.34.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
+.34.1. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessAverage             Integer    성공응답 개수 (평균)
+.34.2. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.SuccessCount               Integer    성공응답 개수
+.34.3. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailAverage                Integer    실패응답 개수 (평균)
+.34.4. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.FailCount                  Integer    실패응답 개수
+.34.5. ``[vhostMin]`` . ``[vhostIndex]``      NetStream.Pause.TimeRes                    Integer    응답 평균 소요시간(0.01ms)
 ============================================= ========================================== ========== =============================================================
 
 
