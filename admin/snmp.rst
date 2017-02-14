@@ -639,9 +639,9 @@ cache.host.traffic.origin.hls
 
 
 
-.. _snmp-cache-host-traffic-origin-http:
+.. _snmp-cache-host-traffic-origin-rtmp:
 
-cache.host.traffic.origin.http
+cache.host.traffic.origin.rtmp
 ---------------------
 
 ::
