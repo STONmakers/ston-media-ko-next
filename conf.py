@@ -47,8 +47,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'STON Edge Server'
-copyright = '2016, WineSOFT Inc.'
+project = 'STON Media Server'
+copyright = '2017, WineSOFT Inc.'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
