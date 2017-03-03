@@ -1,27 +1,11 @@
-<<<<<<< HEAD
-=======
-.. STON Media Server documentation master file, created by
-   sphinx-quickstart on Fri Jun 13 16:37:06 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-
->>>>>>> origin/master
 STON Media Server 완벽 가이드
 ==========================
 
 :저자: STON 개발팀
-<<<<<<< HEAD
 :최신버전: 1.0.0, 2017년 2월 24일
 
 
 1부. STON 미디어서버 기본: 설정 배우기 
-=======
-:최신버전: 1.0, 2017년 4월 1일
-
-
-1부. 기본: 설정 배우기 
->>>>>>> origin/master
 =============================
 
 .. toctree::
