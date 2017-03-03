@@ -37,9 +37,9 @@ STON은 원본서버와 HTTPS로 통신하지 않는다.
    </Https>
 
    <Https Listen="*:886">
-      <Cert>/usr/ssl_port/cert.pem</Cert>
-      <Key>/usr/ssl_port/certkey.pem</Key>
-      <CA>/usr/ssl_port/CA.pem</CA>
+      <Cert>/usr/ssl_port886/cert.pem</Cert>
+      <Key>/usr/ssl_port886/certkey.pem</Key>
+      <CA>/usr/ssl_port886/CA.pem</CA>
    </Https>
 
 -  ``<Https>`` HTTPS를 구성한다.
@@ -52,9 +52,9 @@ STON은 원본서버와 HTTPS로 통신하지 않는다.
 
 같은 Port를 서비스하더라도 보다 명확한 표현이 우선한다.
 
-예를 들어 위 예제처럼 NIC가 여러 개인 경우 1.1.1.1:443으로 들어온 클라이언트는
-명시적 표현인 2번째(1.1.1.1:443) 인증서로 서비스되며 1.1.1.4:443으로 들어온
-클라이언트는 일반적 표현인 1번째(생략 또는 *:443) 인증서로 서비스된다.
+예를 들어 위 NIC가 3개이고 각각의 IP가 1.1.1.1, 1.1.1.2, 1.1.1.3인 경우를 가정해 보자.
+1.1.1.1:443으로 접속한 클라이언트는 가장 명시적 표현인 2번째(<Https Listen="1.1.1.1:443">)인증서로 서비스된다.
+반면 1.1.1.3:443으로 접속한 클라이언트는 IP가 일치하는 1번째(<Https>, Listen="*:443" 속성이 생략되어 있음) 인증서로 서비스된다.
 인증서파일을 같은 이름으로 덮어쓰기 하여도 Reload할 때 반영된다.
 
 .. note::
@@ -238,14 +238,14 @@ SSL/TLS의 `SNI(Server Name Indication) <http://en.wikipedia.org/wiki/Server_Nam
 - wget before 1.14
 - Java before 1.7
 
-현실적으로 SNI의 사용은 불가능하므 STON은 SNI를 지원하고 있지 않다.
+현재 STON은 SNI를 지원하고 있지 않으나 클라이언트 환경이 개선되면 지원할 계획이다.
 
 
 
 Multi Certificate
 --------------------------
 
-인증서의에 여러 도메인을 넣거나 Wildcard(i.e. *.winesoft.co.kr)를 명시하여
+인증서에 여러 도메인을 넣거나 Wildcard(i.e. *.winesoft.co.kr)를 명시하여
 하나의 인증서로 여러 도메인의 신원을 확인시킬 수 있는 방법이다.
 
 .. figure:: img/faq_ssl2.jpg
@@ -255,7 +255,7 @@ Multi Certificate
 
 서비스 주체가 같다면 효과적인 방법이지만 무관하다면 같은 인증서를 공유하는 것은
 현실적으로 어렵다.
-이 방법은 인증서만 교체하면 되는 것이므로 STON에서 별도로 설정하실 것은 없다
+이 방법은 인증서만 교체하면 되는 것이므로 STON에서 별도로 설정할 것은 없다
 [ `DigiCert <http://www.digicert.com/wildcard-ssl-certificates.htm>`_ 참고].
 
 
@@ -264,7 +264,7 @@ Multi Port
 --------------------------
 
 SSL은 기본적으로 443포트를 사용한다.
-SSL포트를 중복되지 않는 포트로 설정하시면 인증서를 여러개 설치할 수 있다.
+SSL포트를 중복되지 않는 포트로 설정하면 인증서를 여러개 설치할 수 있다.
 클라이언트에서는 다음과 같이 포트를 명시함으로써 SSL통신이 가능하다. ::
 
     https://winesoft.co.kr:543/
@@ -286,7 +286,7 @@ Multi NIC
 서버의 NIC가 여러개로 구성되어 있다면 NIC마다 IP를 별도로 할당할 수 있다.
 그러므로 서버 IP마다 별도의 인증서를 설치하여 클라이언트가 접속한 서버IP에 기반하여
 인증서를 결정하도록 설정한다.
-STON에서는 다음과 같이 Listen속성에 IP명시하여 인증서를 여러개로 설정한다. ::
+STON에서는 다음과 같이 Listen속성에 IP를 명시하여 인증서를 여러개로 설정한다. ::
 
    # server.xml - <Server>
 
