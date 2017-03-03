@@ -39,12 +39,12 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
 가상호스트 ``Name`` 은 3가지 형태로 구성할 수 있다.
 
-- 도메인 (media.example.com) + 디렉토리(/vod)
+- 도메인 (media.example.com) + 1depth 디렉토리(/vod)
 - 도메인 (media.example.com)
-- 1 depth 디렉토리 (/vod). Adobe 미디어서버의 어플리케이션 개념으로 이해할 수 있다.
+- 1 depth 디렉토리 (/vod)
 
-열거한 순서대로 선택 우선순위를 가지며 가장 명시적인 표현을 우선적으로 선택한다.
-다음은 예제 URL에 따른 가상호스트 선택 결과이다.
+열거한 순서대로 명시적인 표현을 우선으로 선택한다.
+예제 URL에 따른 가상호스트 선택 결과는 아래와 같다.
 
 ============================================== ========================
 URL                                            가상호스트
@@ -57,15 +57,15 @@ http://www.foobar.com/sports/highlight.mp4     (찾을 수 없음)
 
 .. note::
 
-   1 depth 디렉토리만 사용할 경우 Adobe 미디어서버의 Application과 같은 개념이다.
+   1 depth 디렉토리는 Adobe 미디어서버의 Application과 같은 개념이다.
 
 가상호스트 ``<Alias>`` 를 이용하여 패턴표현과 디렉토리 표현이 가능하다. ::
 
   # vhosts.xml - <Vhosts>
 
-  <Vhost Name="example.com">
-     <Alias>another.com</Alias>
-     <Alias>*.sub.example.com</Alias>
+  <Vhost Name="media.example.com">
+     <Alias>myvideo.com</Alias>
+     <Alias>*.submedia.example.com</Alias>
      <Alias>sports.com/highlight</Alias>
      <Alias>/video2</Alias>
   </Vhost>
@@ -96,21 +96,6 @@ URL 표현은 Adobe 미디어서버와 호환성을 가진다.
 
 
     //////////////////////////////////////////////////////
-    // <Vhost Name="/hello">
-    //////////////////////////////////////////////////////
-
-    // Adobe Flash Player (RTMP)
-    Server: rtmp://1.1.1.1/hello
-    Stream: mp4:subdir/iu.mp4
-
-    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://1.1.1.1/hello/mp4:subdir/iu.mp4/playlist.m3u8
-
-    // HTTP Pseudo-Streaming
-    http://1.1.1.1/hello/mp4:subdir/iu.mp4
-
-
-    //////////////////////////////////////////////////////
     // <Vhost Name="media.example.com">
     //////////////////////////////////////////////////////
 
@@ -125,16 +110,30 @@ URL 표현은 Adobe 미디어서버와 호환성을 가진다.
     http://media.example.com/mp4:subdir/iu.mp4
 
 
+    //////////////////////////////////////////////////////
+    // <Vhost Name="/hello">
+    //////////////////////////////////////////////////////
+
+    // Adobe Flash Player (RTMP)
+    Server: rtmp://1.1.1.1/hello
+    Stream: mp4:subdir/iu.mp4
+
+    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
+    http://1.1.1.1/hello/mp4:subdir/iu.mp4/playlist.m3u8
+
+    // HTTP Pseudo-Streaming
+    http://1.1.1.1/hello/mp4:subdir/iu.mp4
+
+
 이미 배포된 URL과의 호환성을 위해 가상호스트 Prefix 속성을 제공한다. ::
 
    # vhosts.xml
 
    <Vhosts>
-      <Vhost Name="media.example.com/hello"
-             Prefix="http/"> ... </Vhost>
+      <Vhost Name="media.example.com/hello" Prefix="http/"> ... </Vhost>
    </Vhosts>
 
-Prefix는 URL에만 추가될 뿐 아무런 역할을 수행하지 않는다.
+Prefix는 URL이 설정되어 있다면 가상호스트 선택시 참고한다.
 Prefix가 추가된 주소는 아래와 같다. ::
 
     // Adobe Flash Player (RTMP)
@@ -183,14 +182,14 @@ Prefix가 추가된 주소는 아래와 같다. ::
 
     # vhosts.xml - <Vhosts>
 
-    <Vhost Name="foo.com">
+    <Vhost Name="/foo">
         <Listen>
             <Http>*:80</Http>
             <Rtmp>*:1935</Rtmp>
         </Listen>
     </Vhost>
 
-    <Vhost Name="bar.com">
+    <Vhost Name="/bar">
         <Listen>
             <Http>*:8080</Http>   // 가능
             <Rtmp>*:80</Rtmp>     // 불가능 - 이미 HTTP에서 사용
