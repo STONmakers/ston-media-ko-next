@@ -78,7 +78,7 @@ http://www.foobar.com/sports/highlight.mp4     (찾을 수 없음)
 ====================================
 
 URL 표현은 Adobe 미디어서버와 호환성을 가진다.
-웹서버의 서비스파일 URL이 /subdir/iu.mp4 라면 서비스 주소는 아래와 같다. ::
+웹서버 URL이 /subdir/iu.mp4 라면 서비스 주소는 아래와 같다. ::
 
     //////////////////////////////////////////////////////
     // <Vhost Name="media.example.com/hello">
@@ -106,7 +106,7 @@ URL 표현은 Adobe 미디어서버와 호환성을 가진다.
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
     http://media.example.com/mp4:subdir/iu.mp4/playlist.m3u8
 
-    // HTTP Pseudo-Streaming (+ Bandwidth-Throttling)
+    // HTTP Pseudo-Streaming
     http://media.example.com/mp4:subdir/iu.mp4
 
 
@@ -133,8 +133,7 @@ URL 표현은 Adobe 미디어서버와 호환성을 가진다.
       <Vhost Name="media.example.com/hello" Prefix="http/"> ... </Vhost>
    </Vhosts>
 
-Prefix는 URL이 설정되어 있다면 가상호스트 선택시 참고한다.
-Prefix가 추가된 주소는 아래와 같다. ::
+Prefix가 추가된 주소는 다음과 같다. ::
 
     // Adobe Flash Player (RTMP)
     Server: rtmp://media.example.com/hello
@@ -150,7 +149,7 @@ Prefix가 추가된 주소는 아래와 같다. ::
 
    WOWZA의 경우 Application이름 뒤에 application-instance명을 함께 명시하고 있다.
    (이 값은 대부분 _definst_ 이다.)
-   다음 주소에서 대해서도 정상적인 서비스가 가능하다. ::
+   STON은 별도의 설정없이 다음 주소를 인식한다. ::
 
       // Adobe Flash Player (RTMP) - 동일
       Server: rtmp://media.example.com/hello
@@ -178,7 +177,7 @@ Prefix가 추가된 주소는 아래와 같다. ::
         </Listen>
     </Vhost>
 
-원하는 임의의 포트를 열 수는 있지만, 가상호스트끼리 이미 특정 프로토콜에 바인딩된 포트를 다른 프로토콜에서 열 수 없다. ::
+포트설정에 제한은 없지만, 이미 특정 프로토콜에 바인딩된 포트를 다른 프로토콜에서 열 수 없다. ::
 
     # vhosts.xml - <Vhosts>
 
@@ -195,7 +194,3 @@ Prefix가 추가된 주소는 아래와 같다. ::
             <Rtmp>*:80</Rtmp>     // 불가능 - 이미 HTTP에서 사용
         </Listen>
     </Vhost>
-
-
-
-

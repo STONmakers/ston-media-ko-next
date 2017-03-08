@@ -1,53 +1,64 @@
-﻿.. _handling_http_requests:
+﻿.. _client_session:
 
-6장. HTTP 요청/응답
+7장. 클라이언트 세션
 ******************
 
-.. note::
-
-   - `[동영상 강좌] 해보자! STON Edge Server - Chapter 6. 압축 <https://youtu.be/GZ_NaK2yqk0?list=PLqvIfHb2IlKeZ-Eym_UPsp6hbpeF-a2gE>`_
-
-이 장에서는 HTTP 클라이언트 세션과 요청을 처리하는 방식에 대해 설명한다.
-서비스의 핵심기능으로 보기엔 어려운 내용들이 많으니 머리아파하지 않아도 된다.
-일부 HTTP에 대한 이해가 없다면 어려울 수 있는 부분이 있는데 이럴 때는 기본설정을 사용하길 바란다.
-전체적으로 기본 설정을 그대로 사용해도 서비스에는 전혀 지장이 없는 내용들이다.
+이 장에서는 프로토콜에 따른 클라이언트 세션과 세부적인 응답을 처리하는 방식에 대해 설명한다.
+지나치게 많은 클라이언트 세션을 유지하는 것면 시스템 부하가 높아짐에 주의해야 한다.
+프로토콜마다 요청/응답처리에 개입할 수 있는 범위가 다르다.
+특히 (RTMP에 비해) HTTP기반의 프로토콜은 매우 많은 부분에 개입이 가능하다.
 
 
 .. toctree::
    :maxdepth: 2
 
 
-.. _handling_http_requests_session_man:
+.. _client_session_rtmp_session:
 
-세션관리
+RTMP 세션관리
 ====================================
 
-HTTP 클라이언트가 서버(STON)에 접속하면 HTTP 세션이 생성된다.
-클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐츠를 서비스 받는다.
-요청부터 응답까지를 하나의 **HTTP 트랜잭션** 이라고 부른다.
-HTTP 세션은 여러 HTTP 트랜잭션을 순차적으로 처리한다. ::
+RTMP 클라이언트가 STON 미디어서버에 접속하면 RTMP세션이 생성된다.
+유휴(Idle)상태의 RTMP세션을 얼마동안 유지할 것인지 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
 
+   <RtmpClientKeepAliveSec>10</RtmpClientKeepAliveSec>
+
+-  ``<RtmpClientKeepAliveSec> (기본: 10초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 RTMP 클라이언트 세션에게 Ping Request을 보낸다.
+   RTMP 클라이언트가 Ping Response를 보내면 세션은 유지되지만 응답하지 않을 경우 종료한다.
+
+
+
+.. _client_session_http_session:
+
+HTTP 세션관리
+====================================
+
+HTTP 클라이언트가 STON 미디어서버에 접속하면 HTTP세션이 생성된다.
+HTTP 클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐츠를 서비스 받는다.
+요청부터 응답까지를 하나의 **HTTP 트랜잭션** 이라고 부른다. ::
+
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
+
+   <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
    <ConnectionHeader>keep-alive</ConnectionHeader>
-   <ClientKeepAliveSec>10</ClientKeepAliveSec>
    <KeepAliveHeader Max="0">ON</KeepAliveHeader>
 
+-  ``<HttpClientKeepAliveSec> (기본: 10초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 HTTP 클라이언트 세션을 종료한다.
+
 -  ``<ConnectionHeader> (기본: keep-alive)``
-   클라이언트에게 보내는 HTTP응답의 Connection헤더( ``keep-alive`` 또는 ``close`` )를 설정한다.
-
-
--  ``<ClientKeepAliveSec> (기본: 10초)``
-   클라이언트 세션과 아무런 통신이 없는 상태로 설정된 시간이 경과하면 세션을 종료한다.
-   시간을 너무 길게 설정하면 통신을 하지 않는 세션이 지나치게 많아진다.
-   너무 많은 세션을 유지하는 것만으로도 시스템엔 부하가 된다.
+   HTTP 클라이언트에게 보내는 응답의 Connection헤더( ``keep-alive`` 또는 ``close`` )를 설정한다.
 
 -  ``<KeepAliveHeader>``
 
-    - ``ON (기본)`` HTTP응답에 Keep-Alive헤더를 명시한다.
-      ``Max (기본: 0)`` 를 0보다 크게 설정하면 Keep-Alive헤더의 값으로 ``Max`` 값이 명시된다.
-      이후 HTTP 트랜잭션이 발생할때마다 1씩 차감된다.
+   - ``ON (기본)`` HTTP응답에 Keep-Alive헤더를 명시한다.
+     ``Max (기본: 0)`` 를 0보다 크게 설정하면 Keep-Alive헤더의 값으로 ``Max`` 값이 명시된다.
+    이후 HTTP 트랜잭션이 발생할때마다 1씩 차감된다.
 
    - ``OFF`` HTTP응답에 Keep-Alive헤더를 생략한다.
 
@@ -55,24 +66,24 @@ HTTP 세션은 여러 HTTP 트랜잭션을 순차적으로 처리한다. ::
 HTTP 세션 유지정책
 ---------------------
 
-STON은 가급적 Apache의 정책을 따른다.
-특히 세션유지 정책은 HTTP헤더 값에 따른 변수가 많다.
+STON 미디어서버의 HTTP 세션 유지정책은 Apache의 정책을 따른다.
+HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
 HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
-- 클라이언트 HTTP요청에 명시된 Connection헤더 ("Keep-Alive" 또는 "Close")
+- HTTP 클라이언트 요청에 명시된 Connection헤더 ("Keep-Alive" 또는 "Close")
 - 가상호스트 ``<Connection>`` 설정
 - 가상호스트 세션 Keep-Alive시간 설정
 - 가상호스트 ``<Keep-Alive>`` 설정
 
 
-1. 클라이언트 HTTP요청에 "Connection: Close"로 명시되어 있는 경우 ::
+1. HTTP 클라이언트 요청에 "Connection: Close"로 명시되어 있는 경우 ::
 
       GET / HTTP/1.1
       ...(생략)...
       Connection: Close
 
-   이같은 HTTP요청에 대해서는 가상호스트 설정여부와 상관없이
-   "Connection: Close"로 응답한다. Keep-Alive헤더는 명시되지 않습니다. ::
+   이같은 요청에 대해서는 가상호스트 설정여부와 상관없이
+   "Connection: Close"로 응답한다. Keep-Alive헤더는 명시되지 않는다. ::
 
       HTTP/1.1 200 OK
       ...(생략)...
@@ -88,7 +99,7 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
       <ConnectionHeader>Close</ConnectionHeader>
 
-   클라이언트 HTTP요청과 상관없이 "Connection: Close"로 응답한다.
+   HTTP 클라이언트 요청과 상관없이 "Connection: Close"로 응답한다.
    Keep-Alive헤더는 명시되지 않는다. ::
 
       HTTP/1.1 200 OK
@@ -116,8 +127,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
       # server.xml - <Server><VHostDefault><Options>
       # vhosts.xml - <Vhosts><Vhost><Options>
 
+      <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
       <ConnectionHeader>Keep-Alive</ConnectionHeader>
-      <ClientKeepAliveSec>10</ClientKeepAliveSec>
       <KeepAliveHeader>ON</KeepAliveHeader>
 
    Keep-Alive헤더가 명시된다.
@@ -130,12 +141,12 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
    .. note::
 
-      < ``<Keep-Alive>`` 와 ``<ClientKeepAliveSec>`` 의 관계 >
+      < ``<Keep-Alive>`` 와 ``<HttpClientKeepAliveSec>`` 의 관계 >
 
-      ``<Keep-Alive>`` 설정시 ``<ClientKeepAliveSec>`` 를 참고하지만 ``<ClientKeepAliveSec>`` 는 보다 근본적인 문제와 관련이 있다.
+      ``<Keep-Alive>`` 설정시 ``<HttpClientKeepAliveSec>`` 를 참고하지만 ``<HttpClientKeepAliveSec>`` 는 보다 근본적인 문제와 관련이 있다.
       성능이나 자원적으로 가장 중요한 이슈는 Idle세션(=HTTP 트랜잭션이 발생되지 않는 세션)의 정리시점을 잡는 것이다.
       HTTP 헤더 설정은 동적으로 변경되거나 때로 생략될 수 있지만 Idle세션 정리는 훨씬 민감한 문제이다.
-      이런 이유 때문에 ``<ClientKeepAliveSec>`` 는 ``<KeepAliveHeader>`` 에 통합되지 않고 별도로 존재한다.
+      이런 이유 때문에 ``<HttpClientKeepAliveSec>`` 는 ``<KeepAliveHeader>`` 에 통합되지 않고 별도로 존재한다.
 
 
 5. ``<KeepAliveHeader>`` 의 ``Max`` 속성이 설정된 경우 ::
@@ -143,8 +154,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
       # server.xml - <Server><VHostDefault><Options>
       # vhosts.xml - <Vhosts><Vhost><Options>
 
+      <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
       <ConnectionHeader>Keep-Alive</ConnectionHeader>
-      <ClientKeepAliveSec>10</ClientKeepAliveSec>
       <KeepAliveHeader Max="50">ON</KeepAliveHeader>
 
    Keep-Alive헤더에 max값을 명시한다.
@@ -165,7 +176,7 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
       Connection: Keep-Alive
       Keep-Alive: timeout=10, max=1
 
-   이 응답은 현재 세션으로 앞으로 1번 HTTP 트랜잭션진행이 가능하다는 의미이다.
+   이 응답은 현재 세션으로 앞으로 1번 HTTP 트랜잭션 진행이 가능하다는 의미이다.
    이 세션으로 HTTP 요청이 한번 더 진행될 경우 다음과 같이 "Connection: Close"로 응답한다. ::
 
       HTTP/1.1 200 OK
@@ -174,10 +185,16 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 
 
-클라이언트 Cache-Control
+
+.. _client_session_http_cache_control:
+
+
+HTTP 클라이언트 Cache-Control
 ====================================
 
-클라이언트 Cache-Control과 관련된 설정을 다룬다.
+HTTP 프로토콜은 Cache-Control 메커니즘을 통해 불필요한 컨텐츠 전송을 제거한다.
+대부분의 HTTP 클라이언트(=브라우저)와 웹서버에서 Cache-Control을 지원한다.
+
 
 Age 헤더
 ---------------------
@@ -209,8 +226,8 @@ Expires헤더를 재설정한다. ::
 
 -  ``<RefreshExpiresHeader>``
 
-   -  ``OFF (기본)`` 원본서버에서 응답한 Expires헤더를 클라이언트에게 명시한다.
-      원본서버에서 Expires헤더가 생략되었다면 클라이언트 응답에도 Expires헤더가 생략된다.
+   -  ``OFF (기본)`` 원본서버에서 응답한 Expires헤더를 HTTP 클라이언트에게 명시한다.
+      원본서버에서 Expires헤더가 생략되었다면 HTTP 클라이언트 응답에도 Expires헤더가 생략된다.
 
    -  ``ON``  Expires조건을 반영하여 Expires헤더를 명시한다.
       조건에 해당하지 않는 콘텐츠는 ``OFF`` 설정과 동일하게 동작한다.
@@ -269,7 +286,7 @@ Expires조건은 /svc/{가상호스트 이름}/expires.txt에 설정한다. ::
 ETag 헤더
 ---------------------
 
-클라이언트에게 보내는 HTTP응답에 ETag 헤더 명시여부를 설정한다. ::
+HTTP 클라이언트에게 보내는 HTTP응답에 ETag 헤더 명시여부를 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -283,9 +300,9 @@ ETag 헤더
    -  ``OFF``  ETag헤더를 생략한다.
 
 
+.. _client_session_http_basic_header:
 
-
-기본응답 헤더
+HTTP 응답 기본헤더
 ====================================
 
 원본 비표준 헤더
@@ -302,14 +319,14 @@ ETag 헤더
 
    -  ``OFF (기본)`` 표준헤더가 아니라면 무시한다.
 
-   -  ``ON`` cookie, set-cookie, set-cookie2를 제외한 모든 헤더를 저장하여 클라이언트에게 전달한다.
+   -  ``ON`` cookie, set-cookie, set-cookie2를 제외한 모든 헤더를 저장하여 HTTP 클라이언트에게 전달한다.
       단, 메모리와 저장비용을 좀 더 소비한다.
 
 
 Via 헤더
 ---------------------
 
-클라이언트에게 보내는 HTTP응답에 Via 헤더 명시여부를 설정한다. ::
+HTTP 클라이언트에게 보내는 HTTP응답에 Via 헤더 명시여부를 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -329,7 +346,7 @@ Via 헤더
 Server 헤더
 ---------------------
 
-클라이언트에게 보내는 HTTP응답에 Server 헤더 명시여부를 설정한다. ::
+HTTP 클라이언트에게 보내는 HTTP응답에 Server 헤더 명시여부를 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -343,12 +360,12 @@ Server 헤더
    -  ``OFF``  Server헤더를 생략한다.
 
 
-.. _handling_http_requests_modify_client:
+.. _client_session_http_modify:
 
-클라이언트 요청/응답 헤더 변경
+HTTP 요청/응답 헤더 변경
 ====================================
 
-클라이언트 HTTP요청과 응답을 특정 조건에 따라 변경한다. ::
+HTTP 클라이언트 요청과 응답을 특정 조건에 따라 변경한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -365,13 +382,13 @@ Server 헤더
 
 -  **HTTP 요청헤더 변경시점**
 
-   클라이언트 HTTP 요청을 최초로 인식하는 시점에 헤더를 변경한다.
+   HTTP 요청을 최초로 인식하는 시점에 헤더를 변경한다.
    헤더가 변경되었다면 변경된 상태로 Cache 모듈에서 처리된다.
    단, Host헤더와 URI는 변경할 수 없다.
 
 -  **HTTP 응답헤더 변경시점**
 
-   클라이언트 응답 직전에 헤더를 변경한다.
+   HTTP 응답 직전에 헤더를 변경한다.
    단, Content-Length는 변경할 수 없다.
 
 
@@ -446,84 +463,3 @@ Value가 입력되지 않은 경우 빈 값("")이 입력된다.
 {Match}와 일치하더라도 {Condition}과 일치하지 않는다면 변경이 반영되지 않는다.
 {Condition}이 생략된 경우 응답코드를 검사하지 않는다.
 
-
-.. _handling_http_requests_compression:
-
-압축
-====================================
-원본을 대신하여 컨텐츠를 압축하여 전송한다.
-:ref:`caching-policy-accept-encoding` 에 따라 컨텐츠를 구분하도록 설정되어 있어야 한다. ::
-
-   Accept-Encoding: gzip, deflate
-
-.. figure:: img/compression_1.png
-   :align: center
-
-   비압축 파일을 실시간으로 압축하여 전송한다.
-
-::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <Compression Method="gzip" Level="6" SourceSize="2-2048">OFF</Compression>
-
--  ``<Compression>``
-
-   -  ``OFF (기본)`` 압축 기능을 사용하지 않는다.
-
-   -  ``ON`` 압축 기능을 사용한다. 다음 속성을 지원한다.
-
-      -  ``Method (기본: gzip)`` 압축 방식을 지정한다. gzip만 지원된다.
-      -  ``Level (기본: 6)`` 압축 단계를 지정한다. 이 값은 ``Method`` 에 따라 달라진다. gzip은 1~9까지 지정이 가능하다. 숫자가 작을수록 빠르지만 압축률이 나쁘고, 클수록 느리지만 압축률이 좋다.
-      -  ``SourceSize (기본: 2-2048, 단위: KB)`` 원본 크기를 범위로 지정한다.
-         너무 작은 파일은 압축률이 떨어진다.
-         반대로 너무 큰 파일은 과도하게 CPU를 점유할 수 있다.
-
-압축된 컨텐츠는 원본과 다른 컨텐츠로 인식/캐싱되며, 동일한 요청에 대해 다시 압축되지 않는다.
-압축 대상은 /svc/{vhost}/compression.txt 에 지정한다. 정의된 순서대로 적용된다. ::
-
-   # /svc/www.example.com/compression.txt
-   # 구분자는 콤마( , ) 이다.
-   # {URL 조건}, {Method}, {Level} 순서로 표기한다.
-
-   /sample.css, no       // 압축하지 않는다.
-   *.css                 // *.css 조건에 대해 기본 Method와 Level로 압축한다.
-   *.htm, gzip           // *.htm 조건에 대해 gzip으로 압축한다. (기본 Level)
-   *.xml, , 9            // *.xml 조건에 대해 Level 9로 압축한다.*. (기본 Method)
-   *.js, gzip, 5         // *.js 조건에 대해 gzip (Level=5)으로 압축한다.
-
-압축은 CPU자원을 많이 소모하는 기능이다.
-다음은 파일 크기별 GZIP(Level: 9) 성능 테스트 결과이다.
-
--  ``OS`` CentOS 6.3 (Linux version 2.6.32-279.el6.x86_64 (mockbuild@c6b9.bsys.dev.centos.org) (gcc version 4.4.6 20120305(Red Hat 4.4.6-4) (GCC) ) #1 SMP Fri Jun 22 12:19:21 UTC 2012)
--  ``CPU`` `Intel(R) Xeon(R) CPU E5-2603 0 @ 1.80GHz (8 processors) <http://www.cpubenchmark.net/cpu.php?cpu=Intel%20Xeon%20E5-2603%20@%201.80GHz>`_
--  ``RAM`` 8GB
--  ``HDD`` SAS 275GB X 5EA
-
-======================= ========== ======== ============== ========================= ==================
-크기                    압축률(%)  처리량   응답속도(ms)   클라이언트 트래픽(Mbps)   원본 트래픽(Mbps)
-======================= ========== ======== ============== ========================= ==================
-1KB                     26.25      5288     6.72           40.58                     55.02
-2KB                     57.45      5238     7.20           41.52                     97.58
-4KB                     76.94      5236     7.18           42.44                     184.04
-8KB                     87.61      5021     7.53           41.87                     337.80
-16KB                    93.32      4608     8.30           41.19                     616.83
-32KB                    96.26      3495     13.55          34.53                     924.22
-64KB                    97.79      1783     24.50          20.71                     938.83
-bootstrap.css(20KB)     86.87      3944     9.67           83.79                     638.25
-bootstrap.min.js(36KB)  73.00      1791     51.50          139.00                    514.86
-======================= ========== ======== ============== ========================= ==================
-
-``<Compression>`` 이 활성화되어 있다면 원본 서버로 비압축 컨텐츠만을 요청한다.
-비압축 컨텐츠란 원본 서버에 Accept-Encoding헤더를 명시하지 않고 보냈을 때의 응답을 의미한다.
-만약 원본 서버가 비압축 컨텐츠 요청에 대해 Content-Encoding 헤더를 명시했다면 이미 압축된 것으로 간주하여 다시 압축하지 않는다.
-
-.. note::
-
-   일부 컨텐츠가 이미 원본 서버에 의해 압축되어 있는 상태에서 ``<Compression>`` 조건에 해당한다면 중복 압축이 될 수 있다.
-   이 경우 문제가 될 수 있으므로 다음 정책을 따른다.
-
-   1. 신규 컨텐츠라면 압축한다.
-   2. 이미 원본 서버에 의해 압축되어 있다면 다시 압축하지 않는다.
-   3. 원본 서버에 의해 압축되어 있지 않다면 해당 컨텐츠를 무효화하고, 압축을 진행한다.

@@ -5,7 +5,7 @@ STON Media Server 완벽 가이드
 :최신버전: 1.0.0, 2017년 2월 24일
 
 
-1부. STON 미디어서버 기본: 설정 배우기 
+1부. STON 미디어서버 기본: 설정 배우기
 =============================
 
 .. toctree::
@@ -25,7 +25,7 @@ STON Media Server 완벽 가이드
    admin/multi_protocols
    admin/caching_policy
    admin/caching_purge
-   admin/handling_http_requests
+   admin/client_session
    admin/origin
    admin/bypass
    admin/https
