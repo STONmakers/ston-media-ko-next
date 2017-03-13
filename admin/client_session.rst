@@ -583,21 +583,23 @@ MP4파일 헤더의 위치에 상관없이 다운로드와 동시에 실시간�
 모든 .m3u8/.ts파일은 원본파일에서 파생되며 별도의 저장공간을 소비하지 않는다.
 서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. ::
 
-   # server.xml - <Server><VHostDefault><Media>
-   # vhosts.xml - <Vhosts><Vhost><Media>
-
-   <MP4HLS Status="Inactive" Keyword="mp4hls">
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
+   
+   <ClientKeepAliveSec>10</ClientKeepAliveSec>
+   <MP4 Status="Active">
       <Index Ver="3" Alternates="off">index.m3u8</Index>
       <Sequence>0</Sequence>
       <Duration>10</Duration>
       <AlternatesName>playlist.m3u8</AlternatesName>
-   </MP4HLS>
+   </MP4>
 
--  ``<MP4HLS>``
+-  ``<ClientKeepAliveSec> (기본: 10초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
 
-   - ``Status (기본: Inactive)`` 값이 ``Active`` 일 때만 활성화된다.
+-  ``<MP4>``
 
-   - ``Keyword (기본: mp4hls)`` HLS 서비스 키워드
+   - ``Status (기본: Active)`` 값이 ``Inactive`` 라면 비활성화된다.
 
 -  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
 
