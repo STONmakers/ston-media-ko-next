@@ -539,14 +539,14 @@ Accept-Encoding 헤더
 HLS 세션
 ====================================
 
-MP4파일을 HLS(HTTP Live Streaming)로 서비스한다.
+MP4/MP3파일을 HLS(HTTP Live Streaming)로 서비스한다.
 원본서버는 더 이상 HLS서비스를 위해 파일을 분할저장할 필요가 없다.
-MP4파일 헤더의 위치에 상관없이 다운로드와 동시에 실시간으로 .m3u8/.ts파일 변환 후 서비스한다.
+헤더의 위치에 상관없이 다운로드와 동시에 실시간으로 .m3u8/.ts파일 변환 후 서비스한다.
 
 ..  note::
 
-    MP4HLS는 Elementary Stream(Video 또는 Audio)을 변환하는 트랜스코딩(Transcoding)이 아니다.
-    그러므로 HLS에 적합한 형식으로 인코딩된 MP4파일에 한해서 원활한 단말 재생이 가능하다.
+    STON 미디어서버가 지원하는 HLS는 Elementary Stream(Video 또는 Audio)을 변환하는 트랜스코딩(Transcoding)이 아니다.
+    그러므로 HLS에 적합한 형식으로 인코딩된 파일에 한해서 원활한 단말 재생이 가능하다.
     인코딩이 적합하지 않을 경우 화면이나 깨지거나 소리가 재생되지 않을 수 있다.
     현재(2014.2.20) Apple에서 밝히고 있는 Video/Audio 인코딩 규격은 다음과 같다.
 
