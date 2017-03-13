@@ -686,6 +686,33 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
    #EXT-X-ENDLIST
 
 
+.. _client_session_hls_session_mp3:
+
+MP3
+---------------------
+
+MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
+
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
+
+   <Hls>
+       <MP3 Status="Active">
+          <Index Ver="3" Alternates="ON">index.m3u8</Index>
+          <Sequence>0</Sequence>
+          <Duration>10</Duration>
+          <AlternatesName>playlist.m3u8</AlternatesName>
+       </MP3HLS>
+   </Hls>
+
+모든 설정과 동작방식이 `MP4`_ 와 동일하다.
+
+.. note::
+
+   `MP4 HLS`_ 와 `MP3 HLS`_ 가 같은 ``Keyword`` 로 설정되어 있을 경우 `MP3 HLS`_ 는 동작하지 않는다.
+
+
+
 
 
 .. _client_session_hls_session_segmentation:
@@ -730,29 +757,3 @@ Segmentation
 
       /video.mp4/mp4hls/index.m3u8?start=0&end=60
       /video.mp4?start=0/mp4hls/index.m3u8?end=60
-
-
-.. _client_session_hls_session_mp3:
-
-MP3
----------------------
-
-MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <Hls>
-       <MP3 Status="Active">
-          <Index Ver="3" Alternates="ON">index.m3u8</Index>
-          <Sequence>0</Sequence>
-          <Duration>10</Duration>
-          <AlternatesName>playlist.m3u8</AlternatesName>
-       </MP3HLS>
-   </Hls>
-
-모든 설정과 동작방식이 `MP4`_ 와 동일하다.
-
-.. note::
-
-   `MP4 HLS`_ 와 `MP3 HLS`_ 가 같은 ``Keyword`` 로 설정되어 있을 경우 `MP3 HLS`_ 는 동작하지 않는다.
