@@ -637,17 +637,16 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 -  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
 
-      http://www.example.com/video.mp4/mp4hls/playlist.m3u8
+      http://www.example.com/mp4:video.mp4/playlist.m3u8
 
 
 서비스 주소가 다음과 같다면 해당 주소로 Pseudo-Streaming을 진행할 수 있다. ::
 
     http://www.example.com/video.mp4
 
-가상호스트는 ``<MP4HLS>`` 에 정의된 ``Keyword`` 문자열을 인식함으로써 HLS서비스를 진행한다.
 다음 URL이 호출되면 /video.mp4로부터 index.m3u8파일을 생성한다. ::
 
-   http://www.example.com/video.mp4/mp4hls/index.m3u8
+   http://www.example.com/mp4:video.mp4/index.m3u8
 
 ``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
 
@@ -693,24 +692,17 @@ MP3
 
 MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <Hls>
-       <MP3 Status="Active">
-          <Index Ver="3" Alternates="ON">index.m3u8</Index>
-          <Sequence>0</Sequence>
-          <Duration>10</Duration>
-          <AlternatesName>playlist.m3u8</AlternatesName>
-       </MP3HLS>
-   </Hls>
+   <MP3 Status="Active">
+       <Index Ver="3" Alternates="ON">index.m3u8</Index>
+       <Sequence>0</Sequence>
+       <Duration>10</Duration>
+       <AlternatesName>playlist.m3u8</AlternatesName>
+   </MP3>
 
-모든 설정과 동작방식이 `MP4`_ 와 동일하다.
-
-.. note::
-
-   `MP4 HLS`_ 와 `MP3 HLS`_ 가 같은 ``Keyword`` 로 설정되어 있을 경우 `MP3 HLS`_ 는 동작하지 않는다.
-
+모든 설정과 동작방식이 ``<MP4>`` 와 동일하다.
 
 
 
