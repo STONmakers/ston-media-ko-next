@@ -102,8 +102,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 2. ``<ConnectionHeader>`` 가 ``Close`` 로 설정된 경우 ::
 
-      # server.xml - <Server><VHostDefault><Options>
-      # vhosts.xml - <Vhosts><Vhost><Options>
+      # server.xml - <Server><VHostDefault><Options><Http>
+      # vhosts.xml - <Vhosts><Vhost><Options><Http>
 
       <ConnectionHeader>Close</ConnectionHeader>
 
@@ -117,8 +117,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 3. ``<KeepAliveHeader>`` 가 ``OFF`` 로 설정된 경우 ::
 
-      # server.xml - <Server><VHostDefault><Options>
-      # vhosts.xml - <Vhosts><Vhost><Options>
+      # server.xml - <Server><VHostDefault><Options><Http>
+      # vhosts.xml - <Vhosts><Vhost><Options><Http>
 
       <ConnectionHeader>Keep-Alive</ConnectionHeader>
       <KeepAliveHeader>OFF</KeepAliveHeader>
@@ -132,8 +132,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 4. ``<KeepAliveHeader>`` 가 ``ON`` 으로 설정된 경우 ::
 
-      # server.xml - <Server><VHostDefault><Options>
-      # vhosts.xml - <Vhosts><Vhost><Options>
+      # server.xml - <Server><VHostDefault><Options><Http>
+      # vhosts.xml - <Vhosts><Vhost><Options><Http>
 
       <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
       <ConnectionHeader>Keep-Alive</ConnectionHeader>
@@ -159,8 +159,8 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 5. ``<KeepAliveHeader>`` 의 ``Max`` 속성이 설정된 경우 ::
 
-      # server.xml - <Server><VHostDefault><Options>
-      # vhosts.xml - <Vhosts><Vhost><Options>
+      # server.xml - <Server><VHostDefault><Options><Http>
+      # vhosts.xml - <Vhosts><Vhost><Options><Http>
 
       <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
       <ConnectionHeader>Keep-Alive</ConnectionHeader>
@@ -498,8 +498,8 @@ Accept-Encoding 헤더
 
 ::
 
-    # server.xml - <Server><VHostDefault><Options>
-    # vhosts.xml - <Vhosts><Vhost><Options>
+    # server.xml - <Server><VHostDefault><Options><Http>
+    # vhosts.xml - <Vhosts><Vhost><Options><Http>
 
     <AcceptEncoding>ON</AcceptEncoding>
 
@@ -539,30 +539,175 @@ Accept-Encoding 헤더
 HLS 세션
 ====================================
 
-HLS 클라이언트가 STON 미디어서버에 접속하면 HLS세션이 생성된다.
-HTTP 클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐츠를 서비스 받는다.
-요청부터 응답까지를 하나의 **HTTP 트랜잭션** 이라고 부른다. ::
+MP4파일을 HLS(HTTP Live Streaming)로 서비스한다.
+원본서버는 더 이상 HLS서비스를 위해 파일을 분할저장할 필요가 없다.
+MP4파일 헤더의 위치에 상관없이 다운로드와 동시에 실시간으로 .m3u8/.ts파일 변환 후 서비스한다.
 
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-   
-   <Http>
-       <ClientKeepAliveSec>10</ClientKeepAliveSec>
-       <ConnectionHeader>keep-alive</ConnectionHeader>
-       <KeepAliveHeader Max="0">ON</KeepAliveHeader>
-   </Http>
+..  note::
 
--  ``<ClientKeepAliveSec> (기본: 10초)``
-   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
+    MP4HLS는 Elementary Stream(Video 또는 Audio)을 변환하는 트랜스코딩(Transcoding)이 아니다.
+    그러므로 HLS에 적합한 형식으로 인코딩된 MP4파일에 한해서 원활한 단말 재생이 가능하다.
+    인코딩이 적합하지 않을 경우 화면이나 깨지거나 소리가 재생되지 않을 수 있다.
+    현재(2014.2.20) Apple에서 밝히고 있는 Video/Audio 인코딩 규격은 다음과 같다.
 
--  ``<ConnectionHeader> (기본: keep-alive)``
-   HTTP 클라이언트에게 보내는 응답의 Connection헤더( ``keep-alive`` 또는 ``close`` )를 설정한다.
+    What are the specifics of the video and audio formats supported?
+    Although the protocol specification does not limit the video and audio formats, the current Apple implementation supports the following formats:
 
--  ``<KeepAliveHeader>``
+    [Video]
+    H.264 Baseline Level 3.0, Baseline Level 3.1, Main Level 3.1, and High Profile Level 4.1.
 
-   - ``ON (기본)`` HTTP응답에 Keep-Alive헤더를 명시한다.
-     ``Max (기본: 0)`` 를 0보다 크게 설정하면 Keep-Alive헤더의 값으로 ``Max`` 값이 명시된다.
-    이후 HTTP 트랜잭션이 발생할때마다 1씩 차감된다.
+    [Audio]
+    HE-AAC or AAC-LC up to 48 kHz, stereo audio
+    MP3 (MPEG-1 Audio Layer 3) 8 kHz to 48 kHz, stereo audio
+    AC-3 (for Apple TV, in pass-through mode only)
 
-   - ``OFF`` HTTP응답에 Keep-Alive헤더를 생략한다.
+    Note: iPad, iPhone 3G, and iPod touch (2nd generation and later) support H.264 Baseline 3.1. If your app runs on older versions of iPhone or iPod touch, however, you should use H.264 Baseline 3.0 for compatibility. If your content is intended solely for iPad, Apple TV, iPhone 4 and later, and Mac OS X computers, you should use Main Level 3.1.
 
+
+기존 방식의 경우 Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일이 각각 존재해야 한다.
+이런 경우 STON 역시 원본 파일을 그대로 복제하여 고객에게 서비스한다.
+하지만 재생시간이 길수록 파생파일은 많아지며 관리의 어려움은 증가한다.
+
+.. figure:: img/conf_media_mp4hls1.png
+   :align: center
+
+   수고가 많은 HLS
+
+``<MP4HLS>`` 는 원본파일로부터 HLS서비스에 필요한 파일을 동적으로 생성한다.
+
+.. figure:: img/conf_media_mp4hls2.png
+   :align: center
+
+   똑똑한 HLS
+
+모든 .m3u8/.ts파일은 원본파일에서 파생되며 별도의 저장공간을 소비하지 않는다.
+서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. ::
+
+   # server.xml - <Server><VHostDefault><Media>
+   # vhosts.xml - <Vhosts><Vhost><Media>
+
+   <MP4HLS Status="Inactive" Keyword="mp4hls">
+      <Index Ver="3" Alternates="off">index.m3u8</Index>
+      <Sequence>0</Sequence>
+      <Duration>10</Duration>
+      <AlternatesName>playlist.m3u8</AlternatesName>
+   </MP4HLS>
+
+-  ``<MP4HLS>``
+
+   - ``Status (기본: Inactive)`` 값이 ``Active`` 일 때만 활성화된다.
+
+   - ``Keyword (기본: mp4hls)`` HLS 서비스 키워드
+
+-  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
+
+   - ``Ver (기본 3)`` 인덱스 파일 버전.
+     3인 경우 ``#EXT-X-VERSION:3`` 헤더가 명시되며 ``#EXTINF`` 의 시간 값이 소수점 3째 자리까지 표시된다.
+     1인 경우 ``#EXT-X-VERSION`` 헤더가 없으며, ``#EXTINF`` 의 시간 값이 정수(반올림)로 표시된다.
+
+   - ``Alternates (기본: OFF)`` Stream Alternates 사용여부.
+
+     .. figure:: img/hls_alternates_off.png
+        :align: center
+
+        OFF. ``<Index>`` 에서 TS목록을 서비스한다.
+
+     .. figure:: img/hls_alternates_on.png
+        :align: center
+
+        ON. ``<AlternatesName>`` 에서 TS목록을 서비스한다.
+
+-  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
+
+-  ``<Duration> (기본: 10초)`` MP4를 HLS로 분할하는 기준 시간(초).
+   분할의 기준은 Video/Audio의 KeyFrame이다.
+   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않는다.
+   만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
+
+-  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
+
+      http://www.example.com/video.mp4/mp4hls/playlist.m3u8
+
+
+서비스 주소가 다음과 같다면 해당 주소로 Pseudo-Streaming을 진행할 수 있다. ::
+
+    http://www.example.com/video.mp4
+
+가상호스트는 ``<MP4HLS>`` 에 정의된 ``Keyword`` 문자열을 인식함으로써 HLS서비스를 진행한다.
+다음 URL이 호출되면 /video.mp4로부터 index.m3u8파일을 생성한다. ::
+
+   http://www.example.com/video.mp4/mp4hls/index.m3u8
+
+``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
+
+   #EXTM3U
+   #EXT-X-VERSION:3
+   #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
+   /video.mp4/mp4hls/playlist.m3u8
+
+``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
+
+.. note::
+
+   Stream Alternates를 제공하긴 하지만 현재 버전에서 index.m3u8는 항상 하나의 서브 인덱스 파일(playlist.m3u8)만을 제공한다.
+   캐시 입장에서는 video_1080.mp4와 video_720.mp4가 (인코딩 옵션만 다른) 같은 영상인지 알 수 없기 때문이다.
+
+
+최종적으로 생성된 .ts 목록(버전 3)은 다음과 같다. ::
+
+   #EXTM3U
+   #EXT-X-TARGETDURATION:10
+   #EXT-X-VERSION:3
+   #EXT-X-MEDIA-SEQUENCE:0
+   #EXTINF:11.637,
+   /video.mp4/mp4hls/0.ts
+   #EXTINF:10.092,
+   /video.mp4/mp4hls/1.ts
+   #EXTINF:10.112,
+   /video.mp4/mp4hls/2.ts
+
+   ... (중략)...
+
+   #EXTINF:10.847,
+   /video.mp4/mp4hls/161.ts
+   #EXTINF:9.078,
+   /video.mp4/mp4hls/162.ts
+   #EXT-X-ENDLIST
+
+분할에는 3가지 정책이 있다.
+
+-  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
+   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
+
+-  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
+   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
+
+-  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
+   KeyFrame단위로 분할된다.
+
+다음 클라이언트 요청에 대해 STON이 어떻게 동작하는지 이해해보자. ::
+
+   GET /video.mp4/mp4hls/99.ts HTTP/1.1
+   Range: bytes=0-512000
+   Host: www.winesoft.co.kr
+
+1.	``STON`` 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
+#.	``Client`` HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
+#.	``STON`` /video.mp4 파일 캐싱객체 생성
+#.	``STON`` /video.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
+#.	``STON`` 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
+#.	``STON`` 100번째(99.ts)파일 생성 후 Range 서비스
+#.	``STON`` 서비스가 완료되면 99.ts파일 파괴
+
+.. note::
+
+   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
+   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
+
+      /video.mp4?start=0&end=60/mp4hls/index.m3u8
+
+   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
+   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
+
+      /video.mp4/mp4hls/index.m3u8?start=0&end=60
+      /video.mp4?start=0/mp4hls/index.m3u8?end=60
