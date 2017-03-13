@@ -717,7 +717,7 @@ MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 .. _client_session_hls_session_segmentation:
 
-Segmentation
+분할정책
 ---------------------
 
 분할(Segmentation)에는 3가지 정책이 있다.
