@@ -192,6 +192,41 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
       Connection: Close
 
 
+
+.. _client_session_http_session_upfrontheader:
+
+MP4 헤더위치 변경
+---------------------
+
+MP4(M4A 포함)의 경우 인코딩 과정 중에는 헤더를 완성할 수 없기 때문에 완료 후 파일의 맨 뒤에 붙인다.
+헤더를 앞으로 옮기려면 별도의 작업이 필요하다.
+헤더가 뒤에 있다면 이를 지원하지 않는 플레이어에서 Pseudo-Streaming이 불가능하다.
+헤더위치 변경을 통해 HTTP Pseudo-Streaming을 간편하게 지원할 수 있다.
+
+헤더위치 변경은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지 않는다.
+별도의 저장공간을 사용하지도 않는다. ::
+
+   # server.xml - <Server><VHostDefault><Options><Http>
+   # vhosts.xml - <Vhosts><Vhost><Options><Http>
+
+   <UpfrontMP4Header>ON</UpfrontMP4Header>
+
+-  ``<UpfrontMP4Header>``
+
+   - ``ON (기본)`` 확장자가 .mp4 또는 .m4a이고 헤더가 뒤에 있다면 헤더를 앞으로 옮겨서 전송한다.
+
+   - ``OFF`` 아무 것도 하지 않는다.
+
+처음 요청되는 콘텐츠의 헤더를 앞으로 옮겨야 한다면 헤더를 옮기기위해 필요한 부분을 우선적으로 다운로드 받는다.
+STON 미디어서버는 아주 영리할뿐만 아니라 빠르게 동작한다.
+커튼 뒤의 복잡한 과정과는 상관없이, HTTP Pseudo-Streaming은 자연스럽게 이루어진다.
+
+.. note::
+
+   분석할 수 없거나 깨진 파일이라면 원본형태 그대로 서비스된다.
+
+
+
 .. _client_session_http_session_headermodify:
 
 요청/응답 헤더변경
