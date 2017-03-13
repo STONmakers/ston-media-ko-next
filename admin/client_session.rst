@@ -200,7 +200,7 @@ MP4 헤더위치 변경
 
 MP4(M4A 포함)의 경우 인코딩 과정 중에는 헤더를 완성할 수 없기 때문에 완료 후 파일의 맨 뒤에 붙인다.
 헤더를 앞으로 옮기려면 별도의 작업이 필요하다.
-헤더가 뒤에 있다면 이를 지원하지 않는 플레이어에서 Pseudo-Streaming이 불가능하다.
+헤더가 뒤에 있다면 이를 지원하지 않는 플레이어에서 HTTP Pseudo-Streaming이 불가능하다.
 헤더위치 변경을 통해 HTTP Pseudo-Streaming을 간편하게 지원할 수 있다.
 
 헤더위치 변경은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지 않는다.
@@ -588,7 +588,7 @@ STON 미디어서버는 원본파일로부터 HLS서비스에 필요한 파일�
 
 MP4 포맷
 ---------------------
-MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
+MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -642,7 +642,7 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 서비스 주소가 다음과 같다면 해당 주소로 HTTP Pseudo-Streaming을 진행할 수 있다. ::
 
-    http://www.example.com/video.mp4
+    http://www.example.com/mp4:video.mp4
 
 다음 URL이 호출되면 /video.mp4로부터 index.m3u8파일을 생성한다. ::
 
@@ -690,7 +690,7 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 MP3 포맷
 ---------------------
 
-MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
+MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
