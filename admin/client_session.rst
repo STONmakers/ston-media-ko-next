@@ -653,7 +653,7 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
    #EXTM3U
    #EXT-X-VERSION:3
    #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
-   /video.mp4/mp4hls/playlist.m3u8
+   /mp4:video.mp4/playlist.m3u8
 
 ``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
 
@@ -670,18 +670,18 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
    #EXT-X-VERSION:3
    #EXT-X-MEDIA-SEQUENCE:0
    #EXTINF:11.637,
-   /video.mp4/mp4hls/0.ts
+   /mp4:video.mp4/0.ts
    #EXTINF:10.092,
-   /video.mp4/mp4hls/1.ts
+   /mp4:video.mp4/1.ts
    #EXTINF:10.112,
-   /video.mp4/mp4hls/2.ts
+   /mp4:video.mp4/2.ts
 
    ... (중략)...
 
    #EXTINF:10.847,
-   /video.mp4/mp4hls/161.ts
+   /mp4:video.mp4/161.ts
    #EXTINF:9.078,
-   /video.mp4/mp4hls/162.ts
+   /mp4:video.mp4/162.ts
    #EXT-X-ENDLIST
 
 
@@ -695,14 +695,18 @@ MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <MP3 Status="Active">
+   <MP3 Status="Active" SegmentType="TS">
        <Index Ver="3" Alternates="ON">index.m3u8</Index>
        <Sequence>0</Sequence>
        <Duration>10</Duration>
        <AlternatesName>playlist.m3u8</AlternatesName>
    </MP3>
 
-모든 설정과 동작방식이 ``<MP4>`` 와 동일하다.
+-  ``<MP3>``
+
+   - ``SegmentType (기본: TS)`` 분할포맷을 설정한다. (TS 또는 MP3)
+
+그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
 
 
 
@@ -725,7 +729,7 @@ MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 다음 클라이언트 요청에 대해 STON이 어떻게 동작하는지 이해해보자. ::
 
-   GET /video.mp4/mp4hls/99.ts HTTP/1.1
+   GET /mp4:video.mp4/99.ts HTTP/1.1
    Range: bytes=0-512000
    Host: www.winesoft.co.kr
 
@@ -742,10 +746,10 @@ MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
    ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
    영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
 
-      /video.mp4?start=0&end=60/mp4hls/index.m3u8
+      /mp4:video.mp4?start=0&end=60/index.m3u8
 
    동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
    이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
 
-      /video.mp4/mp4hls/index.m3u8?start=0&end=60
-      /video.mp4?start=0/mp4hls/index.m3u8?end=60
+      /mp4:video.mp4/index.m3u8?start=0&end=60
+      /mp4:video.mp4?start=0/index.m3u8?end=60
