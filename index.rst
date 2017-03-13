@@ -23,11 +23,11 @@ STON Media Server 완벽 가이드
    :maxdepth: 2
 
    admin/multi_protocols
+   admin/client_session
+   admin/media
    admin/caching_policy
    admin/caching_purge
-   admin/client_session
    admin/origin
-   admin/bypass
    admin/https
 
 
@@ -49,11 +49,8 @@ STON Media Server 완벽 가이드
 .. toctree::
    :maxdepth: 2
 
-   admin/adv_vhost
    admin/access_control
    admin/bandwidth_control
-   admin/media
-   admin/filesystem
    admin/adv_topics
 
 

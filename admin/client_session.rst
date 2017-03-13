@@ -4,7 +4,7 @@
 ******************
 
 이 장에서는 프로토콜에 따른 클라이언트 세션과 세부적인 응답을 처리하는 방식에 대해 설명한다.
-지나치게 많은 클라이언트 세션을 유지하는 것면 시스템 부하가 높아짐에 주의해야 한다.
+지나치게 많은 클라이언트 세션을 유지하면 지나치게 시스템 부하가 높아질 수 있음에 주의해야 한다. 
 프로토콜마다 요청/응답처리에 개입할 수 있는 범위가 다르다.
 특히 (RTMP에 비해) HTTP기반의 프로토콜은 매우 많은 부분에 개입이 가능하다.
 
@@ -15,18 +15,23 @@
 
 .. _client_session_rtmp_session:
 
-RTMP 세션관리
+RTMP 세션
 ====================================
 
-RTMP 클라이언트가 STON 미디어서버에 접속하면 RTMP세션이 생성된다.
-유휴(Idle)상태의 RTMP세션을 얼마동안 유지할 것인지 설정한다. ::
+RTMP 클라이언트와 STON 미디어서버에 사이에 생성되는 RTMP 세션에 대해 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
+   
+   <Rtmp>
+       <BufferSize>3</BufferSize>
+       <ClientKeepAliveSec>10</ClientKeepAliveSec>
+   </Rtmp>
 
-   <RtmpClientKeepAliveSec>10</RtmpClientKeepAliveSec>
+-  ``<BufferSize> (기본: 3초)``
+   PLAY 시점에 시작되면 설정된 시간(초)만큼을 클라이언트에게 대역폭 제한없이 전송한다.
 
--  ``<RtmpClientKeepAliveSec> (기본: 10초)``
+-  ``<ClientKeepAliveSec> (기본: 10초)``
    아무런 통신이 없는 상태로 설정된 시간이 경과하면 RTMP 클라이언트 세션에게 Ping Request을 보낸다.
    RTMP 클라이언트가 Ping Response를 보내면 세션은 유지되지만 응답하지 않을 경우 종료한다.
 
@@ -34,21 +39,23 @@ RTMP 클라이언트가 STON 미디어서버에 접속하면 RTMP세션이 생�
 
 .. _client_session_http_session:
 
-HTTP 세션관리
+HTTP 세션
 ====================================
 
-HTTP 클라이언트가 STON 미디어서버에 접속하면 HTTP세션이 생성된다.
+HTTP 클라이언트와 STON 미디어서버에 접속하면 HTTP세션이 생성된다.
 HTTP 클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐츠를 서비스 받는다.
 요청부터 응답까지를 하나의 **HTTP 트랜잭션** 이라고 부른다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
+   
+   <Http>
+       <ClientKeepAliveSec>10</ClientKeepAliveSec>
+       <ConnectionHeader>keep-alive</ConnectionHeader>
+       <KeepAliveHeader Max="0">ON</KeepAliveHeader>
+   </Http>
 
-   <HttpClientKeepAliveSec>10</HttpClientKeepAliveSec>
-   <ConnectionHeader>keep-alive</ConnectionHeader>
-   <KeepAliveHeader Max="0">ON</KeepAliveHeader>
-
--  ``<HttpClientKeepAliveSec> (기본: 10초)``
+-  ``<ClientKeepAliveSec> (기본: 10초)``
    아무런 통신이 없는 상태로 설정된 시간이 경과하면 HTTP 클라이언트 세션을 종료한다.
 
 -  ``<ConnectionHeader> (기본: keep-alive)``
@@ -63,7 +70,9 @@ HTTP 클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐�
    - ``OFF`` HTTP응답에 Keep-Alive헤더를 생략한다.
 
 
-HTTP 세션 유지정책
+.. _client_session_http_session_lifecyle:
+
+세션 유지정책
 ---------------------
 
 STON 미디어서버의 HTTP 세션 유지정책은 Apache의 정책을 따른다.
@@ -184,193 +193,19 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
       Connection: Close
 
 
+.. _client_session_http_session_headermodify:
 
-
-.. _client_session_http_cache_control:
-
-
-HTTP 클라이언트 Cache-Control
-====================================
-
-HTTP 프로토콜은 Cache-Control 메커니즘을 통해 불필요한 컨텐츠 전송을 제거한다.
-대부분의 HTTP 클라이언트(=브라우저)와 웹서버에서 Cache-Control을 지원한다.
-
-
-Age 헤더
+요청/응답 헤더변경
 ---------------------
-
-Age헤더는 캐싱된 순간부터 경과시간(초)을 의미하며
-`RFC2616 - 13.2.3 Age Calculations <http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.2.3>`_ 에 의하여 계산된다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <AgeHeader>OFF</AgeHeader>
-
--  ``<AgeHeader>``
-
-   -  ``OFF (기본)`` Age헤더를 생략한다.
-
-   -  ``ON`` Age헤더를 명시한다.
-
-
-Expires 헤더
----------------------
-
-Expires헤더를 재설정한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <RefreshExpiresHeader Base="Access">OFF</RefreshExpiresHeader>
-
--  ``<RefreshExpiresHeader>``
-
-   -  ``OFF (기본)`` 원본서버에서 응답한 Expires헤더를 HTTP 클라이언트에게 명시한다.
-      원본서버에서 Expires헤더가 생략되었다면 HTTP 클라이언트 응답에도 Expires헤더가 생략된다.
-
-   -  ``ON``  Expires조건을 반영하여 Expires헤더를 명시한다.
-      조건에 해당하지 않는 콘텐츠는 ``OFF`` 설정과 동일하게 동작한다.
-
-Expires조건은 Apache의 `mod_expires <http://httpd.apache.org/docs/2.2/mod/mod_expires.html>`_ 와 동일하게 동작한다.
-특정 조건(URL이나 MIME Type)에 해당하는 콘텐츠의 Expires헤더와 Cache-Control 값을 설정할 수 있다.
-Cache-Control의 max-age값은 설정된 Expires시간에서 요청한 시간을 뺀 값이 된다.
-
-Expires조건은 /svc/{가상호스트 이름}/expires.txt에 설정한다. ::
-
-   # /svc/www.exmaple.com/expires.txt
-   # 구분자는 콤마(,)이며 {조건},{시간},{기준} 순서로 표기한다.
-
-   $URL[/test.jpg], 86400
-   /test.jpg, 86400
-   *, 86400, access
-   /test/1.gif, 60 sec
-   /test/*.dat, 30 min, modification
-   $MIME[application/shockwave], 1 years
-   $MIME[application/octet-stream], 7 weeks, modification
-   $MIME[image/gif], 3600, modification
-
--  **조건**
-
-   URL과 MIME Type 2가지로 설정이 가능하다.
-   URL일 경우 $URL[...]로, MIME Type일 경우 $MIME[...]로 표기한다.
-   패턴표현이 가능하며 $표현이 생략된 경우 URL로 인식한다.
-
-
--  **시간**
-
-   Expires만료시간을 설정한다.
-   시간단위 표현을 지원하며 단위를 명시하지 않을 경우 초로 계산된다.
-
-
--  **기준**
-
-   Expires만료시간의 기준시점을 설정한다.
-   별도로 기준시점을 명시하지 않으면 Access가 기준시점으로 명시된다.
-   Access는 현재 시간을 기준으로 한다.
-   다음은 MIME Type이 image/gif인 파일에 대하여 접근시간으로부터
-   1일 12시간 후로 Expires헤더 값을 설정하는 예제이다. ::
-
-      $MIME[image/gif], 1 day 12 hours, access
-
-   Modification은 원본서버에서 보낸 Last-Modified를 기준으로 한다.
-   다음은 모든 jpg파일에 대하여 Last-Modified로부터 30분 뒤를
-   Expires값으로 설정하는 예제이다. ::
-
-      *.jpg, 30min, modification
-
-   Modification의 경우 계산된 Expires값이 현재시간보다 과거의 시간일 경우 현재시간을 명시한다.
-   만약 원본서버에서 Last-Modified헤더를 제공하지 않는다면 Expires헤더를 보내지 않는다.
-
-
-ETag 헤더
----------------------
-
-HTTP 클라이언트에게 보내는 HTTP응답에 ETag 헤더 명시여부를 설정한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <ETagHeader>ON</ETagHeader>
-
--  ``<ETagHeader>``
-
-   -  ``ON (기본)`` ETag헤더를 명시한다.
-
-   -  ``OFF``  ETag헤더를 생략한다.
-
-
-.. _client_session_http_basic_header:
-
-HTTP 응답 기본헤더
-====================================
-
-원본 비표준 헤더
----------------------
-
-성능과 보안상의 이유로 원본서버가 보내는 헤더 중 표준헤더만을 선택적으로 인식한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <OriginalHeader>OFF</OriginalHeader>
-
--  ``<OriginalHeader>``
-
-   -  ``OFF (기본)`` 표준헤더가 아니라면 무시한다.
-
-   -  ``ON`` cookie, set-cookie, set-cookie2를 제외한 모든 헤더를 저장하여 HTTP 클라이언트에게 전달한다.
-      단, 메모리와 저장비용을 좀 더 소비한다.
-
-
-Via 헤더
----------------------
-
-HTTP 클라이언트에게 보내는 HTTP응답에 Via 헤더 명시여부를 설정한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <ViaHeader>ON</ViaHeader>
-
--  ``<ViaHeader>``
-
-   - ``ON (기본)`` Via헤더를 다음과 같이 명시한다.
-     ::
-
-        Via: STON/2.0.0
-
-   - ``OFF``  Via헤더를 생략한다.
-
-
-Server 헤더
----------------------
-
-HTTP 클라이언트에게 보내는 HTTP응답에 Server 헤더 명시여부를 설정한다. ::
-
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-
-   <ServerHeader>ON</ServerHeader>
-
--  ``<ServerHeader>``
-
-   -  ``ON (기본)`` 원본서버의 Server헤더를 명시한다. ::
-
-   -  ``OFF``  Server헤더를 생략한다.
-
-
-.. _client_session_http_modify:
-
-HTTP 요청/응답 헤더 변경
-====================================
 
 HTTP 클라이언트 요청과 응답을 특정 조건에 따라 변경한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
 
-   <ModifyHeader FirstOnly="OFF">OFF</ModifyHeader>
+   <Http>
+       <ModifyHeader FirstOnly="OFF">OFF</ModifyHeader>
+   </Http>
 
 -  ``<ModifyHeader>``
 
