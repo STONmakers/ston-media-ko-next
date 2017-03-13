@@ -586,7 +586,7 @@ STON 미디어서버는 원본파일로부터 HLS서비스에 필요한 파일�
 
 .. _client_session_hls_session_mp4:
 
-MP4
+MP4 포맷
 ---------------------
 MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
@@ -640,7 +640,7 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
       http://www.example.com/mp4:video.mp4/playlist.m3u8
 
 
-서비스 주소가 다음과 같다면 해당 주소로 Pseudo-Streaming을 진행할 수 있다. ::
+서비스 주소가 다음과 같다면 해당 주소로 HTTP Pseudo-Streaming을 진행할 수 있다. ::
 
     http://www.example.com/video.mp4
 
@@ -687,7 +687,7 @@ MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 .. _client_session_hls_session_mp3:
 
-MP3
+MP3 포맷
 ---------------------
 
 MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
