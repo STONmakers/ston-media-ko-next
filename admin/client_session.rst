@@ -573,7 +573,7 @@ MP4파일 헤더의 위치에 상관없이 다운로드와 동시에 실시간�
 
    수고가 많은 HLS
 
-``<MP4HLS>`` 는 원본파일로부터 HLS서비스에 필요한 파일을 동적으로 생성한다.
+STON 미디어서버는 원본파일로부터 HLS서비스에 필요한 파일을 동적으로 생성한다.
 
 .. figure:: img/conf_media_mp4hls2.png
    :align: center
@@ -581,7 +581,14 @@ MP4파일 헤더의 위치에 상관없이 다운로드와 동시에 실시간�
    똑똑한 HLS
 
 모든 .m3u8/.ts파일은 원본파일에서 파생되며 별도의 저장공간을 소비하지 않는다.
-서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. ::
+서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. 
+
+
+.. _client_session_hls_session_mp4:
+
+MP4
+---------------------
+MP4파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
@@ -724,3 +731,28 @@ Segmentation
       /video.mp4/mp4hls/index.m3u8?start=0&end=60
       /video.mp4?start=0/mp4hls/index.m3u8?end=60
 
+
+.. _client_session_hls_session_mp3:
+
+MP3
+---------------------
+
+MP3파일을 HLS(HTTP Live Streaming)로 서비스한다. ::
+
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
+
+   <Hls>
+       <MP3 Status="Active">
+          <Index Ver="3" Alternates="ON">index.m3u8</Index>
+          <Sequence>0</Sequence>
+          <Duration>10</Duration>
+          <AlternatesName>playlist.m3u8</AlternatesName>
+       </MP3HLS>
+   </Hls>
+
+모든 설정과 동작방식이 `MP4`_ 와 동일하다.
+
+.. note::
+
+   `MP4 HLS`_ 와 `MP3 HLS`_ 가 같은 ``Keyword`` 로 설정되어 있을 경우 `MP3 HLS`_ 는 동작하지 않는다.
