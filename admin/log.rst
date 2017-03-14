@@ -1,4 +1,4 @@
-﻿.. admin-log:
+﻿.. _log:
 
 12장. 로그
 ******************
@@ -43,7 +43,7 @@
 
 
 
-.. admin-log-install:
+.. _log_install:
 
 Install 로그
 ====================================
@@ -51,63 +51,60 @@ Install 로그
 설치/업데이트 시 모든 내용이 install.log에 기록된다.
 이 로그는 별도의 설정이 없다. ::
 
-    #DownloadURL: http://foobar.com/ston/ston.2.0.0.rhel.2.6.32.x64.tar.gz
-    #DownloadTime: 13 sec
-    #Target: STON 2.0.0
-    #Date: 2014.03.03 16:48:35
-    Prepare for STON 2.0.0 install process
-        Stopping STON...
-        STON stopped
-    [Copying files]
-        `./fuse.conf' -> `/etc/fuse.conf'
-        `./libfuse.so.2' -> `/usr/local/ston/libfuse.so.2'
-        `./libtbbmalloc_proxy.so' -> `/usr/local/ston/libtbbmalloc_proxy.so'
-        `./start-stop-daemon' -> `/usr/sbin/start-stop-daemon'
-        `./libtbbmalloc_proxy.so.2' -> `/usr/local/ston/libtbbmalloc_proxy.so.2'
-        `./libtbbmalloc.so' -> `/usr/local/ston/libtbbmalloc.so'
-        `./libtbbmalloc.so.2' -> `/usr/local/ston/libtbbmalloc.so.2'
-        `./libtbb.so' -> `/usr/local/ston/libtbb.so'
-        `./libtbb.so.2' -> `/usr/local/ston/libtbb.so.2'
-        `./stond' -> `/usr/local/ston/stond'
-        `./stonx' -> `/usr/local/ston/stonx'
-        `./stonr' -> `/usr/local/ston/stonr'
-        `./stonu' -> `/usr/local/ston/stonu'
-        `./stonapi' -> `/usr/local/ston/stonapi'
-        `./server.xml.default' -> `/usr/local/ston/server.xml.default'
-        `./vhosts.xml.default' -> `/usr/local/ston/vhosts.xml.default'
-        `./ston_format.sh' -> `/usr/local/ston/ston_format.sh'
-        `./ston_diskinfo.sh' -> `/usr/local/ston/ston_diskinfo.sh'
-        `./wm.sh' -> `/usr/local/ston/wm.sh'
-    [Exporting config files]
-        #Export so directory
-        /usr/local/ston/ to ld.so.conf
-        #Export sysctl to /etc/sysctl.conf
-        vm.swappiness=0
-        vm.min_free_kbytes=524288
-        #Export sudoers for WM
-        Defaults    !requiretty
-        winesoft ALL=NOPASSWD: /etc/init.d/ston stop, /etc/init.d/ston start, /bin/ps -ef
-    [Configuring STON daemon script]
-        STON deamon activate in run-level 2345.
-    [Installing sub-packages]
-        curl installed.
-        libjpeg installed.
-        libgomp installed.
-        rrdtool installed.
-    [Installing WM]
-        Stopping WM...
-        WM stopped
-        `./wm.server_default.xml' -> `/usr/local/ston/wm/tmp/conf/server_default.xml'
-        `./wm.vhost_default.xml' -> `/usr/local/ston/wm/tmp/conf/vhost_default.xml'
-        WM configuration found. Current WM port : 8500
-        PHP module for Legacy(CentOS 5.5) installed
-        `./libphp5.so.5.5' -> `/usr/local/ston/wm/modules/libphp5.so'
-        WM installation almost complete. Changing WM privileges.
-    Installation successfully complete
+      #Target: STON Media Server 1.0.0
+      #Date: 2017.02.24 15:09:19
+      Prepare for STON Media Server 1.0.0 install process
+      #Target: STON Media Server 1.0.0
+      #Date: 2017.02.24 15:10:41
+      Prepare for STON Media Server 1.0.0 install process
+      [Copying files]
+      `./start-stop-daemon' -> `/usr/sbin/start-stop-daemon'
+      `./libtbbmalloc_proxy.so' -> `/usr/local/StonMediaServer/libtbbmalloc_proxy.so'
+      `./libtbbmalloc_proxy.so.2' -> `/usr/local/StonMediaServer/libtbbmalloc_proxy.so.2'
+      `./libtbbmalloc.so' -> `/usr/local/StonMediaServer/libtbbmalloc.so'
+      `./libtbbmalloc.so.2' -> `/usr/local/StonMediaServer/libtbbmalloc.so.2'
+      `./libtbb.so' -> `/usr/local/StonMediaServer/libtbb.so'
+      `./libtbb.so.2' -> `/usr/local/StonMediaServer/libtbb.so.2'
+      `./stonmd' -> `/usr/local/StonMediaServer/stonmd'
+      `./stonmx' -> `/usr/local/StonMediaServer/stonmx'
+      `./stonmr' -> `/usr/local/StonMediaServer/stonmr'
+      `./stonmu' -> `/usr/local/StonMediaServer/stonmu'
+      `./stonmp' -> `/usr/local/StonMediaServer/stonmp'
+      `./stonmc' -> `/usr/local/StonMediaServer/stonmc'
+      `./stonmapi' -> `/usr/local/StonMediaServer/stonmapi'
+      `./server.xml.default' -> `/usr/local/StonMediaServer/server.xml.default'
+      `./vhosts.xml.default' -> `/usr/local/StonMediaServer/vhosts.xml.default'
+      `./stonm_format.sh' -> `/usr/local/StonMediaServer/stonm_format.sh'
+      `./stonm_diskinfo.sh' -> `/usr/local/StonMediaServer/stonm_diskinfo.sh'
+      `./stonm_cacheclear.sh' -> `/usr/local/StonMediaServer/stonm_cacheclear.sh'
+      `./wm.sh' -> `/usr/local/StonMediaServer/wm.sh'
+      `./LICENSE-3RD-PARTY.txt' -> `/usr/local/StonMediaServer/LICENSE-3RD-PARTY.txt'
+      [Exporting config files]
+      #Export so directory
+      /usr/local/StonMediaServer/ to ld.so.conf
+      #Export sysctl to /etc/sysctl.conf
+      vm.swappiness=0
+      vm.min_free_kbytes=524288
+      #Export sudoers for WM
+      Defaults    !requiretty
+      stonmedia ALL=NOPASSWD: /etc/init.d/stonm stop, /etc/init.d/stonm start, /bin/ps -ef
+      [Configuring STON Media Server daemon script]
+      STON Media Server deamon activate in run-level 2345.
+      [Installing sub-packages]
+      curl installed.
+      rrdtool installed.
+      [Installing WM]
+      Stopping WM...
+      WM stopped
+      `./wm.server_default.xml' -> `/usr/local/StonMediaServer/wm/tmp/conf/server_default.xml'
+      `./wm.vhost_default.xml' -> `/usr/local/StonMediaServer/wm/tmp/conf/vhost_default.xml'
+      Uncompress WM and PHP module
+      WM installation almost complete. Changing WM privileges.
+      Installation successfully complete
 
 
 
-.. _admin-log-info:
+.. _log_info:
 
 Info 로그
 ====================================
@@ -122,7 +119,7 @@ Info로그는 전역설정(server.xml)에 설정한다. ::
    STON의 동작과 설정변경에 대해 기록한다.
 
 
-.. _admin-log-deny:
+.. _log_deny:
 
 Deny 로그
 ====================================
@@ -150,7 +147,7 @@ Deny로그는 전역설정(server.xml)에 설정한다. ::
    - ``deny`` 차단조건
 
 
-.. _admin-log-originerror:
+.. _log_originerror:
 
 OriginError 로그
 ====================================
@@ -204,7 +201,7 @@ OriginError로그는 전역설정(server.xml)에 설정한다. ::
 
 
 
-.. admin-log-syslog:
+.. _log_syslog:
 
 SysLog 전송
 ====================================
@@ -262,7 +259,7 @@ syslog의 tag는 STON/{로그명}으로 기록된다. ::
    # server.xml - <Server><VHostDefault>
    # vhosts.xml - <Vhosts><Vhost>
 
-   <Log Dir="/cache_log">
+   <Log Dir="/stonm_log">
       ... (생략) ...
    </Log>
 
@@ -271,7 +268,7 @@ syslog의 tag는 STON/{로그명}으로 기록된다. ::
 
 
 
-.. _admin-log-dns:
+.. _log_dns:
 
 DNS 로그
 ====================================
@@ -308,22 +305,42 @@ DNS 로그
 -  ``result`` success 또는 fail
 
 
-.. _admin-log-access:
+.. _log_access:
 
 Access 로그
 ====================================
 
-모든 클라이언트의 HTTP 트랜잭션을 기록한다.
-로그 기록 시점은 HTTP 트랜잭션이 완료되는 시점이며 전송완료 또는 전송중단 시점을 의미한다. ::
+클라이언트 트랜잭션을 로그로 기록한다.  ::
 
    # server.xml - <Server><VHostDefault><Log>
    # vhosts.xml - <Vhosts><Vhost><Log>
 
-   <Access Type="time" Unit="1440" Retention="10" XFF="on" Form="ston" Local="Off">ON</Access>
+   <Access>
+       <Http> ... </Http>
+       <Rtmp> ... </Rtmp>
+   </Access>
+
+프로토콜에 따라 로그파일이 별도로 생성되며 필드와 의미가 다를 수 있다.
+
+
+
+.. _log_access_http:
+
+HTTP Access 로그
+---------------------
+
+HTTP 클라이언트 통신내용을 기록한다.
+기록 시점은 HTTP 트랜잭션이 완료되는 시점이다.
+HTTP 트랜잭션은 클라이언트에게 응답을 완료하거나 전송이 중단된 시점을 의미한다. ::
+
+   # server.xml - <Server><VHostDefault><Log><Access>
+   # vhosts.xml - <Vhosts><Vhost><Log><Access>
+
+   <Http Type="time" Unit="1440" Retention="10" XFF="on" Form="ston" Local="Off">ON</Http>
 
 -  ``XFF``
 
-   - ``ON (기본)`` 클라이언트가 보낸 XFF(X-Forwarded-For)헤더 값과 클라이언트 IP를 같이 기록한다. 없다면 ``OFF`` 와 같다.
+   - ``ON (기본)`` HTTP 클라이언트가 보낸 XFF(X-Forwarded-For)헤더 값과 클라이언트 IP를 같이 기록한다. 없다면 ``OFF`` 와 같다.
    - ``OFF`` 클라이언트 IP를 기록한다.
    - ``TrimCIP`` XFF헤더가 없을 경우 클라이언트 IP를, 있는 경우 (클라이언트 IP를 제외한) XFF헤더만을 기록한다.
 
@@ -342,53 +359,52 @@ Access 로그
 ::
 
     #Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) sc-status sc-bytes time-taken cs-referer sc-resinfo cs-range sc-cachehit cs-acceptencoding session-id sc-content-length
-    2012.06.27 16:52:24 220.134.10.5 GET /web/h.gif - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 98141 5 - Bypass+gzip+SSL3 - TCP_HIT gzip+deflate 7 1273735
-    2012.06.27 16:52:26 220.134.10.5 GET /favicon.ico - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 949 2 - - - TCP_HIT gzip+deflate 35 14875
-    2012.06.27 17:00:06 220.168.0.13 GET /setup.Eexe - 80 - 61.168.0.102  Mozilla/5.0+(Windows+NT+6.1;+WOW64)+AppleWebKit/536.11+(KHTML,+like+Gecko)+Chrome/20.0.1132.57+Safari/536.11 206 20971800 7008 - - 398458880-419430399 TCP_HIT - 41 89764358
+    2017-03-08 16:52:24 220.134.10.5 GET /web/h.gif - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 98141 5 - Bypass+gzip+SSL3 - TCP_HIT gzip+deflate 7 1273735
+    2017-03-08 16:52:26 220.134.10.5 GET /favicon.ico - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 949 2 - - - TCP_HIT gzip+deflate 35 14875
+    2017-03-08 17:00:06 220.168.0.13 GET /setup.Eexe - 80 - 61.168.0.102  Mozilla/5.0+(Windows+NT+6.1;+WOW64)+AppleWebKit/536.11+(KHTML,+like+Gecko)+Chrome/20.0.1132.57+Safari/536.11 206 20971800 7008 - - 398458880-419430399 TCP_HIT - 41 89764358
 
 모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
 -  ``date`` HTTP 트랜잭션이 완료된 날짜
 -  ``time`` HTTP 트랜잭션이 완료된 시간
 -  ``s-ip`` 서버 IP
--  ``cs-method`` 클라이언트가 보낸 HTTP Method
--  ``cs-uri-stem`` 클라이언트가 보낸 URL중 QueryString을 제외한 부분
--  ``cs-uri-query`` 클라이언트가 보낸 URL중 QueryString
+-  ``cs-method`` HTTP 클라이언트가 보낸 HTTP Method
+-  ``cs-uri-stem`` HTTP 클라이언트가 보낸 URL중 QueryString을 제외한 부분
+-  ``cs-uri-query`` HTTP 클라이언트가 보낸 URL중 QueryString
 -  ``s-port`` 서버 포트
--  ``cs-username`` 클라이언트 username
--  ``c-ip`` 클라이언트 IP. XFF설정이 "ON"이라면 X-Forwarded-For헤더 값과 클라이언트 IP를 기록한다.
--  ``cs(User-Agent)`` 클라이언트가 보낸 HTTP User-Agent
+-  ``cs-username`` HTTP 클라이언트 username
+-  ``c-ip`` HTTP 클라이언트 IP. XFF설정이 "ON"이라면 X-Forwarded-For헤더 값과 클라이언트 IP를 기록한다.
+-  ``cs(User-Agent)`` HTTP 클라이언트가 보낸 User-Agent 헤더
 -  ``sc-status`` 서버 응답코드
 -  ``sc-bytes`` 서버가 보낸 Bytes (헤더 + 컨텐츠)
--  ``time-taken`` HTTP트랜잭션이 완료될 때까지 소요된 전체시간(밀리세컨드)
--  ``cs-referer`` 클라이언트가 보낸 HTTP Referer
+-  ``time-taken`` HTTP 트랜잭션이 완료될 때까지 소요된 전체시간(밀리세컨드)
+-  ``cs-referer`` HTTP 클라이언트가 보낸 Referer헤더
 -  ``sc-resinfo`` 부가 정보. "+"문자로 구분된다.
    압축된 컨텐츠를 서비스했다면 압축옵션(gzip 또는 deflate)이 명시된다.
    보안통신이라면 SSL 프로토콜 버전(SSL3, TLS1, TLS1.1, TLS1.2)이 명시된다.
    바이패스한 통신이라면 "Bypass"가 명시된다.
 
--  ``cs-range`` 클라이언트가 보낸 Range 헤더를 기록한다.
+-  ``cs-range`` HTTP 클라이언트가 보낸 Range헤더
 -  ``sc-cachehit`` 캐시 HIT결과
--  ``cs-acceptencoding`` 클라이언트가 보낸 Accept-Encoding헤더
+-  ``cs-acceptencoding`` HTTP 클라이언트가 보낸 Accept-Encoding헤더
 -  ``session-id`` HTTP 클라이언트 세션 ID (unsigned int64)
 -  ``sc-content-length`` 서버 응답 Content-Length 헤더 값
 
-Access로그는 전송 성공/실패 여부에 상관없이 모든 HTTP 트랜잭션을 기록한다.
-HTTP 트랜잭션은 클라이언트가 HTTP요청을 보낼 때 시작된다.
-STON이 클라이언트에게 응답을 보내기 전에 HTTP연결이 종료된다면 HTTP 트랜잭션 역시
-종료된 것으로 간주한다.
-로그에는 ``sc-status`` 와 ``sc-bytes`` 가 0으로 기록된다.
-주로 STON이 원본서버로부터 응답을 받기 전에 클라이언트가 연결을 종료하는 경우 이런
-로그가 기록된다.
+HTTP Access로그는 전송 성공/실패 여부에 상관없이 모든 HTTP 트랜잭션을 기록한다.
+HTTP 트랜잭션은 HTTP 클라이언트가 요청(Request)을 보낼 때 시작된다.
+STON 미디어서버가 클라이언트에게 응답을 보내기 전에 HTTP연결이 종료된다면 HTTP 트랜잭션도 중단된다.
+이 때 로그에는 ``sc-status`` 와 ``sc-bytes`` 가 0으로 기록된다.
+STON 미디어서버가 원본서버로부터 응답을 받기 전에 클라이언트가 연결을 종료하는 경우 이런 로그가 기록된다.
 
 
 
-.. _admin-log-access-custom:
 
-사용자정의 Access 로그포맷
-====================================
+.. _log_access_custom:
 
-Access 로그형식을 사용자정의 로그로 설정한다. ::
+HTTP Access 사용자정의 로그
+---------------------
+
+HTTP Access 로그형식을 사용자정의 로그로 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Log>
    # vhosts.xml - <Vhosts><Vhost><Log>
@@ -548,7 +564,80 @@ Access 로그형식을 사용자정의 로그로 설정한다. ::
 
 
 
-.. _admin-log-origin:
+
+.. _log_access_rtmp:
+
+RTMP Access 로그
+---------------------
+
+RTMP 클라이언트 통신내용을 기록한다.
+기록 시점은 RTMP 명령(connec, createStream, play, disconnect 등)이 처리될 때이다. ::
+
+   # server.xml - <Server><VHostDefault><Log><Access>
+   # vhosts.xml - <Vhosts><Vhost><Log><Access>
+
+   <Rtmp Type="time" Unit="1440" Retention="10" Form="ston" Local="Off">ON</Rtmp>
+
+-  ``XFF``
+
+   - ``ON (기본)`` 클라이언트가 보낸 XFF(X-Forwarded-For)헤더 값과 클라이언트 IP를 같이 기록한다. 없다면 ``OFF`` 와 같다.
+   - ``OFF`` 클라이언트 IP를 기록한다.
+   - ``TrimCIP`` XFF헤더가 없을 경우 클라이언트 IP를, 있는 경우 (클라이언트 IP를 제외한) XFF헤더만을 기록한다.
+
+-  ``Form``
+
+   - ``ston (기본)`` W3C표준 + 확장필드
+   - ``apache`` Apache 형식
+   - ``iis`` IIS 형식
+   - ``custom`` `admin-log-access-custom`
+
+-  ``Local``
+
+   - ``OFF (기본)`` 로컬통신(Loopback)은 기록하지 않는다.
+   - ``ON`` 로컬통신(Loopback)도 기록한다.
+
+::
+
+    #Fields: date time x-message-type c-ip s-ip s-port x-app cs-uri-stem cs-uri-query cs(Referrer) cs(User-Agent) x-page-url cs-bytes sc-bytes sc-status time-duration time-response time-taken x-sc-cachehit x-file-size x-file-length x-stream-pos x-stream-bytes x-session-id x-message-status x-sc-resinfo
+    2017-03-08 12:14:21 connect 192.168.0.120 192.168.0.172 1935 /vod - - - LNX+9,0,124,2 - 3284 3073 200 11 0 0 - 0 0 0 0 184537 c -
+    2017-03-08 12:14:21 createStream 192.168.0.120 192.168.0.172 1935 /vod - - - LNX+9,0,124,2 - 3333 3325 200 52 0 0 - 0 0 0 0 184537 c -
+    2017-03-08 12:14:21 play 192.168.0.120 192.168.0.172 1935 /vod /mp4/knockknock.mp4 - - LNX+9,0,124,2 - 3461 3366 200 92 0 41 - 123069989 239 0 0 184537 x -
+    2017-03-08 12:18:32 disconnect 192.168.0.120 192.168.0.172 1935 /vod /mp4/knockknock.mp4 - - LNX+9,0,124,2 - 3861 123015677 200 250752 0 0 - 123069989 239 0 122871027 184537 c -
+
+모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
+
+-  ``date`` RTMP 트랜잭션이 완료된 날짜
+-  ``time`` RTMP 트랜잭션이 완료된 시간 
+-  ``x-message-type`` 
+-  ``c-ip`` RTMP 클라이언트 IP
+-  ``s-ip`` 서버 IP
+-  ``s-port`` 서버 포트
+-  ``x-app
+-  ``cs-uri-stem`` RTMP 클라이언트가 보낸 URL중 QueryString을 제외한 부분
+-  ``cs-uri-query`` RTMP 클라이언트가 보낸 URL중 QueryString
+-  ``cs(Referrer)`` RTMP 클라이언트가 보낸 RTMP Referer
+-  ``cs(User-Agent)`` RTMP 클라이언트가 보낸 RTMP User-Agent
+-  ``x-page-url
+-  ``cs-bytes`` RTMP 클라이언트가 보낸 Bytes (헤더)
+-  ``sc-bytes`` 서버가 보낸 Bytes (헤더 + 컨텐츠)
+-  ``sc-status`` 서버 응답코드
+-  ``time-duration`` 
+-  ``time-response`` 
+-  ``time-taken`` 
+-  ``x-sc-cachehit`` 
+-  ``x-file-size`` 
+-  ``x-file-length`` 
+-  ``x-stream-pos`` 
+-  ``x-stream-bytes`` 
+-  ``x-session-id`` 
+-  ``x-message-status`` 
+-  ``x-sc-resinfo`` 
+
+HTTP 트랜잭션은 Payload의 전송의 완료/중단을 의미하지만 
+RTMP 트랜잭션은 Payload와 상관이 없다.
+
+
+.. _log_origin:
 
 Origin 로그
 ====================================
@@ -615,7 +704,7 @@ Origin 로그
    -  ``healthcheck`` :ref:`origin-health-checker` 가 사용한 세션
 
 
-.. admin-log-monitoring:
+.. _log_monitoring:
 
 Monitoring 로그
 ====================================
@@ -631,7 +720,7 @@ Monitoring 로그
 
 
 
-.. admin-log-filesystem:
+.. _log_filesystem:
 
 FileSystem 로그
 ====================================
@@ -701,7 +790,7 @@ File I/O 트랜잭션이 종료될 때 기록된다.
 
 
 
-.. _admin-log-ftp:
+.. _log_ftp:
 
 FTP 전송
 ====================================
@@ -709,7 +798,7 @@ FTP 전송
 로그가 롤링될 때 지정된 FTP클라이언트를 통해 로그를 업로드 한다.
 
 
-.. _admin-log-ftpclient:
+.. _log_ftpclient:
 
 FTP 클라이언트
 ---------------------
@@ -815,7 +904,7 @@ FTP 클라이언트는 전역설정(server.xml)에 설정한다. ::
 FTP클라이언트는 curl을 사용한다.
 
 
-.. admin-log-ftplog:
+.. _log_ftplog:
 
 FTP 로그
 ---------------------
@@ -841,7 +930,7 @@ FTP로그는 /usr/local/ston/sys/stonb/stonb.log에 통합하여 저장된다. :
 
 
 
-.. admin-log-ftptransfer:
+.. _log_ftptransfer:
 
 로그 FTP전송
 ---------------------
