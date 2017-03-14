@@ -16,7 +16,7 @@ STON Media Server 완벽 가이드
    admin/environment
 
 
-2부. 멀티 프로토콜 서비스
+2부. 멀티프로토콜 서비스
 =============================
 
 .. toctree::
