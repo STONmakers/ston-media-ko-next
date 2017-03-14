@@ -7,11 +7,11 @@ Appendix A: Graph
 호출 규칙은 자원 뒤에 단위가 붙는 형식이다. ::
 
     # 5가지의 CPU 그래프 (dash, day, week, month, year)
-    http://127.0.0.1:10040/graph/cpu_dash.png
-    http://127.0.0.1:10040/graph/cpu_day.png
-    http://127.0.0.1:10040/graph/cpu_week.png
-    http://127.0.0.1:10040/graph/cpu_month.png
-    http://127.0.0.1:10040/graph/cpu_year.png
+    http://127.0.0.1:20040/graph/cpu_dash.png
+    http://127.0.0.1:20040/graph/cpu_day.png
+    http://127.0.0.1:20040/graph/cpu_week.png
+    http://127.0.0.1:20040/graph/cpu_month.png
+    http://127.0.0.1:20040/graph/cpu_year.png
 
 모든 그래프는 5가지 타입으로 제공된다.
 
@@ -207,7 +207,7 @@ TCP소켓
 vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으며,
 생략된 경우 전체 가상호스트의 합을 제공한다. ::
 
-    http://127.0.0.1:10040/graph/vhost/mem_day.png?vhost=example.com
+    http://127.0.0.1:20040/graph/vhost/mem_day.png?vhost=example.com
 
 아래 표에서 *는 타입(dash, day, week, month, year) 중 한 가지를 의미한다.
 
