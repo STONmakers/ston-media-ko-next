@@ -3,7 +3,7 @@
 7장. HTTP 원본서버
 ******************
 
-이 장에서는 STON 미디어서버와 HTTP 원본서버 구간의 HTTP 통신에 대해 알아본다.
+이 장에서는 STON 미디어서버와 HTTP 원본서버 구간의 통신에 대해 알아본다.
 HTTP 원본서버란 일반적으로 Apache같은 웹서버를 의미하지만 AWS의 S3같은 HTTP로 통신할 수 있는 서버 모두를 포함한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions>
@@ -13,7 +13,7 @@ HTTP 원본서버란 일반적으로 Apache같은 웹서버를 의미하지만 A
        ... (세부설정) ...
    </Http>
 
-따라서 이 장에서 다루는 모든 설정은 ``<Http>`` 하위 태그로 구성된다.
+이 장에서 다루는 모든 설정은 ``<Http>`` 하위 태그로 구성된다.
 
 관리자라면 원본서버를 보호하기 위해 이번 장의 모든 내용을 숙지할 필요가 있다.
 이를 바탕으로 원본서버 장애에도 서비스가 안정적으로 운영될 수 있도록 높은 내구성을 갖출 수 있다. 
@@ -380,7 +380,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
    - ``ON`` 0부터 시작하는 Range요청을 보낸다.
      Apache의 경우 Range헤더가 명시되면 모듈을 우회한다. ::
 
-        GET /file.dat HTTP/1.1
+        GET /video.mp4 HTTP/1.1
         Range: bytes=0-
 
      최초로 파일 Caching할 때는 컨텐츠의 Range를 알지 못하므로 Full-Range(=0부터 시작하는)를 요청한다.
@@ -389,7 +389,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
 콘텐츠를 갱신할 때는 다음과 같이 **If-Modified-Since** 헤더가 같이 명시된다.
 원본서버가 올바르게 **304 Not Modified** 로 응답해야 한다. ::
 
-   GET /file.dat HTTP/1.1
+   GET /video.mp4 HTTP/1.1
    Range: bytes=0-
    If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
 
@@ -410,8 +410,8 @@ HTTP 클라이언트 요청 유지
 
 원본에 요청할 때 클라이언트가 보낸 요청을 유지하도록 설정한다. ::
 
-   # server.xml - <Server><VHostDefault><OriginOptions>
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions>
+   # server.xml - <Server><VHostDefault><OriginOptions><Http>
+   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
 
    <WholeClientRequest>OFF</WholeClientRequest>
 

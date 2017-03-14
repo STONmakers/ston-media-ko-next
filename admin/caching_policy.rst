@@ -1,4 +1,4 @@
-﻿.. _caching-policy:
+﻿.. _caching_policy:
 
 4장. Caching 정책
 ******************
@@ -28,7 +28,7 @@ HTTP의 여러 기능에 따라 같은 URL이라고 하더라도 콘텐츠가 �
 
 
 
-.. _caching-policy-ttl:
+.. _caching_policy-ttl:
 
 TTL (Time To Live)
 ====================================
@@ -116,7 +116,7 @@ TTL이 만료되면 원본서버로 콘텐츠 변경여부( **If-Modified-Since*
    만약 모든 요청에 대해 원본서버의 응답을 주고 싶다면 바이패스할 것을 권장한다.
 
 
-.. _caching-policy-customttl:
+.. _caching_policy-customttl:
 
 Custom TTL
 ---------------------
@@ -160,41 +160,8 @@ TTL 우선순위
 - ``rescode`` 원본 응답코드별 기본 TTL
 
 
-비정상 TTL 연장
----------------------
 
-원본서버 종료로 인해 응답이 오지 않는 경우에는 장애판단이 명확하지만 간혹 정상적으로 응답하면서 장애상황인 경우가 발생한다.
-예를 들어 콘텐츠를 저장하는 Storage와의 연결을 잃거나, 뭔가 정상처리가 불가능하다고 판단하는 경우가 있을 수 있다.
-전자의 경우 4xx응답(주로 **404 Not Found** ), 후자는 5xx응답(주로 **500 Internal Error** )을 받게된다.
-
-하지만 이미 관련 콘텐츠가 저장되어 있다면,
-원본의 응답을 믿는 것보다 TTL을 연장시켜 서비스 전체장애가 발생하지 않도록 하는편이 효과적이다. ::
-
-    # server.xml - <Server><VHostDefault><Options>
-    # vhosts.xml - <Vhosts><Vhost><Options>
-
-    <TTLExtensionBy4xx>OFF</TTLExtensionBy4xx>
-    <TTLExtensionBy5xx>ON</TTLExtensionBy5xx>
-
--  ``<TTLExtensionBy4xx>``
-
-   -  ``OFF (기본)`` 4xx 응답으로 콘텐츠를 갱신한다.
-
-   -  ``ON`` 304 not modified를 받은 것처럼 동작한다.
-
-의도된 4xx응답이 아닌지 주의해야 한다.
-
--  ``<TTLExtensionBy5xx>``
-
-   -  ``ON (기본)`` **304 Not Modified** 를 받은 것처럼 동작한다.
-
-   -  ``OFF`` 5xx 응답으로 콘텐츠를 갱신한다.
-
-정상적인 서버라면 5xx로 응답하지 않는다.
-주로 서버의 일시적인 장애로부터 콘텐츠를 무효화하여 원본부하를 가중시키지 않기 위한 용도로 사용된다.
-
-
-.. _caching-policy-renew:
+.. _caching_policy-renew:
 
 갱신정책
 ====================================
@@ -266,64 +233,8 @@ TTL이 만료된 콘텐츠의 경우 원본서버에서 갱신여부를 확인�
 콘텐츠 갱신, 네트워크 장애, 원본서버 장애 등 어떠한 변수에도 콘텐츠 갱신은 백그라운드로 진행되기 때문에 실제 서비스에는 전혀 지연이 없다.
 
 
-클라이언트 no-cache 요청시 TTL만료
----------------------
 
-클라이언트 HTTP요청에 no-cache 설정이 하나 이상 명시된 경우 해당 콘텐츠를 즉시 만료시킬 수 있다. ::
-
-    GET /logo.jpg HTTP/1.1
-    ...
-    cache-control: no-cache 또는 cache-control:max-age=0
-    pragma: no-cache
-    ...
-
-::
-
-    # server.xml - <Server><VHostDefault><Options>
-    # vhosts.xml - <Vhosts><Vhost><Options>
-
-    <NoCacheRequestExpire>OFF</NoCacheRequestExpire>
-
--  ``<NoCacheRequestExpire>``
-
-   -  ``OFF (기본)`` 무시한다.
-
-   -  ``ON`` TTL을 즉시 만료한다.
-
-만료된 콘텐츠는 `갱신정책`_ 에 따른다.
-
-
-.. _caching-policy-accept-encoding:
-
-Accept-Encoding 헤더
-====================================
-
-같은 URL에 대한 HTTP요청이라도 Accept-Encoding헤더의 존재 유무에 따라 다른 콘텐츠가 캐싱될 수 있다.
-원본서버에 요청을 보내는 시점에 압축여부를 알 수 없다.
-응답을 받았다고해도 압축여부를 매번 비교할 수도 없다.
-
-   .. figure:: img/acceptencoding.png
-      :align: center
-
-      원본서버가 어떤 응답을 줄지 알 수 없다.
-
-::
-
-    # server.xml - <Server><VHostDefault><Options>
-    # vhosts.xml - <Vhosts><Vhost><Options>
-
-    <AcceptEncoding>ON</AcceptEncoding>
-
--  ``<AcceptEncoding>``
-
-   -  ``ON (기본)`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 인식한다.
-
-   -  ``OFF`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 무시한다.
-
-원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
-
-
-.. _caching-policy-casesensitive:
+.. _caching_policy-casesensitive:
 
 대소문자 구분
 ====================================
@@ -349,7 +260,7 @@ Accept-Encoding 헤더
    -  ``OFF`` URL 대소문자를 구분하지 않는다. 모두 소문자로 처리된다.
 
 
-.. _caching-policy-applyquerystring:
+.. _caching_policy-applyquerystring:
 
 QueryString 구분
 ====================================
