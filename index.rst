@@ -24,7 +24,6 @@ STON Media Server 완벽 가이드
 
    admin/service_url
    admin/multi_protocol
-   admin/media
    admin/caching_policy
    admin/caching_purge
    admin/origin
@@ -49,8 +48,6 @@ STON Media Server 완벽 가이드
 .. toctree::
    :maxdepth: 2
 
-   admin/access_control
-   admin/bandwidth_control
    admin/adv_topics
 
 
@@ -61,6 +58,4 @@ STON Media Server 완벽 가이드
    :maxdepth: 2
 
    admin/graph
-   admin/cacti
-   admin/dynpage_exception.rst
    admin/releasenote.rst
