@@ -22,8 +22,8 @@ STON Media Server 완벽 가이드
 .. toctree::
    :maxdepth: 2
 
-   admin/multi_protocols
-   admin/client_session
+   admin/service_url
+   admin/multi_protocol
    admin/media
    admin/caching_policy
    admin/caching_purge

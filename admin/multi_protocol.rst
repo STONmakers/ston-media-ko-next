@@ -1,10 +1,10 @@
-﻿.. _client_session:
+﻿.. _multi_protocol:
 
-7장. 클라이언트 세션
+7장. 멀티프로토콜 클라이언트
 ******************
 
-이 장에서는 프로토콜에 따른 클라이언트 세션과 세부적인 응답을 처리하는 방식에 대해 설명한다.
-너무 많은 클라이언트 세션이 유지되도록 설정하면 자칫 시스템 부하가 높아질 수 있다.
+이 장에서는 프로토콜에 따른 클라이언트 연결과 세부적인 응답을 처리하는 방식에 대해 설명한다.
+너무 많은 클라이언트 연결이 유지되도록 설정하면 자칫 시스템 부하가 높아질 수 있다.
 따라서 프로토콜 특성에 맞는 설정을 정확히 이해할 수 있도록 하자.
 
 
@@ -12,9 +12,9 @@
    :maxdepth: 2
 
 
-.. _client_session_rtmp_session:
+.. _multi_protocol_rtmp_session:
 
-RTMP 세션
+RTMP 클라이언트
 ====================================
 
 RTMP 클라이언트와 STON 미디어서버에 사이에 생성되는 RTMP 세션에 대해 설정한다. ::
@@ -36,9 +36,9 @@ RTMP 클라이언트와 STON 미디어서버에 사이에 생성되는 RTMP 세�
 
 
 
-.. _client_session_http_session:
+.. _multi_protocol_http_session:
 
-HTTP 세션
+HTTP 클라이언트
 ====================================
 
 HTTP 클라이언트가 STON 미디어서버에 접속하면 HTTP세션이 생성된다.
@@ -69,7 +69,7 @@ HTTP 클라이언트는 HTTP 세션을 통해 서버에 저장된 여러 콘텐�
    - ``OFF`` HTTP응답에 Keep-Alive헤더를 생략한다.
 
 
-.. _client_session_http_session_lifecyle:
+.. _multi_protocol_http_session_lifecyle:
 
 세션 유지정책
 ---------------------
@@ -193,7 +193,7 @@ HTTP 세션 유지정책에 영향을 주는 요소는 다음과 같다.
 
 
 
-.. _client_session_http_session_upfrontheader:
+.. _multi_protocol_http_session_upfrontheader:
 
 MP4 헤더위치 변경
 ---------------------
@@ -227,7 +227,7 @@ STON 미디어서버는 아주 영리할뿐만 아니라 빠르게 동작한다.
 
 
 
-.. _client_session_http_session_bt:
+.. _multi_protocol_http_session_bt:
 
 Bandwidth Throttling
 --------------------------
@@ -377,7 +377,7 @@ QueryString을 사용하므로 자칫 :ref:`caching-policy-applyquerystring` 과
 
 
 
-.. _client_session_http_session_headermodify:
+.. _multi_protocol_http_session_headermodify:
 
 요청/응답 헤더변경
 ---------------------
@@ -482,7 +482,7 @@ Value가 입력되지 않은 경우 빈 값("")이 입력된다.
 
 
 
-.. _client_session_http_session_acceptencoding:
+.. _multi_protocol_http_session_acceptencoding:
 
 Accept-Encoding 헤더
 ---------------------
@@ -512,7 +512,7 @@ Accept-Encoding 헤더
 원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
 
 
-.. _client_session_http_session_originalheader:
+.. _multi_protocol_http_session_originalheader:
 
 원본 비표준 헤더
 ---------------------
@@ -534,9 +534,9 @@ Accept-Encoding 헤더
 
 
 
-.. _client_session_hls_session:
+.. _multi_protocol_hls_session:
 
-HLS 세션
+HLS 클라이언트
 ====================================
 
 MP4/MP3파일을 HLS(HTTP Live Streaming)로 서비스한다.
@@ -584,7 +584,7 @@ STON 미디어서버는 원본파일로부터 HLS서비스에 필요한 파일�
 서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. 
 
 
-.. _client_session_hls_session_mp4:
+.. _multi_protocol_hls_session_mp4:
 
 MP4 포맷
 ---------------------
@@ -685,7 +685,7 @@ MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
    #EXT-X-ENDLIST
 
 
-.. _client_session_hls_session_mp3:
+.. _multi_protocol_hls_session_mp3:
 
 MP3 포맷
 ---------------------
@@ -711,7 +711,7 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 
 
-.. _client_session_hls_session_segmentation:
+.. _multi_protocol_hls_session_segmentation:
 
 분할정책
 ---------------------
@@ -731,7 +731,7 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
    GET /mp4:video.mp4/99.ts HTTP/1.1
    Range: bytes=0-512000
-   Host: www.winesoft.co.kr
+   Host: www.example.com
 
 1.	``STON`` 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
 #.	``Client`` HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
