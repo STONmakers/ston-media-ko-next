@@ -26,7 +26,7 @@ STON Media Server 완벽 가이드
    admin/multi_protocol
    admin/caching_policy
    admin/caching_purge
-   admin/origin
+   admin/http_origin
    admin/https
 
 
