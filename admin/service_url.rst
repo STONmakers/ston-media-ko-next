@@ -1,6 +1,6 @@
 ﻿.. _service_url:
 
-3장. 서비스 URL
+4장. 서비스 URL
 ******************
 
 이 장에서는 가상호스트를 통해 제공되는 멀티 프로토콜 서비스 URL(Uniform Resource Locator)표현에 대해 설명한다.

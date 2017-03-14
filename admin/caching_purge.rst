@@ -1,6 +1,6 @@
 ﻿.. _caching-purge:
 
-5장. Caching 무효화
+8장. Caching 무효화
 ******************
 
 이 장에서는 Caching된 콘텐츠를 무효화하는 방법에 대해 설명한다.
