@@ -1,6 +1,6 @@
 ﻿.. _caching_policy:
 
-7장. Caching 정책
+8장. Caching 정책
 ******************
 
 이 장에서는 서비스의 핵심이 되는 TTL(Time To Live)과 Caching-Key 그리고 만료정책에 대해 설명한다.

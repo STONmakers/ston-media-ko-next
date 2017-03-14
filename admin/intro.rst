@@ -7,4 +7,4 @@
    :maxdepth: 2
 
 
-업데이트 예정입니다.
+STON 미디어서버는 HTTP, HLS, DASH, RTMP를 지원하는 고성능 서버입니다.
