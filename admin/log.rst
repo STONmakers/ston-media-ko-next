@@ -612,12 +612,12 @@ RTMP 클라이언트 통신내용을 기록한다.
 -  ``c-ip`` RTMP 클라이언트 IP
 -  ``s-ip`` 서버 IP
 -  ``s-port`` 서버 포트
--  ``x-app
+-  ``x-app``
 -  ``cs-uri-stem`` RTMP 클라이언트가 보낸 URL중 QueryString을 제외한 부분
 -  ``cs-uri-query`` RTMP 클라이언트가 보낸 URL중 QueryString
 -  ``cs(Referrer)`` RTMP 클라이언트가 보낸 RTMP Referer
 -  ``cs(User-Agent)`` RTMP 클라이언트가 보낸 RTMP User-Agent
--  ``x-page-url
+-  ``x-page-url``
 -  ``cs-bytes`` RTMP 클라이언트가 보낸 Bytes (헤더)
 -  ``sc-bytes`` 서버가 보낸 Bytes (헤더 + 컨텐츠)
 -  ``sc-status`` 서버 응답코드
