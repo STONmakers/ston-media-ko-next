@@ -297,13 +297,25 @@ www.example.com의 경우 별도로 덮어쓰기(Overriding)한 값이 없으므
     </VHostDefault>
 
 
-.. _api-conf-reload:
 
-설정 Reload
+
+.. _api_conf:
+
+설정 API
 ====================================
 
-설정 변경 후 관리자가 명확하게 API를 호출해야 한다.
-시스템과 성능 관련설정을 제외한 대부분의 설정은 서비스 중단없이 즉시 적용된다. ::
+STON 미디어 서버는 설정과 관련된 많은 API를 제공한다. ::
+
+   http://127.0.0.1:20040/conf/{명령어}
+
+
+.. _api-conf-reload:
+
+적용
+------------------------------------
+
+설정이 변경되면 관리자는 명확하게 API를 호출해야 한다.
+시스템과 성능 관련설정을 제외한 대부분의 설정은 서비스 중단 없이 즉시 적용된다. ::
 
    http://127.0.0.1:20040/conf/reload
 
@@ -312,27 +324,23 @@ www.example.com의 경우 별도로 덮어쓰기(Overriding)한 값이 없으므
 
 .. _api-conf-show:
 
-설정 확인
-====================================
+열람
+------------------------------------
 
-서비스 중인 설정파일을 확인한다.
+서비스 중인 설정파일을 열람한다.
 txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다. ::
 
     http://127.0.0.1:20040/conf/server.xml
     http://127.0.0.1:20040/conf/vhosts.xml
     http://127.0.0.1:20040/conf/querystring.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/bypass.txt?vhost=www.example.com
     http://127.0.0.1:20040/conf/ttl.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/expires.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/acl.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/headers.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/throttling.txt?vhost=www.example.com
-    http://127.0.0.1:20040/conf/postbody.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/http_headers.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/http_throttling.txt?vhost=www.example.com
 
 
 .. _api-conf-history:
 
-설정 목록
+히스토리
 ====================================
 
 백업된 설정목록을 열람한다. ::
@@ -381,7 +389,7 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
 
 .. _api-conf-restore:
 
-설정 복구
+복구
 ====================================
 
 hash값 또는 id를 기준으로 원하는 시점의 설정으로 되돌린다.
@@ -394,7 +402,7 @@ hash와 id가 모두 명시된 경우 hash값이 우선한다.
 
 .. _api-conf-download:
 
-설정 다운로드
+다운로드
 ====================================
 
 hash값 또는 id를 기준으로 원하는 시점의 설정을 다운로드 한다.
@@ -407,7 +415,7 @@ hash와 id가 모두 명시된 경우 hash값이 우선하며, 해당 시점의 
 
 .. _api-conf-upload:
 
-설정 업로드
+업로드
 ====================================
 
 설정파일을 HTTP Post방식(Multipart 지원)으로 업로드 한다. ::
