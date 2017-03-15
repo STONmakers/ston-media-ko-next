@@ -213,8 +213,9 @@ Default 가상호스트
 
     <Vhosts>
         <Vhost Name="www.example.com"> ... </Vhost>
-        <Vhost Name="foo.com"> ... </Vhost>
-        <Default>www.example.com</Default>
+        <Vhost Name="/foo"> ... </Vhost>
+        <Vhost Name="www.example.com/bar"> ... </Vhost>
+        <Default>/foo</Default>
     </Vhosts>
 
 -  ``<Default>``
@@ -249,7 +250,7 @@ Default 가상호스트
         </Listen>
     </Vhost>
 
-    <Vhost Name="/bar">
+    <Vhost Name="www.example.com/bar">
         <Listen>
             <Http>*:8080</Http>   // 가능
             <Rtmp>*:80</Rtmp>     // 불가능 - 이미 HTTP에서 사용
@@ -258,7 +259,7 @@ Default 가상호스트
 
 
 
-가상호스트 목록조회
+목록조회
 ====================================
 
 가상호스트 목록을 조회한다. ::
@@ -268,10 +269,10 @@ Default 가상호스트
 결과는 JSON형식으로 제공된다. ::
 
    {
-      "version": "1.1.9",
+      "version": "1.0.0",
       "method": "vhostslist",
       "status": "OK",
-      "result": [ "www.example.com","foo.com", "site1.com" ]
+      "result": [ "www.example.com","/foo", "www.example.com/bar" ]
    }
 
 
