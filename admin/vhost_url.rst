@@ -189,7 +189,7 @@ Alias
 -  ``<Alias>``
 
    가상호스트의 별명(Alias)을 설정하며 개수에 제한은 없다.
-   명확한 표현(another.com)과 패턴표현(*.sub.example.com)을 지원한다.
+   명확한 표현(sample.com)과 패턴표현(*.sub.example.com)을 지원한다.
    패턴은 복잡한 정규표현식이 아닌 prefix에 * 표현을 하나만 붙일 수 있는 간단한 형식만을 지원한다.
 
 

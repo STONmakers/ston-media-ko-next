@@ -512,6 +512,26 @@ Accept-Encoding 헤더
 원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
 
 
+.. _multi_protocol_http_session_server:
+
+Server 헤더
+---------------------
+
+HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부를 설정한다. ::
+
+   # server.xml - <Server><VHostDefault><Options><Http>
+   # vhosts.xml - <Vhosts><Vhost><Options><Http>
+
+   <ServerHeader>ON</ServerHeader>
+
+-  ``<ServerHeader>``
+
+   -  ``ON (기본)`` 원본서버의 Server헤더를 명시한다. ::
+
+   -  ``OFF``  Server헤더를 생략한다.
+
+
+
 .. _multi_protocol_http_session_originalheader:
 
 원본 비표준 헤더
