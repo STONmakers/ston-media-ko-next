@@ -22,7 +22,7 @@ STON Media Server 완벽 가이드
 .. toctree::
    :maxdepth: 2
 
-   admin/service_url
+   admin/vhost_url
    admin/multi_protocol
    admin/http_origin
    admin/https
