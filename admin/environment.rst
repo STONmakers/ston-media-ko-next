@@ -72,7 +72,7 @@ XML형식의 텍스트파일이다. ::
     <Host>
         <Name>stream_07</Name>
         <Admin>admin@example.com</Admin>
-        <Manager Port="10040" HttpMethod="ON" Role="Admin" UploadMultipartName="confile">
+        <Manager Port="20040" HttpMethod="ON" Role="Admin" UploadMultipartName="confile">
             <Allow>192.168.1.1</Allow>
             <Allow Role="Admin">192.168.2.1-255</Allow>
             <Allow Role="User">192.168.3.0/24</Allow>
@@ -251,8 +251,8 @@ Caching된 콘텐츠를 저장할 Storage를 구성한다. ::
 
 API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. ::
 
-   http://127.0.0.1:10040/command/cleanup
-   http://127.0.0.1:10040/command/cleanup?age=10
+   http://127.0.0.1:20040/command/cleanup
+   http://127.0.0.1:20040/command/cleanup?age=10
 
 ``<Age>`` 가 0이라면 디스크 공간이 부족하다고 판단될 때만 Cleanup을 수행한다.
 ``<Age>`` 파라미터가 0보다 크다면 해당 "일"동안 한번도 접근되지 않은 콘텐츠를 삭제한다.
@@ -448,7 +448,7 @@ Default 가상호스트
 
 가상호스트 목록을 조회한다. ::
 
-   http://127.0.0.1:10040/monitoring/vhostslist
+   http://127.0.0.1:20040/monitoring/vhostslist
 
 결과는 JSON형식으로 제공된다. ::
 
@@ -469,7 +469,7 @@ Default 가상호스트
 설정 변경 후 관리자가 명확하게 API를 호출해야 한다.
 시스템과 성능 관련설정을 제외한 대부분의 설정은 서비스 중단없이 즉시 적용된다. ::
 
-   http://127.0.0.1:10040/conf/reload
+   http://127.0.0.1:20040/conf/reload
 
 설정이 변경될 때마다 :ref:`admin-log-info` 에 변경사항이 기록된다.
 
@@ -482,16 +482,16 @@ Default 가상호스트
 서비스 중인 설정파일을 확인한다.
 txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다. ::
 
-    http://127.0.0.1:10040/conf/server.xml
-    http://127.0.0.1:10040/conf/vhosts.xml
-    http://127.0.0.1:10040/conf/querystring.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/bypass.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/ttl.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/expires.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/acl.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/headers.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/throttling.txt?vhost=www.example.com
-    http://127.0.0.1:10040/conf/postbody.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/server.xml
+    http://127.0.0.1:20040/conf/vhosts.xml
+    http://127.0.0.1:20040/conf/querystring.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/bypass.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/ttl.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/expires.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/acl.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/headers.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/throttling.txt?vhost=www.example.com
+    http://127.0.0.1:20040/conf/postbody.txt?vhost=www.example.com
 
 
 .. _api-conf-history:
@@ -501,8 +501,8 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
 
 백업된 설정목록을 열람한다. ::
 
-    http://127.0.0.1:10040/conf/latest
-    http://127.0.0.1:10040/conf/history
+    http://127.0.0.1:20040/conf/latest
+    http://127.0.0.1:20040/conf/history
 
 결과는 JSON 형식으로 제공된다.
 빠르게 마지막 설정상태만 확인하고 싶은 경우는 /conf/latest를 사용할 것을 권장한다. ::
@@ -552,8 +552,8 @@ hash값 또는 id를 기준으로 원하는 시점의 설정으로 되돌린다.
 hash와 id가 모두 명시된 경우 hash값이 우선한다.
 정상적으로 Rollback된 경우 200 OK, 실패한 경우 500 Internal Error로 응답한다. ::
 
-    http://127.0.0.1:10040/conf/restore?hash=...
-    http://127.0.0.1:10040/conf/restore?id=...
+    http://127.0.0.1:20040/conf/restore?hash=...
+    http://127.0.0.1:20040/conf/restore?id=...
 
 
 .. _api-conf-download:
@@ -566,8 +566,8 @@ Content-Type은 "application/x-compressed"로 명시된다.
 hash와 id가 모두 명시된 경우 hash값이 우선하며, 해당 시점의 설정이 존재하지 않는 경우
 404 NOT FOUND로 응답한다. ::
 
-    http://127.0.0.1:10040/conf/download?hash=...
-    http://127.0.0.1:10040/conf/download?id=...
+    http://127.0.0.1:20040/conf/download?hash=...
+    http://127.0.0.1:20040/conf/download?id=...
 
 .. _api-conf-upload:
 
@@ -576,7 +576,7 @@ hash와 id가 모두 명시된 경우 hash값이 우선하며, 해당 시점의 
 
 설정파일을 HTTP Post방식(Multipart 지원)으로 업로드 한다. ::
 
-    http://127.0.0.1:10040/conf/upload
+    http://127.0.0.1:20040/conf/upload
 
 다음과 같이 주소, Content-Length, Content-Type(="multipart/form-data")이 명확하게 선언되어 있어야 한다. ::
 
@@ -589,7 +589,7 @@ hash와 id가 모두 명시된 경우 hash값이 우선하며, 해당 시점의 
 Multipart방식에서는 "confile"을 기본 이름으로 사용한다.
 이 값은 ``<Manager>`` 의 ``UploadMultipartName`` 속성에서 설정할 수 있다. ::
 
-    <form enctype="multipart/form-data" action="http://127.0.0.1:10040/conf/upload" method="POST">
+    <form enctype="multipart/form-data" action="http://127.0.0.1:20040/conf/upload" method="POST">
         <input name="confile" type="file" />
         <input type="submit" value="Upload" />
     </form>
