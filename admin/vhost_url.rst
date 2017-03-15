@@ -31,16 +31,6 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
 
 
-.. _env-vhost:
-
-vhosts.xml 가상호스트 설정
-====================================
-
-실행파일과 같은 경로에 존재하는 vhosts.xml파일을 가상호스트 설정파일로 인식한다.
-가상호스트 개수에 제한은 없다. ::
-
-
-
 .. _env-vhost-create-destroy:
 
 생성/파괴
