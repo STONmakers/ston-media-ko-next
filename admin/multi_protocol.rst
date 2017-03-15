@@ -505,9 +505,9 @@ Accept-Encoding 헤더
 
 -  ``<AcceptEncoding>``
 
-   -  ``ON (기본)`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 인식한다.
+   -  ``OFF (기본)`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 무시한다.
 
-   -  ``OFF`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 무시한다.
+   -  ``ON`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 인식한다.
 
 원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
 

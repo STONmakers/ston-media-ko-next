@@ -80,7 +80,7 @@ Health-Checker
 하지만 Health-Checker는 HTTP Transaction이 성공함을 확인한다. ::
 
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
-   
+
    <HealthChecker ResCode="0" Timeout="10" Cycle="10"
                   Exclusion="3" Recovery="5" Log="ON">/</HealthChecker>
    <HealthChecker ResCode="200, 404" Timeout="3" Cycle="5"
@@ -439,9 +439,9 @@ HTTP 요청의 User-Agent헤더를 설정한다. ::
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
 
-   <UserAgent>STON</UserAgent>
+   <UserAgent>STON Media Server</UserAgent>
 
--  ``<UserAgent> (기본: STON)``
+-  ``<UserAgent> (기본:  STON Media Server )``
    원본서버로 보낼 User-Agent헤더를 설정한다.
 
 
