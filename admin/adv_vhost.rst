@@ -95,7 +95,7 @@ Sub-Path 지정
 
 .. _adv-vhost-redirection-trace:
 
-Redirect 추적
+HTTP Redirect 추적
 ====================================
 
 원본서버에서 Redirect계열(301, 302, 303, 307)로 응답하는 경우 Location헤더를 추적하여 콘텐츠를 요청한다.
@@ -107,8 +107,8 @@ Redirect 추적
 
 ::
 
-   # server.xml - <Server><VHostDefault><OriginOptions>
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions>
+   # server.xml - <Server><VHostDefault><OriginOptions><Http>
+   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
 
    <RedirectionTrace>OFF</RedirectionTrace>
 
