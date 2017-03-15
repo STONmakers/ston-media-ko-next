@@ -399,24 +399,26 @@ STON 미디어서버가 원본서버로부터 응답을 받기 전에 클라이�
 
 
 
-.. _log_access_custom:
+.. _log_access_http_custom:
 
-HTTP Access 사용자정의 로그
+HTTP 사용자정의 Access 로그
 ---------------------
 
-HTTP Access 로그형식을 사용자정의 로그로 설정한다. ::
+HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
 
-   # server.xml - <Server><VHostDefault><Log>
-   # vhosts.xml - <Vhosts><Vhost><Log>
+   # server.xml - <Server><VHostDefault><Log><Access>
+   # vhosts.xml - <Vhosts><Vhost><Log><Access>
 
-   <Access Form="custom">ON</Access>
-   <AccessFormat>%a %A %b id=%{userid}C %f %h %H "%{user-agent}i" %m %P "%r" %s %t %T %X %I %O %R %e %S %K</AccessFormat>
+   <Http>
+       <Custom Form="custom">ON</Custom>
+       <CustomFormat>%a %A %b id=%{userid}C %f %h %H "%{user-agent}i" %m %P "%r" %s %t %T %X %I %O %R %e %S %K</CustomFormat>
+   </Http>
 
--  ``<Access>`` 의 ``Form`` 속성을 ``custom`` 으로 설정한다.
+-  ``<Custom>`` 의 ``Form`` 속성을 ``custom`` 으로 설정한다.
 
--  ``<AccessFormat>`` 사용자정의 로그 형식.
+-  ``<CustomFormat>`` 사용자정의 로그 형식.
 
-위 예제의 경우 다음과 같이 Access로그가 기록된다. (#Fields는 기록하지 않는다.) ::
+위 예제의 경우 다음과 같이 HTTP Access로그가 기록된다. (#Fields는 기록하지 않는다.) ::
 
     192.168.0.88 192.168.0.12 163276 id=winesoft; image.jpg example.com HTTP "STON" GET 80 "GET /ston/image.jpg?type=png HTTP/1.1" 200 2014-04-03 21:21:54 1 C 204 163276 1 2571978 TCP_MISS HTTP/1.1
     192.168.0.88 192.168.0.12 63276 id=winesoft; vod.mp4 example.com HTTP "STON" POST 80 "GET /ston/vod.mp4?start=10 HTTP/1.1" 200 2014-04-03 21:21:54 12 C 304 363276 2 2571979 TCP_REFRESH_HIT HTTP/1.1
@@ -637,18 +639,38 @@ HTTP 트랜잭션은 Payload의 전송의 완료/중단을 의미하지만
 RTMP 트랜잭션은 Payload와 상관이 없다.
 
 
+
+
+
 .. _log_origin:
 
 Origin 로그
 ====================================
 
-원본서버의 모든 HTTP 트랜잭션을 기록한다.
-기록 시점은 HTTP 트랜잭션이 완료되는 시점이며 전송완료 또는 전송중단 시점을 의미한다. ::
+STON 미디어서버와 원본서버가 진행한 트랜잭션을 로그로 기록한다.  ::
 
    # server.xml - <Server><VHostDefault><Log>
    # vhosts.xml - <Vhosts><Vhost><Log>
 
-   <Origin Type="time" Unit="1440" Retention="10" Local="Off">ON</Origin>
+   <Origin>
+       <Http> ... </Http>
+   </Origin>
+
+프로토콜에 따라 로그파일이 별도로 생성되며 필드와 의미가 다를 수 있다.
+
+
+.. _log_origin_http:
+
+HTTP Origin 로그
+---------------------
+
+HTTP 원본서버와 진행된 모든 HTTP 트랜잭션을 기록한다.
+기록 시점은 HTTP 트랜잭션이 완료되는 시점이며 전송완료 또는 전송중단 시점을 의미한다. ::
+
+   # server.xml - <Server><VHostDefault><Log><Origin>
+   # vhosts.xml - <Vhosts><Vhost><Log><Origin>
+
+   <Http Type="time" Unit="1440" Retention="10" Local="Off">ON</Http>
 
 ::
 
@@ -719,167 +741,3 @@ Monitoring 로그
 -  ``Form`` 로그형식을 지정한다. ( ``json`` 또는 ``xml`` )
 
 
-
-.. _log_ftp:
-
-FTP 전송
-====================================
-
-로그가 롤링될 때 지정된 FTP클라이언트를 통해 로그를 업로드 한다.
-
-
-.. _log_ftpclient:
-
-FTP 클라이언트
----------------------
-
-FTP 클라이언트를 설정한다.
-롤링된 로그를 실시간으로 FTP서버로 업로드한다.
-
-.. figure:: img/conf_ftpclient.png
-   :align: center
-
-   FTP클라이언트 구조와 동작
-
-FTP 클라이언트는 위 그림과 같이 STON외부에 존재한다.
-STON은 로컬에 존재하는 로그를 FTP클라이언트 큐에 입력할 뿐 FTP의 동작에는 관여하지 않는다.
-FTP클라이언트는 자신의 설정에 따라 업로드를 진행한다.
-
-FTP 클라이언트는 전역설정(server.xml)에 설정한다. ::
-
-   # server.xml - <Server>
-
-   <Ftp Name="backup1">
-      <Mode>Passive</Mode>
-      <Address>ftp.winesoft.co.kr:21</Address>
-      <Account>
-         <ID>test</ID>
-         <Password>12345abc</Password>
-      </Account>
-      <ConnectTimeout>10</ConnectTimeout>
-      <TransferTimeout>600</TransferTimeout>
-      <TrafficCap>0</TrafficCap>
-      <DeleteUploaded>OFF</DeleteUploaded>
-      <BackupOnFail>OFF</BackupOnFail>
-      <UploadPath>/log_backup/%v/%s-%e.%p.log</UploadPath>
-      <Transfer Time="Rotate" />
-   </Ftp>
-
-   <Ftp Name="backup2">
-      <Mode>Active</Mode>
-      <Address>192.168.0.14:21</Address>
-      <Account>
-         <ID>test</ID>
-         <Password>qwerty</Password>
-      </Account>
-      <ConnectTimeout>3</ConnectTimeout>
-      <TransferTimeout>100</TransferTimeout>
-      <TrafficCap>10240</TrafficCap>
-      <DeleteUploaded>ON</DeleteUploaded>
-      <BackupOnFail>ON</BackupOnFail>
-      <Transfer Time="Static">04:00</Transfer>
-   </Ftp>
-
--  ``<Ftp>`` FTP 클라이언트를 설정한다. ``Name`` 속성으로 고유의 이름을 설정한다.
-
-   - ``Mode (기본: Passive)`` 접속모드 ( ``Passive`` 또는 ``Active`` )
-   - ``Address`` FTP주소.
-   - ``Account`` FTP 계정. 만약 비밀번호(예를 들어 qwerty)를 암호화하고 싶다면 다음 API 사용한다. ::
-
-        /command/encryptpassword?plain=qwerty
-
-     암호화된 비밀번호는 다음과 같이 설정한다. ::
-
-        <Password Type="enc">dXR9k0xNUZVVYQsK5Bi1cg==</Password>
-
-   - ``ConnectTimeout`` 연결대기 시간
-   - ``TransferTimeout`` 전송대기 시간
-   - ``TrafficCap (단위: KB)`` 0보다 큰 값으로 설정할 경우 전송 최대 대역폭을 설정한다.
-   - ``DeleteUploaded (기본: OFF)`` 전송완료 후 해당로그를 삭제한다.
-   - ``BackupOnFail (기본: OFF)`` 전송실패 시 로그가 삭제되지 않도록 해당로그를 다음 경로에 백업한다. ::
-
-        /usr/local/ston/stonb/backup/
-
-     백업된 로그는 재전송하지 않으며 관리자가 삭제하기 전까지 삭제되지 않는다.
-
-   - ``UploadPath`` 업로드 경로를 설정한다.
-     별도로 설정하지 않으면 "/가상호스트/" 에 업로드 한다.
-     example.com의 로그는 /example.com/ 디렉토리에 업로드된다.
-
-     - ``%{time format}s`` 로그 시작 시간
-     - ``%{time format}e`` 로그 끝 시간
-     - ``%p`` prefix
-     - ``%v`` 가상호스트 이름
-     - ``%h`` 장비 HOST 이름
-
-     예를 들어 다음과 같이 설정했다면 ::
-
-        # server.xml - <Server><Ftp>
-
-        <UploadPath>/log_backup/%v/%s-%e.%p.log</UploadPath>
-
-     업로드 경로는 다음과 같다. ::
-
-        /log_backup/example.com/200140722_0000-200140722_2300.access.log
-
-   - ``Transfer`` 로그 전송시간을 지정한다. ``Type`` 속성에 따라 값의 형식이 달라진다.
-
-     - ``Rotate (기본)`` 롤링되면 바로 전송한다. 값을 가지지 않는다.
-     - ``Static`` 하루에 한번 지정된 시간에 전송한다. 예를 들어 04:00으로 설정됐다면 새벽 4시에 전송을 시작한다.
-     - ``Interval`` 일정시간 간격으로 전송한다. 예를 들어 4로 설정했다면 4시간 간격으로 로그를 전송한다.
-
-     전송시간을 설정할 경우 해당 시점에 로그가 롤링되지 않도록 적절히 로그관리 정책을 구성해야 한다.
-
-
-FTP클라이언트는 curl을 사용한다.
-
-
-.. _log_ftplog:
-
-FTP 로그
----------------------
-
-FTP로그는 /usr/local/ston/sys/stonb/stonb.log에 통합하여 저장된다. ::
-
-    #Fields: date time local-path cs-url file-size time-taken sc-status sc-error-msg
-    2014-04-23 17:10:20 /ston_log/winesoft.co.kr/origin_20140423_080000.log ftp://ftp.winesoft.co.kr:21/winesoft.co.kr/origin_20140423_080000.log 381 10006 fail "curl: (7) couldn't connect to host"
-    2014-04-23 17:10:20 /ston_log/winesoft.co.kr/access_20140423_1700.log ftp://192.168.0.14:21/winesoft.co.kr/access_20140423_1700.log 260 60 success "-"
-    2014-04-23 17:11:00 /ston_log/winesoft.co.kr/origin_20140423_080000.log ftp://ftp.winesoft.co.kr:21/winesoft.co.kr/origin_20140423_080000.log 381 10008 fail "curl: (7) couldn't connect to host"
-    2014-04-23 17:11:00 /ston_log/winesoft.co.kr/filesystem_20140423_080000.log ftp://192.168.0.14:21/winesoft.co.kr/filesystem_20140423_080000.log 179 60 success "-"
-
-모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
-
--  ``date`` 날짜
--  ``time`` 시간
--  ``local-path`` 전송할 로그의 로컬경로
--  ``cs-url`` 전송할 FTP주소
--  ``file-size`` 전송 파일크기
--  ``time-taken (단위: ms)`` 전송 소요시간
--  ``sc-status`` 전송 성공/실패(success 또는 fail)
--  ``sc-error-msg`` 전송 실패 시 curl 에러 메세지
-
-
-
-.. _log_ftptransfer:
-
-로그 FTP전송
----------------------
-
-로그가 롤링될 때 지정된 `FTP 클라이언트` 를 통해 업로드 한다.
-콤마(,)로 구분하면 여러 `FTP 클라이언트` 를 동시에 사용할 수 있다. ::
-
-   # server.xml - <Server><VHostDefault>
-   # vhosts.xml - <Vhosts><Vhost>
-
-   <Log>
-      <Access Ftp="backup1, backup2">ON</Access>
-      <Origin Ftp="backup_org">ON</Origin>
-      <Monitoring Ftp="backup1">ON</Monitoring>
-      <FileSystem Ftp="backup2">ON</FileSystem>
-   </Log>
-
--  ``Ftp`` 사용할 `FTP 클라이언트`
-
-ftp://{FTP서버 주소}/{가상호스트이름}/{롤링된 로그 이름} 으로 로그를 업로드 한다.
-예를 들어 ftp.dummy.com서버에 가상호스트 example.com의 롤링된 로그(access_20140424_0000.log)를
-업로드하는 주소는 ftp://ftp.dummy.com/example.com/access_20140424_0000.log가 된다.

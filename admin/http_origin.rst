@@ -79,15 +79,13 @@ Health-Checker
 ``<Recovery>`` 는 응답코드를 받는 즉시 HTTP Transaction을 종료한다.
 하지만 Health-Checker는 HTTP Transaction이 성공함을 확인한다. ::
 
-   # vhosts.xml - <Vhosts><Vhost>
+   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
 
-   <Origin>
-      <Address> ... </Address>
-      <HealthChecker ResCode="0" Timeout="10" Cycle="10"
-                     Exclusion="3" Recovery="5" Log="ON">/</HealthChecker>
-      <HealthChecker ResCode="200, 404" Timeout="3" Cycle="5"
-                     Exclusion="5" Recovery="20" Log="ON">/alive.html</HealthChecker>
-   </Origin>
+   
+   <HealthChecker ResCode="0" Timeout="10" Cycle="10"
+                  Exclusion="3" Recovery="5" Log="ON">/</HealthChecker>
+   <HealthChecker ResCode="200, 404" Timeout="3" Cycle="5"
+                  Exclusion="5" Recovery="20" Log="ON">/alive.html</HealthChecker>
 
 -  ``<HealthChecker> (기본: /)``
 
@@ -403,59 +401,6 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
    - Apache/2.2.22
 
 
-.. _origin-wholeclientrequest:
-
-HTTP 클라이언트 요청 유지
-====================================
-
-원본에 요청할 때 클라이언트가 보낸 요청을 유지하도록 설정한다. ::
-
-   # server.xml - <Server><VHostDefault><OriginOptions><Http>
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
-
-   <WholeClientRequest>OFF</WholeClientRequest>
-
--  ``<WholeClientRequest>``
-
-   - ``OFF (기본)`` Caching-Key를 원본에 요청할 URL로 사용한다.
-
-   - ``ON`` 클라이언트가 요청한 URL로 원본에 요청한다.
-
-Hit Ratio를 높이기 위해 다음 설정들을 통해 Caching-Key를 결정한다.
-
-- :ref:`caching-policy-casesensitive`
-- :ref:`caching-policy-applyquerystring`
-- :ref:`caching-policy-post-method-caching`
-
-이에 따라 원본서버로 요청하는 URL과 Caching-Key가 다음과 같이 결정된다.
-
-============================================== ======================= ============================
-설정                                           클라이언트 요청 URL       원본 요청URL / Caching-Key
-============================================== ======================= ============================
-:ref:`caching-policy-casesensitive` ``OFF``    /Image/LOGO.png         /image/logo.png
-:ref:`caching-policy-casesensitive` ``ON``     /Image/LOGO.png         /Image/LOGO.png
-:ref:`caching-policy-applyquerystring` ``OFF`` /view/list.php?type=A   /view/list.php
-:ref:`caching-policy-applyquerystring` ``ON``  /view/list.php?type=A   /view/list.php?type=A
-============================================== ======================= ============================
-
-``<WholeClientRequest>`` 를 ``ON`` 으로 설정하면 다음과 같이 Caching-Key와 상관없이 클라이언트가 보낸 URL을 그대로 원본에 보낸다.
-
-============================================== =================================== ============================
-설정                                            클라이언트 / 원본 요청 URL           Caching-Key
-============================================== =================================== ============================
-:ref:`caching-policy-casesensitive` ``OFF``    /Image/LOGO.png                     /image/logo.png
-:ref:`caching-policy-casesensitive` ``ON``     /Image/LOGO.png                     /Image/LOGO.png
-:ref:`caching-policy-applyquerystring` ``OFF`` /view/list.php?type=A               /view/list.php
-:ref:`caching-policy-applyquerystring` ``ON``  /view/list.php?type=A               /view/list.php?type=A
-============================================== =================================== ============================
-
-POST 요청을 캐싱하는 경우 원본서버로 요청할 때 클라이언트가 보낸 POST요청의 Body데이터가 수정없이 전송된다.
-
-.. note::
-
-   클라이언트가 보낸 URL을 그대로 보내기 때문에 :ref:`media-trimming` 처럼 부가기능을 위해 붙여진 QueryString도 그대로 원본서버로 전달된다.
-
-
 .. _origin-httprequest:
 
 HTTP 요청헤더
@@ -542,39 +487,6 @@ HTTP 원본서버에서 응답하는 ETag헤더 인식여부를 설정한다. ::
    - ``OFF (기본)`` ETag헤더를 무시한다.
 
    - ``ON`` ETag를 인식하며 컨텐츠 갱신시 If-None-Match헤더를 추가한다.
-
-
-
-.. _http_origin_url_rewrite:
-
-HTTP 원본요청 URL변경
-====================================
-
-캐싱을 목적으로 HTTP 원본서버로 보내는 HTTP요청의 URL을 변경한다. ::
-
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
-
-   <URLRewrite>
-      <Pattern>/download/(.*)</Pattern>
-      <Replace>/#1</Replace>
-   </URLRewrite>
-   // Pattern : /download/1.3.4
-   // Replace : /1.3.4
-
-   <URLRewrite>
-      <Pattern>/img/(.*\.(jpg|png).*)</Pattern>
-      <Replace>/#1/STON/composite/watermark1</Replace>
-   </URLRewrite>
-   // Pattern : /img/image.jpg?date=20140326
-   // Replace : /image.jpg?date=20140326/STON/composite/watermark1
-
-:ref:`handling_http_requests_url_rewrite` 와 같은 표현을 사용하지만
-가상호스트마다 독립적으로 설정하기 때문에 가상호스트명을 입력하지 않는다.
-
-.. note::
-
-   바이패스되는 HTTP요청의 URL은 변경할 수 없다.
-   ``<WholeClientRequest>`` 보다 우선한다.
 
 
 
