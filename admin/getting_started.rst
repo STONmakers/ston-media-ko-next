@@ -57,7 +57,7 @@ CPU, 메모리, 디스크 자원에 대해 고려해야 한다.
    로그 역시 같은 디스크에 구성하는 것이 흔하다.
    로그는 서비스 상황을 실시간으로 기록하기 때문에 항상 Write부하가 발생한다.
 
-   STON은 디스크를 RAID 0처럼 사용한다.
+   STON 미디어서버는 디스크를 RAID 0처럼 사용한다.
    성능과 RAID의 상관여부는 고객 서비스 특성에 따라 달라진다.
    하지만 파일 변경이 빈번하지 않고 콘텐츠의 크기가 물리적 메모리 크기보다
    훨씬 큰 경우 RAID를 통한 Read속도 향상이 효과적일 수 있다.
@@ -207,75 +207,13 @@ STON 미디어서버는 다음 경로에 설치된다. ::
 *.default파일은 항상 최신패키지와 함께 배포된다.
 
 
-.. _getting-started-samplevhost:
-
-Hello World
-====================================
-vhosts.xml 파일을 열어 다음과 같이 편집한다. ::
-
-    <Vhosts>
-        <Vhost Name="media.example.com">
-            <Origin>
-                <Address>hellomedia.ston.io</Address>
-            </Origin>
-        </Vhost>
-    </Vhosts>
-
-
-.. _getting-started-runston:
-
-STON 실행
------------------------------------------------
-1. 발급받은 license.xml을 설치 경로에 복사한다.
-
-2. server.xml을 열어 <Storage>를 구성한다. ::
-
-    <Server>
-        <Cache>
-            <Storage>
-                <Disk>/cache1/</Disk>
-                <Disk>/cache2/</Disk>
-            </Storage>
-        </Cache>
-    </Server>
-
-.. note::
-
-   STON은 기본적으로 디스크를 저장공간으로 사용하기 때문에 디스크가 설정되어 있지 않으면 구동되지 않는다.
-   자세한 내용은 다음 장에서 설명한다.
-
-3. STON을 실행한다.  ::
-
-      [root@localhost ~]# service ston start
-
-   STON을 중지하고 싶다면 stop 명령을 사용한다.  ::
-
-      [root@localhost ~]# service ston stop
-
-
-.. _getting-started-runcheck:
-
-가상호스트 동작확인
------------------------------------------------
-
-(Windows 7 기준) C:\\Windows\\System32\\drivers\\etc\\hosts 파일에 다음과 같이
-media.example.com 도메인을 설정한다. ::
-
-    192.168.0.100        media.example.com
-
-브라우저로 media.example.com에 접근했을 때 다음 페이지가 정상적으로 서비스되면 성공이다.
-
-   .. figure:: img/helloworld3.png
-      :align: center
-
-
 .. _getting-started-rrderr:
 
 WM이 느리거나 그래프가 나오지 않는 문제
 -----------------------------------------------
 
 설치과정 중 RRD그래프는 동적으로 다운로드 받아서 설치된다.
-제한된 네트워크에서 STON을 설치할 경우 RRD가 제대로 설치되지 않을 수 있다.
+제한된 네트워크에서 STON 미디어서버를 설치할 경우 RRD가 제대로 설치되지 않을 수 있다.
 이로 인해 :ref:`wm` 이 매우 느리게 동작하거나 :ref:`api-graph` 가 동작하지 않게 된다.
 다음과 같이 수정한다.
 
@@ -329,11 +267,11 @@ tcl-rrdtool-1.4.7-1.el6.rfx.x86_64.rpm	 06-Apr-2012 16:57   35K     RHEL6 and Ce
 API 호출
 ====================================
 
-HTTP기반의 API를 제공한다.
+HTTP 기반의 API를 제공한다.
 API 호출권한은 :ref:`env-host` 의 영향을 받는다.
 허가되지 않았다면 곧바로 연결을 종료한다.
 
-STON버전을 확인한다. ::
+STON 미디어서버 버전을 확인한다. ::
 
    http://127.0.0.1:20040/version
 
@@ -357,13 +295,13 @@ STON버전을 확인한다. ::
 결과는 JSON형식으로 제공된다. ::
 
    {
-      "version": "1.1.9",
+      "version": "1.0.0",
       "method": "hwinfo",
       "status": "OK",
       "result":
       {
          "OS" : "Linux version 3.3.0 ...(생략)...",
-         "STON" : "1.1.9",
+         "STON" : "1.0.0",
          "CPU" :
          {
             "ProcCount": "4",
@@ -432,4 +370,4 @@ Caching 초기화
 콘솔에서는 다음 명령어를 통해 전체 또는 하나의 가상호스트를 초기화한다. ::
 
    ./stonapi reset
-   ./stonapi reset/stonmedia.winesoft.co.kr
+   ./stonapi reset/www.example.com
