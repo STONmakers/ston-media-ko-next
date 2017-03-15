@@ -20,16 +20,18 @@
    <Server>
        <VHostDefault>
            <Options>
-               <CaseSensitive>ON</CaseSensitive>
+               <Http>
+                   <ClientKeepAliveSec>10</ClientKeepAliveSec>
+               </Http>
            </Options>
        </VHostDefault>
    </Server>
 
-때문에 다음과 같이 축약하여 설명한다. ::
+간략하게 다음과 같이 축약된 표현을 사용한다. ::
 
-   # server.xml - <Server><VHostDefault><Options>
+   # server.xml - <Server><VHostDefault><Options><Http>
 
-   <CaseSensitive>ON</CaseSensitive>
+   <ClientKeepAliveSec>ON</ClientKeepAliveSec>
 
 
 .. note::
