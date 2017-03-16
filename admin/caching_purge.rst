@@ -35,9 +35,9 @@
 ====================================
 
 캐싱하고 있는 파일상태를 조회한다.
-일반적으로 파일은 URL로 구분되지만 같은 URL에 다른 옵션(i.e. Accept-Encoding등)이 존재하는 경우 여러 개의 파일이 존재할 수 있다. ::
+파일은 URL로 구분되지만 같은 URL에 다른 옵션(i.e. Accept-Encoding등)이 존재하는 경우 여러 개의 파일이 존재할 수 있다. ::
 
-    http://127.0.0.1:20040/monitoring/fileinfo?url=example.com/bar/trip.mp4
+    http://127.0.0.1:20040/monitoring/fileinfo?url=www.example.com/bar/trip.mp4
     
 결과는 JSON형식으로 제공된다.
 다음은 /trip.mp4파일의 정보를 열람한 결과이다. ::
@@ -53,9 +53,9 @@
                 "Accept-Encoding": "N",
                 "RefCount": 0,
                 "Disk-Index": 0,
-                "Size": 2100267,
+                "Size": 210026703,
                 "FID": 24267,
-                "LocalPath": "/cache1/example.com/000i/q3.bin",
+                "LocalPath": "/cache1/www.example.com/000i/q3.bin",
                 "File-Opened ": "N",
                 "File-Updating": "-",
                 "Downloader-Count": "0",
@@ -63,8 +63,8 @@
                 "UpdateTime": "[ 2016.09.03 13:53:43, -2169 ]",
                 "TTL-Left": "[ 2012.10.03 13:53:43, 2589831 ]",
                 "ResponseCode": 200,
-                "ContentType": "text/plain",
-                "LastModifiedTime": "[ 2010.11.22 20:31:47, -56224685 ]",
+                "ContentType": "video/mp4",
+                "LastModifiedTime": "[ 2016.09.03 13:53:43, -2169 ]",
                 "ExpireTime": "[ 0, 0 ]",
                 "CacheControl": "not-specified",
                 "ETag": "502dd614:200c2b",
@@ -139,22 +139,20 @@ Purge후 최초 접근 시점에 원본서버로부터 컨텐츠를 다시 캐�
 구분자를 사용하여 복수의 도메인에 복수의 타겟을 지정할 수 있다.
 만약 도메인 이름이 생략되었다면 최근 사용된 도메인을 사용한다. ::
 
-    http://127.0.0.1:20040/command/purge?url=http://www.site1.com/image.jpg
-    http://127.0.0.1:20040/command/purge?url=www.site1.com/image.jpg
-    http://127.0.0.1:20040/command/purge?url=www.site1.com/image/bmp/
-    http://127.0.0.1:20040/command/purge?url=www.site1.com/image/*.bmp
-    http://127.0.0.1:20040/command/purge?url=www.site1.com/image1.jpg|/css/style.css|/script.js
-    http://127.0.0.1:20040/command/purge?url=www.site1.com/image1.jpg|www.site2.com/page/*.html
+    http://127.0.0.1:20040/command/purge?url=http://www.example.com/bar/trip.mp4
+    http://127.0.0.1:20040/command/purge?url=www.example.com/bar/*.mp4
+    http://127.0.0.1:20040/command/purge?url=www.example.com/bar/*.mp4|/bar/hot/sample.mp4
+    http://127.0.0.1:20040/command/purge?url=www.example.com/bar/trip.mp4|foo.com/page/*.pm3
 
 결과는 JSON형식으로 제공된다.
 타겟 컨텐츠 개수/용량 및 처리시간(단위: ms)이 명시된다.
 이미 Purge 된 컨텐츠는 다시 Purge되지 않는다. ::
 
     {
-        "version": "2.0.0",
+        "version": "1.0.0",
         "method": "purge",
         "status": "OK",
-        "result": { "Count": 24, "Size": 3747491, "Time": 12 }
+        "result": { "Count": 24, "Size": 37474913829, "Time": 12 }
     }
 
 ``<Purge2Expire>`` 를 통해 특정조건의 Purge를 Expire로 동작하도록 설정할 수 있다.
@@ -223,11 +221,28 @@ HardPurge는 가장 강력한 삭제방법이지만 삭제한 컨텐츠는 원�
 
 
 
-.. _api-monitoring-fileinfo:
-   
-정책설정
+
+Purge 기본동작
 ====================================
 
+Purge API가 호출될 때 컨텐츠 복구 여부를 선택한다. ::
+
+   # server.xml - <Server><Cache>
+
+   <Purge>Normal</Purge>
+
+-  ``<Purge>``
+
+   - ``Normal (기본)`` `Purge`_ 로 동작한다. (원본장애 시 복구 함)
+
+   - ``Hard`` `HardPurge`_ 로 동작한다. (원본장애 시 복구하지 않음)
+
+
+
+.. _api-monitoring-fileinfo:
+   
+기타설정
+====================================
 
 관리자는 다음과 같이 몇가지 동작방식에 대해 설정할 수 있다. ::
 
@@ -263,18 +278,16 @@ HardPurge는 가장 강력한 삭제방법이지만 삭제한 컨텐츠는 원�
 
 -  ``<ResCodeNoCtrlTarget> (기본: 200)``
 
-   `Purge`_ , `Expire`_ , `HardPurge`_ , `ExpireAfter`_ 의 대상객체가 없을 때의
-   HTTP 응답코드를 설정한다.
-
+   `Purge`_ , `Expire`_ , `HardPurge`_ , `ExpireAfter`_ 의 대상객체가 없을 때의 HTTP 응답코드를 설정한다.
 
 대상 지정은 URL, 패턴 2가지로 표현한다. ::
 
-   example.com/logo.jpg      // URL
-   example.com/img/          // URL
-   example.com/img/*.jpg     // 패턴
-   example.com/img/*         // 패턴
+   www.example.com/bar/trip.mp4     // URL
+   www.example.com/bar/hot/         // URL
+   www.example.com/bar/*.mp4        // 패턴
+   www.example.com/bar/hot/*        // 패턴
 
-명확한 URL 외에 패턴(*.jpg)으로 무효화가 가능하다.
+명확한 URL 외에 패턴(*.mp4)으로 무효화가 가능하다.
 하지만 작업을 수행하기 전까지 대상개수를 명확히 알 수 없다.
 이는 자칫 관리자의 의도와 다르게 너무 많은 대상을 지정할 수 있다.
 이는 실제로 CPU자원을 너무 많이 소모하게 되어 시스템 전체에 부담을 줄 수 있다.
@@ -285,12 +298,12 @@ HardPurge는 가장 강력한 삭제방법이지만 삭제한 컨텐츠는 원�
 
 .. note::
 
-   보안적인 이유로 example.com/files/ 같은 특정 디렉토리에 대한 접근은 403 FORBIDDEN등으로 차단된다.
+   보안적인 이유로 www.example.com/files/ 같은 특정 디렉토리에 대한 접근은 403 FORBIDDEN등으로 차단된다.
    하지만 루트 디렉토리는 예외를 가진다.
-   예를 들어 사용자가 example.com에 접근하면 브라우저는 루트 디렉토리(/)를 요청한다. ::
+   예를 들어 사용자가 www.example.com에 접근하면 브라우저는 루트 디렉토리(/)를 요청한다. ::
 
       GET / HTTP/1.1
-      Host: example.com
+      Host: www.example.com
 
    이에 대해 웹서버는 관리자가 설정한 기본 페이지(아마도 index.html 또는 index.htm)로 응답한다.
    분명 웹 서비스 구성에서 루트 디렉토리(/)는 디렉토리가 아닌 페이지로 동작한다.
@@ -299,28 +312,11 @@ HardPurge는 가장 강력한 삭제방법이지만 삭제한 컨텐츠는 원�
    심지어 원본서버가 어떤 페이지를 응답했는지 알지 못한다.
    간단히 정리하면 Cache서버의 관점에서는 디렉토리 표현도 URL의 한 종류일 뿐이다. ::
 
-      example.com/img/          // example.com 가상호스트의 /img/ 에 접근한 결과 페이지
-      example.com/              // example.com 가상호스트의 기본 페이지(/)
-      example.com/img/*         // example.com 가상호스트의 /img 디렉토리와 그 하위 페이지
-      example.com/*             // example.com 가상호스트의 모든 콘텐츠
+      www.example.com/img/          // www.example.com 가상호스트의 /img/ 에 접근한 결과 페이지
+      www.example.com/              // www.example.com 가상호스트의 기본 페이지(/)
+      www.example.com/img/*         // www.example.com 가상호스트의 /img 디렉토리와 그 하위 페이지
+      www.example.com/*             // www.example.com 가상호스트의 모든 콘텐츠
 
-
-
-
-Purge 기본동작
-====================================
-
-Purge API가 호출될 때 컨텐츠 복구 여부를 선택한다. ::
-
-   # server.xml - <Server><Cache>
-
-   <Purge>Normal</Purge>
-
--  ``<Purge>``
-
-   - ``Normal (기본)`` `Purge`_ 로 동작한다. (원본장애 시 복구 함)
-
-   - ``Hard`` `HardPurge`_ 로 동작한다. (원본장애 시 복구하지 않음)
 
 
 HTTP Method
@@ -329,7 +325,7 @@ HTTP Method
 무효화 API를 확장 HTTP Method로 호출할 수 있다. ::
 
     PURGE /sample.dat HTTP/1.1
-    host: ston.winesoft.co.kr
+    host: www.example.com
 
 HTTP Method는 기본적으로 Manager포트와 서비스(80)포트에서 동작한다.
 서비스포트로 요청되는 HTTP Method의 :ref:`env-host` 에서 설정한다.
@@ -345,4 +341,5 @@ POST 규격
    POST /command/purge HTTP/1.1
    Content-Length: 37
 
-   url=http://ston.winesoft.co.kr/sample.dat
+   url=http://www.example.com/trip.mp4
+   
