@@ -8,7 +8,7 @@
     # vhosts.xml
 
     <Vhosts>
-        <Vhost Name="www.example.com">
+        <Vhost Name="www.example.com/bar">
             <Options>
                 <Rtmp>...</Rtmp>
                 <Http>...</Http>
@@ -154,15 +154,6 @@ HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
       Connection: Keep-Alive
       Keep-Alive: timeout=10
 
-   .. note::
-
-      < ``<Keep-Alive>`` 와 ``<HttpClientKeepAliveSec>`` 의 관계 >
-
-      ``<Keep-Alive>`` 설정시 ``<HttpClientKeepAliveSec>`` 를 참고하지만 ``<HttpClientKeepAliveSec>`` 는 보다 근본적인 문제와 관련이 있다.
-      성능이나 자원적으로 가장 중요한 이슈는 Idle연결(=HTTP 트랜잭션이 발생되지 않는 연결)의 정리시점을 잡는 것이다.
-      HTTP 헤더 설정은 동적으로 변경되거나 때로 생략될 수 있지만 Idle연결 정리는 훨씬 민감한 문제이다.
-      이런 이유 때문에 ``<HttpClientKeepAliveSec>`` 는 ``<KeepAliveHeader>`` 에 통합되지 않고 별도로 존재한다.
-
 
 5. ``<KeepAliveHeader>`` 의 ``Max`` 속성이 설정된 경우 ::
 
@@ -205,13 +196,8 @@ HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
 MP4 헤더위치 변경
 ---------------------
 
-MP4(M4A 포함)의 경우 인코딩 과정 중에는 헤더를 완성할 수 없기 때문에 완료 후 파일의 맨 뒤에 붙인다.
-헤더를 앞으로 옮기려면 별도의 작업이 필요하다.
-헤더가 뒤에 있다면 이를 지원하지 않는 플레이어에서 HTTP Pseudo-Streaming이 불가능하다.
-헤더위치 변경을 통해 HTTP Pseudo-Streaming을 간편하게 지원할 수 있다.
-
-헤더위치 변경은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지 않는다.
-별도의 저장공간을 사용하지도 않는다. ::
+MP4파일의 헤더가 뒤에 있다면 플레이어에 따라 HTTP Pseudo-Streaming이 원활하지 않을 수 있다.
+전송 단계에서 헤더 위치를 앞으로 배치하면 이런 문제를 해결할 수 있다. ::
 
    # server.xml - <Server><VHostDefault><Options><Http>
    # vhosts.xml - <Vhosts><Vhost><Options><Http>
@@ -220,13 +206,13 @@ MP4(M4A 포함)의 경우 인코딩 과정 중에는 헤더를 완성할 수 없
 
 -  ``<UpfrontMP4Header>``
 
-   - ``ON (기본)`` 확장자가 .mp4 또는 .m4a이고 헤더가 뒤에 있다면 헤더를 앞으로 옮겨서 전송한다.
+   - ``ON (기본)`` 확장자가 .mp4, .m4a인 파일의 헤더가 뒤에 있다면 앞으로 옮겨서 전송한다.
 
    - ``OFF`` 아무 것도 하지 않는다.
 
-처음 요청되는 콘텐츠의 헤더를 앞으로 옮겨야 한다면 헤더를 옮기기위해 필요한 부분을 우선적으로 다운로드 받는다.
-STON 미디어 서버는 아주 영리할뿐만 아니라 빠르게 동작한다.
-커튼 뒤의 복잡한 과정과는 상관없이, HTTP Pseudo-Streaming은 자연스럽게 이루어진다.
+처음 요청되는 콘텐츠의 헤더를 앞으로 옮겨야 한다면 필요한 부분을 우선적으로 다운로드 받는다.
+헤더위치 변경은 전송단계에서만 발생할 뿐 원본의 형태를 변경하거나 별도의 저장공간을 사용하지 않는다.
+
 
 .. note::
 
@@ -239,22 +225,22 @@ STON 미디어 서버는 아주 영리할뿐만 아니라 빠르게 동작한다
 Bandwidth Throttling
 --------------------------
 
-BT(Bandwidth Throttling)이란 (각 연결마다)클라이언트 전송 대역폭을 동적으로 조절하는 기능이다.
+Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 최적화하여 전송하는 기능이다.
 일반적인 미디어 파일의 내부는 다음과 같이 헤더, V(Video), A(Audio)로 구성되어 있다.
 
 .. figure:: img/conf_media_av.png
    :align: center
 
-   헤더는 BT의 대상이 아니다.
+   헤더는 쓰로틀링의 대상이 아니다.
 
-헤더는 재생시간이 길거나 Key Frame주기가 짧을수록 커진다.
+헤더는 재생시간이 길거나 키 프레임(Key Frame)주기가 짧을수록 커진다.
 그러므로 인식할 수 있는 미디어 파일이라면 원활한 재생을 위해 헤더는 대역폭 제한없이 전송한다.
-다음 그림처럼 헤더가 완전히 전송된 뒤 BT가 시작된다.
+다음 그림처럼 헤더가 완전히 전송된 뒤 쓰로틀링이 시작된다.
 
 .. figure:: img/conf_bandwidththrottling2.png
    :align: center
 
-   동작 시나리오
+   최적화된 대역폭 활용
 
 ::
 
@@ -293,8 +279,8 @@ BT(Bandwidth Throttling)이란 (각 연결마다)클라이언트 전송 대역�
    -  ``ON`` 조건목록과 일치하면 BT를 적용한다.
 
 
-BT는 조건목록을 설정해야 동작한다.
-설정된 순서대로 조건과 일치하는지 검사한다.
+쓰로틀링은 조건목록을 설정해야 동작한다.
+설정된 순서대로 우선순위를 가진다.
 전송 정책은 /svc/{가상호스트 이름}/http_throttling.txt 에 설정한다. ::
 
    # /svc/www.example.com/http_throttling.txt
@@ -329,9 +315,8 @@ BT는 조건목록을 설정해야 동작한다.
    # /low_quality/* 파일에 대한 접근이라면 bandwidth를 구한다. 구할 수 없다면 기본 값을 bandwidth로 사용한다.
    $URL[/low_quality/*], x, 200
 
-
-약속된 QueryString을 사용하여 ``<Bandwidth>`` , ``<Ratio>`` , ``<Boost>`` 를 URL로부터 입력받을 수 있다.
-QueryString은 앞서 살펴본 설정보다 우선한다. ::
+HTTP QueryString을 사용하여 ``<Bandwidth>`` , ``<Ratio>`` , ``<Boost>`` 를 URL로 지정할 수 있다.
+QueryString 조건은 http_throttling.txt보다 우선한다. ::
 
    # server.xml - <Server><VHostDefault><Options><Http>
    # vhosts.xml - <Vhosts><Vhost><Options><Http>
@@ -347,7 +332,7 @@ QueryString은 앞서 살펴본 설정보다 우선한다. ::
 
 -  ``<Bandwidth>`` , ``<Ratio>`` , ``<Boost>`` 의 ``Param``
 
-    각각의 의미에 맞게 QueryString 키를 설정한다.
+    용도별 HTTP QueryString 키를 설정한다.
 
 -  ``<Throttling>`` 의 ``QueryString``
 
@@ -355,32 +340,31 @@ QueryString은 앞서 살펴본 설정보다 우선한다. ::
 
    - ``OFF`` QueryString으로 조건을 재정의하지 않는다.
 
-위와 같이 설정되어 있다면 다음과 같이 클라이언트가 요청한 URL에 따라 BT가 동적으로 설정된다. ::
+위와 같이 설정되어 있다면 다음과 같이 클라이언트가 요청한 URL에 따라 쓰로틀링이 동적으로 설정된다. ::
 
     # 10초의 데이터를 속도 제한없이 전송한 후 1.3Mbps(1mbps X 130%)로 클라이언트에게 전송한다.
-    http://www.example.com/video/sample.wmv?myboost=10&mybandwidth=1&myratio=130
+    http://www.example.com/bar/mp4:trip.mp4?myboost=10&mybandwidth=1&myratio=130
 
 반드시 모든 파라미터를 명시할 필요는 없다. ::
 
-    http://www.example.com/video/sample.wmv?myratio=150
+    http://www.example.com/bar/mp4:trip.mp4?myratio=150
 
 위와 같이 일부 조건이 생략된 경우 나머지 조건(여기서는 bandwidth, boost)을 결정하기 위해 조건목록을 검색한다.
 여기서도 적합한 조건을 찾지 못하는 경우 ``<Settings>`` 에 설정된 기본 값을 사용한다.
-QueryString이 일부 존재하더라도 조건목록에서 미적용옵션(no)이 설정되어 있다면
-BT는 적용되지 않는다.
+QueryString이 일부 존재하더라도 조건목록에서 미적용 옵션(no)이 설정되어 있다면 쓰로틀링은 적용되지 않는다.
 
 QueryString을 사용하므로 자칫 :ref:`caching-policy-applyquerystring` 과 혼동을 일으킬 소지가 있다.
 :ref:`caching-policy-applyquerystring` 이 ``ON`` 인 경우 클라이언트가 요청한 URL의 QueryString이
 모두 인식되지만 ``BoostParam`` , ``BandwidthParam`` , ``RatioParam`` 은 제외된다. ::
 
-   GET /video.mp4?mybandwidth=2000&myratio=130&myboost=10
-   GET /video.mp4?tag=3277&myboost=10&date=20130726
+   GET /bar/mp4:trip.mp4?mybandwidth=2000&myratio=130&myboost=10
+   GET /bar/mp4:trip.mp4?tag=3277&myboost=10&date=20130726
 
-예를 들어 위같은 입력은 BT를 결정하는데 쓰일 뿐 Caching-Key를 생성하거나 원본서버로 요청을 보낼 때는 제거된다.
+예를 들어 위와 같은 입력은 쓰로틀링 정책을 결정하는데 쓰일 뿐 Caching-Key를 생성하거나 HTTP 원본서버로 요청을 보낼 때는 제거된다.
 즉 각각 다음과 같이 인식된다. ::
 
-    GET /video.mp4
-    GET /video.mp4?tag=3277&date=20130726
+    GET /trip.mp4
+    GET /trip.mp4?tag=3277&date=20130726
 
 
 
@@ -566,9 +550,8 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 HLS 클라이언트
 ====================================
 
-MP4/MP3파일을 HLS(HTTP Live Streaming)로 서비스한다.
-원본서버는 더 이상 HLS서비스를 위해 파일을 분할저장할 필요가 없다.
-헤더의 위치에 상관없이 다운로드와 동시에 실시간으로 .m3u8/.ts파일 변환 후 서비스한다.
+미디어 파일을 HLS(HTTP Live Streaming)로 서비스한다.
+원본서버는 더 이상 HLS 서비스를 위해 파일을 분할/저장할 필요가 없다.
 
 ..  note::
 
@@ -591,9 +574,8 @@ MP4/MP3파일을 HLS(HTTP Live Streaming)로 서비스한다.
     Note: iPad, iPhone 3G, and iPod touch (2nd generation and later) support H.264 Baseline 3.1. If your app runs on older versions of iPhone or iPod touch, however, you should use H.264 Baseline 3.0 for compatibility. If your content is intended solely for iPad, Apple TV, iPhone 4 and later, and Mac OS X computers, you should use Main Level 3.1.
 
 
-기존 방식의 경우 Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일이 각각 존재해야 한다.
-이런 경우 STON 역시 원본 파일을 그대로 복제하여 고객에게 서비스한다.
-하지만 재생시간이 길수록 파생파일은 많아지며 관리의 어려움은 증가한다.
+기존 방식의 HTTP Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일과 분할된 파일이 각각 존재해야 한다.
+이 방식의 단점은 분할 파일로 인한 저장공간 점유와 관리의 어려움이다.
 
 .. figure:: img/conf_media_mp4hls1.png
    :align: center
@@ -608,28 +590,40 @@ STON 미디어 서버는 원본파일로부터 HLS서비스에 필요한 파일�
    똑똑한 HLS
 
 모든 .m3u8/.ts파일은 원본파일에서 파생되며 별도의 저장공간을 소비하지 않는다.
-서비스 즉시 메모리에 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다. 
+서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
+
+
+.. _multi_protocol_hls_session_clientkeepalivesec:
+
+연결 유지시간
+---------------------
+::
+
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+   
+   <ClientKeepAliveSec>30</ClientKeepAliveSec>
+
+-  ``<ClientKeepAliveSec> (기본: 30초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
+
 
 
 .. _multi_protocol_hls_session_mp4:
 
-MP4 포맷
+MP4 분할
 ---------------------
-MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
+MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <ClientKeepAliveSec>10</ClientKeepAliveSec>
    <MP4 Status="Active">
       <Index Ver="3" Alternates="ON">index.m3u8</Index>
       <Sequence>0</Sequence>
       <Duration>10</Duration>
       <AlternatesName>playlist.m3u8</AlternatesName>
    </MP4>
-
--  ``<ClientKeepAliveSec> (기본: 10초)``
-   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
 
 -  ``<MP4>``
 
@@ -655,37 +649,28 @@ MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 -  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
 
--  ``<Duration> (기본: 10초)`` MP4를 HLS로 분할하는 기준 시간(초).
+-  ``<Duration> (기본: 10초)`` MP4를 분할(Segmentation)하는 기준 시간(초).
    분할의 기준은 Video/Audio의 KeyFrame이다.
-   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않는다.
+   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않을 수 있다.
    만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
 
 -  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
 
-      http://www.example.com/mp4:video.mp4/playlist.m3u8
+      http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8
 
 
-서비스 주소가 다음과 같다면 해당 주소로 HTTP Pseudo-Streaming을 진행할 수 있다. ::
+다음 URL이 호출되면 HTTP 원본서버의 /trip.mp4로부터 인덱스 파일을 생성한다. ::
 
-    http://www.example.com/mp4:video.mp4
-
-다음 URL이 호출되면 /video.mp4로부터 index.m3u8파일을 생성한다. ::
-
-   http://www.example.com/mp4:video.mp4/index.m3u8
+   http://www.example.com/bar/mp4:trip.mp4/index.m3u8
 
 ``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
 
    #EXTM3U
    #EXT-X-VERSION:3
    #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
-   /mp4:video.mp4/playlist.m3u8
+   /bar/mp4:trip.mp4/playlist.m3u8
 
 ``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
-
-.. note::
-
-   Stream Alternates를 제공하긴 하지만 현재 버전에서 index.m3u8는 항상 하나의 서브 인덱스 파일(playlist.m3u8)만을 제공한다.
-   캐시 입장에서는 video_1080.mp4와 video_720.mp4가 (인코딩 옵션만 다른) 같은 영상인지 알 수 없기 때문이다.
 
 
 최종적으로 생성된 .ts 목록(버전 3)은 다음과 같다. ::
@@ -695,27 +680,27 @@ MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
    #EXT-X-VERSION:3
    #EXT-X-MEDIA-SEQUENCE:0
    #EXTINF:11.637,
-   /mp4:video.mp4/0.ts
+   /bar/mp4:trip.mp4/0.ts
    #EXTINF:10.092,
-   /mp4:video.mp4/1.ts
+   /bar/mp4:trip.mp4/1.ts
    #EXTINF:10.112,
-   /mp4:video.mp4/2.ts
+   /bar/mp4:trip.mp4/2.ts
 
    ... (중략)...
 
    #EXTINF:10.847,
-   /mp4:video.mp4/161.ts
+   /bar/mp4:trip.mp4/161.ts
    #EXTINF:9.078,
-   /mp4:video.mp4/162.ts
+   /bar/mp4:trip.mp4/162.ts
    #EXT-X-ENDLIST
 
 
 .. _multi_protocol_hls_session_mp3:
 
-MP3 포맷
+MP3 분할
 ---------------------
 
-MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
+MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
@@ -729,7 +714,7 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 -  ``<MP3>``
 
-   - ``SegmentType (기본: TS)`` 분할포맷을 설정한다. (TS 또는 MP3)
+   - ``SegmentType (기본: TS)`` 분할 포맷을 설정한다. (TS 또는 MP3)
 
 그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
 
@@ -738,10 +723,10 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 .. _multi_protocol_hls_session_segmentation:
 
-분할정책
+키 프레임과 분할
 ---------------------
 
-분할(Segmentation)에는 3가지 정책이 있다.
+키 프레임에 따라 분할(Segmentation)에는 3가지 경우가 있다.
 
 -  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
    KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
@@ -754,14 +739,14 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
 다음 클라이언트 요청에 대해 STON이 어떻게 동작하는지 이해해보자. ::
 
-   GET /mp4:video.mp4/99.ts HTTP/1.1
+   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
    Range: bytes=0-512000
    Host: www.example.com
 
 1.	``STON`` 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
 #.	``Client`` HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
-#.	``STON`` /video.mp4 파일 캐싱객체 생성
-#.	``STON`` /video.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
+#.	``STON`` /trip.mp4 파일 캐싱객체 생성
+#.	``STON`` /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
 #.	``STON`` 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
 #.	``STON`` 100번째(99.ts)파일 생성 후 Range 서비스
 #.	``STON`` 서비스가 완료되면 99.ts파일 파괴
@@ -771,10 +756,10 @@ MP3 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
    ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
    영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
 
-      /mp4:video.mp4?start=0&end=60/index.m3u8
+      /bar/mp4:trip.mp4?start=0&end=60/index.m3u8
 
    동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
    이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
 
-      /mp4:video.mp4/index.m3u8?start=0&end=60
-      /mp4:video.mp4?start=0/index.m3u8?end=60
+      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
+      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
