@@ -56,9 +56,9 @@
       # vhosts.xml
    
       <Vhosts>
-         <Vhost Status="Active" Name="kim.com"> ... </Vhost>
-         <Vhost Status="Active" Name="lee.com"> ... </Vhost>
-         <Vhost Status="Active" Name="park.com" StaticIndex="10300"> ... </Vhost>
+         <Vhost Name="www.example.com"> ... </Vhost>
+         <Vhost Name="/foo"> ... </Vhost>
+         <Vhost Name="www.example.com/bar" StaticIndex="10300"> ... </Vhost>
       </Vhosts>
    
    최초 위와 같이 3개의 가상호스트가 로딩되면 1부터 순차적으로  ``[vhostIndex]`` 가 부여된다. 
@@ -139,15 +139,15 @@ SNMP를 통해 제공되는 가상호스트/View 개수와 기본시간(분)을 
 
 - VHostCount=0인 경우 ::
 
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "web.winesoft.co.kr"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "img.winesoft.co.kr"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "vod.winesoft.co.kr"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "www.example.com"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "/foo"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "www.example.com/bar"
     
 - VHostCount=5 경우 ::
 
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "web.winesoft.co.kr"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "img.winesoft.co.kr"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "vod.winesoft.co.kr"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "www.example.com"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "/foo"
+    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "www.example.com/bar"
     SNMPv2-SMI::enterprises.40002.1.4.2.1.2.4 = ""
     SNMPv2-SMI::enterprises.40002.1.4.2.1.2.5 = ""
 
@@ -221,7 +221,7 @@ meta
 OID   Name          Type      Description
 ===== ============= ========= ===========================================
 .1    manufacture   String    "WineSOFT Inc."
-.2    software      String    "STON"
+.2    software      String    "STON Media Server"
 .3    version       String    버전
 .4    hostname      String    호스트 이름
 .5    state         String    "Healthy" 또는 "Inactive" 또는 "Emergency"
@@ -246,17 +246,18 @@ meta.conf
 2인 경우는 이전 설정 값을 의미한다. 
 10 이라면 현재(1)로부터 9번째 이전의 설정을 의미한다.
 
-==================== ======= ======= =============================================================================================
+==================== ======= ======= ==============================================================
 OID                  Name    Type    Description
-==================== ======= ======= =============================================================================================
+==================== ======= ======= ==============================================================
 .1. ``[confIndex]``  ID      Integer 설정 ID
 .2. ``[confIndex]``  Time    Integer 설정시간 (Unix 시간)
-.3. ``[confIndex]``  Type    Integer 설정형태 (0 = Unknown, 1 = STON 시작, 2 = /conf/reload, 3 = /conf/upload, 4 = /conf/restore)
+.3. ``[confIndex]``  Type    Integer 설정형태
+                                     (0: Unknown, 1: STON 구동, 2: reload, 3: upload, 4: restore)
 .4. ``[confIndex]``  Size    Integer 설정파일 크기
 .5. ``[confIndex]``  Hash    String  설정파일 Hash문자열
 .6. ``[confIndex]``  Path    String  설정파일 저장경로
 .7. ``[confIndex]``  Ver     String  설정할 때의 STON 버전
-==================== ======= ======= =============================================================================================
+==================== ======= ======= ==============================================================
 
 
 
