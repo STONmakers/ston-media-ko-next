@@ -324,7 +324,7 @@ HTTP Method
 
 무효화 API를 확장 HTTP Method로 호출할 수 있다. ::
 
-    PURGE /sample.dat HTTP/1.1
+    PURGE /trip.mp4 HTTP/1.1
     host: www.example.com
 
 HTTP Method는 기본적으로 Manager포트와 서비스(80)포트에서 동작한다.
