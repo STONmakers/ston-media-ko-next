@@ -895,21 +895,3 @@ RTMP 통계는 다음과 같다. ::
 -  ``NoCache`` ("Y" or "N") 원본서버에서 no-cache응답을 줬다면 "Y"
 
 
-
-.. _api-monitoring-logtrace:
-   
-Log Trace
-====================================
-
-기록되는 로그를 실시간으로 받아본다. 
-Access, Origin, Monitoing로그는 가상호스트(vhost)를 지정해야 한다. ::
-
-    http://127.0.0.1:20040/monitoring/logtrace/info
-    http://127.0.0.1:20040/monitoring/logtrace/deny
-    http://127.0.0.1:20040/monitoring/logtrace/sys
-    http://127.0.0.1:20040/monitoring/logtrace/originerror
-    http://127.0.0.1:20040/monitoring/logtrace/access?vhost=www.site1.com
-    http://127.0.0.1:20040/monitoring/logtrace/origin?vhost=www.site1.com
-    http://127.0.0.1:20040/monitoring/logtrace/monitoring?vhost=www.site1.com
-
-
