@@ -16,8 +16,8 @@ STON에서 모든 통계는 1초단위로 수집되며 최소 단위가 된다.
 통계는 가상호스트별로 따로 수집될 뿐만 아니라 실시간(1초), 5분 평균으로 제공된다. 
 고객이 통계를 보다 쉽게 분석, 가공할 수 있도록 JSON과 XML 포맷으로 제공한다. ::
 
-    http://127.0.0.1:10040/monitoring/realtime?type=[JSON 또는 XML]
-    http://127.0.0.1:10040/monitoring/average?type=[JSON 또는 XML]
+    http://127.0.0.1:20040/monitoring/realtime?type=[JSON 또는 XML]
+    http://127.0.0.1:20040/monitoring/average?type=[JSON 또는 XML]
     
 -  ``realtime`` 
    1초 전 서비스 상태를 제공한다.
@@ -799,7 +799,7 @@ RTMP 통계는 다음과 같다. ::
 
 가상호스트 목록을 조회한다. ::
 
-    http://127.0.0.1:10040/monitoring/vhostslist
+    http://127.0.0.1:20040/monitoring/vhostslist
     
 결과는 JSON형식으로 제공된다. ::
 
@@ -821,7 +821,7 @@ RTMP 통계는 다음과 같다. ::
 일반적으로 파일은 URL로 구분되지만 같은 URL에 다른 옵션(i.e. Accept-Encoding등)이 
 존재하는 경우 여러 개의 파일이 존재할 수 있다. ::
 
-    http://127.0.0.1:10040/monitoring/fileinfo?url=example.com/sample.dat
+    http://127.0.0.1:20040/monitoring/fileinfo?url=example.com/sample.dat
     
 결과는 JSON형식으로 제공된다.
 다음은 /sample.dat파일의 정보를 열람한 결과이다. ::
@@ -914,12 +914,12 @@ Log Trace
 기록되는 로그를 실시간으로 받아본다. 
 Access, Origin, Monitoing로그는 가상호스트(vhost)를 지정해야 한다. ::
 
-    http://127.0.0.1:10040/monitoring/logtrace/info
-    http://127.0.0.1:10040/monitoring/logtrace/deny
-    http://127.0.0.1:10040/monitoring/logtrace/sys
-    http://127.0.0.1:10040/monitoring/logtrace/originerror
-    http://127.0.0.1:10040/monitoring/logtrace/access?vhost=www.site1.com
-    http://127.0.0.1:10040/monitoring/logtrace/origin?vhost=www.site1.com
-    http://127.0.0.1:10040/monitoring/logtrace/monitoring?vhost=www.site1.com
+    http://127.0.0.1:20040/monitoring/logtrace/info
+    http://127.0.0.1:20040/monitoring/logtrace/deny
+    http://127.0.0.1:20040/monitoring/logtrace/sys
+    http://127.0.0.1:20040/monitoring/logtrace/originerror
+    http://127.0.0.1:20040/monitoring/logtrace/access?vhost=www.site1.com
+    http://127.0.0.1:20040/monitoring/logtrace/origin?vhost=www.site1.com
+    http://127.0.0.1:20040/monitoring/logtrace/monitoring?vhost=www.site1.com
 
 
