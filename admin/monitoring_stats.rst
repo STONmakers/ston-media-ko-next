@@ -38,9 +38,9 @@ STON에서 모든 통계는 1초단위로 수집되며 최소 단위가 된다.
 같은 통계를 JSON과 XML형식으로 제공한다. ::
 
    {                                            <Host                                    
-     "Host":                                      Version="2.0.0"                       
+     "Host":                                      Version="1.0.0"                       
      {                                            Name="localhost"                       
-       "Version":"2.0.0",                         State="Healthy"                        
+       "Version":"1.0.0",                         State="Healthy"                        
        "Name":"localhost",                        Uptime="155986"                        
        "State":"Healthy",                         AllOriginSession="0" 
        "Uptime":155996,                           AllOriginActiveSession="0" 
@@ -76,53 +76,43 @@ STON에서 모든 통계는 1초단위로 수집되며 최소 단위가 된다.
      }                                            </Host>
    }
    
--  ``Version`` STON 버전
+-  ``Version`` STON 미디어 서버 버전
 -  ``Name`` 호스트이름. 설정하지 않았다면 시스템 이름을 보여준다.
 -  ``State`` 서비스 상태. (Healthy=정상 서비스, Inactive=라이센스 비활성화, Emergency)
 -  ``Uptime (단위: 초)`` 서비스 실행시간
--  ``AllOriginSession`` 전체 원본세션 수
--  ``AllOriginActiveSession`` ``AllOriginSession`` 중 전송 중인 세션 수
+-  ``AllOriginSession`` 연결된 전체 원본세션 수
+-  ``AllOriginActiveSession`` 전송 중인 전체 원본세션 수
 -  ``AllOriginInbound (단위: Bytes, 평균)`` 전체 원본서버부터 받은 양
 -  ``AllOriginOutbound (단위: Bytes, 평균)`` 전체 원본서버로 보낸 양
--  ``HttpOriginSession`` HTTP 원본세션 수
--  ``HttpOriginActiveSession`` ``HttpOriginSession`` 중 전송 중인 세션 수
+-  ``HttpOriginSession`` 연결된 HTTP 원본세션 수
+-  ``HttpOriginActiveSession`` 전송 중인 HTTP 원본세션 수
 -  ``HttpOriginInbound (단위: Bytes, 평균)`` HTTP를 이용해 원본서버부터 받은 양
 -  ``HttpOriginOutbound (단위: Bytes, 평균)`` HTTP를 이용해  원본서버로 보낸 양
--  ``AllClientSession`` 전체 클라이언트 세션 수
--  ``AllClientActiveSession`` ``AllClientSession``  중 전송 중인 세션 수
+-  ``AllClientSession`` 연결된 전체 클라이언트 세션 수
+-  ``AllClientActiveSession`` 전송 중인 전체 클라이언트 세션 수
 -  ``AllClientInbound (단위: Bytes, 평균)`` 전체 클라이언트로부터 받은 양
 -  ``AllClientOutbound (단위: Bytes, 평균)`` 전체 클라이언트로에게 보낸 양
--  ``HttpClientSession`` HTTP 클라이언트 세션 수
--  ``HttpClientActiveSession`` ``HttpClientSession`` 중 전송 중인 세션 수
+-  ``HttpClientSession`` 연결된 HTTP 클라이언트 세션 수
+-  ``HttpClientActiveSession`` 전송 중인 HTTP 클라이언트 세션 수
 -  ``HttpClientInbound (단위: Bytes, 평균)`` HTTP를 이용해 클라이언트로부터 받은 양
 -  ``HttpClientOutbound (단위: Bytes, 평균)`` HTTP를 이용해 클라이언트로 보낸 양
--  ``HlsClientSession`` HLS 클라이언트 세션 수
--  ``HlsClientActiveSession`` ``HlsClientSession`` 중 전송 중인 세션 수
+-  ``HlsClientSession`` 연결된 HLS 클라이언트 세션 수
+-  ``HlsClientActiveSession`` 전송 중인 HLS 클라이언트 세션 수
 -  ``HlsClientInbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로부터 받은 양
 -  ``HlsClientOutbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로 보낸 양
--  ``RtmpClientSession`` RTMP 클라이언트 세션 수
--  ``RtmpClientActiveSession`` ``RtmpClientSession`` 중 전송 중인 세션 수
+-  ``RtmpClientSession`` 연결된 RTMP 클라이언트 세션 수
+-  ``RtmpClientActiveSession`` 전송 중인 RTMP 클라이언트 세션 수
 -  ``RtmpClientInbound (단위: Bytes, 평균)`` RTMP를 이용해 클라이언트로부터 받은 양
 -  ``RtmpClientOutbound (단위: Bytes, 평균)`` RTMP를 이용해 클라이언트로 보낸 양
--  ``RequestHitRatio (단위: 0.01%, 평균)`` Hit율. 
-   캐싱객체가 생성되어 있고 해당 객체가 초기화되어 있다면 Hit이다. 
-   반대로 캐싱객체가 없거나 해당 객체가 원본서버로부터 초기화되지 않았다면 Hit로 치지 않는다. 
-   응답코드와 Hit율은 관련이 없다.
-   
-   .. figure:: img/stat_filesystem1.png
-      :align: center
-      
-      HTTP와 File I/O는 가상호스트를 공유한다.
-      
-   Apache를 통해 접근되는 File I/O의 RequestHitRatio는 0%이 된다.
-   하지만 HTTP Server의 경우 File I/O에 의해 캐싱된 파일을 접근하기 때문에 100%의 RequestHitRatio를 가진다. 
-   ByteHitRatio의 경우 원본 Inbound대비 Http outbound, File I/O outbound로 각각 계산된다.
+-  ``RequestHitRatio (단위: 0.01%, 평균)`` HIT율. 
+   캐싱객체가 생성되어 있고 해당 객체가 초기화되어 있다면 HIT이다. 
+   반대로 캐싱객체가 없거나 해당 객체가 원본서버로부터 초기화되지 않았다면 MISS이다.
    
 -  ``ByteHitRatio (단위: 0.01%, 평균)`` 원본서버 대비 클라이언트 전송률. ::
 
       (클라이언트 Outbound - 원본서버 Inbound) / 클라이언트 Outbound
       
-   원본서버가 훨씬 빠른 속도를 가지고 있거나 클라이언트 세션이 금방 끊어진다면 음수가 된다.
+   원본서버가 훨씬 빠른 속도를 가지고 있거나 클라이언트 세션이 금방 끊어진다면 음수가 될 수 있다.
 
 
 
@@ -292,9 +282,9 @@ System 통계
 가상호스트 통계는 프로토콜별로 구분된다. ::
 
    "VirtualHost":                              <VirtualHost                                 
-   [                                               Name="example.com"                                                                   
+   [                                               Name="www.example.com"  
      {                                             Uptime="155986"              
-       "Name":"example.com",                       AllOriginSession="0"                                   
+       "Name":"www.example.com",                   AllOriginSession="0"                                   
        "Uptime":155996,                            AllOriginActiveSession="0"   
        "AllOriginSession":33,                      AllOriginInbound="0"                                    
        "AllOriginActiveSession":20,                AllOriginOutbound="0"                                   
@@ -432,7 +422,7 @@ System 통계
 원본 통계
 ------------------------------
 
-STON과 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
+STON 미디어 서버와 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
 
    "OriginTraffics":                             <OriginTraffics>
    {                                               <Http> ... </Http>
@@ -440,7 +430,7 @@ STON과 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공�
    }
                                                  
 
-HTTP는 다음과 같다. ::
+HTTP 세부항목은 다음과 같다. ::
 
    "Http":                                       <Http>                                             
    {                                               <ReqCount Sum="600">2</ReqCount>       
@@ -563,7 +553,7 @@ HTTP는 다음과 같다. ::
      "Rtmp": { ... },                            </ClientTraffics>
    }
 
-HTTP 통계는 다음과 같다. ::
+HTTP 클라이언트 통계는 다음과 같다. ::
 
    "Http":                                       <Http RequestHitRatio="9998">
    {                                               <ReqCount Sum="0">0</ReqCount>
@@ -677,7 +667,7 @@ HTTP 통계는 다음과 같다. ::
    -  ``RequestHitSum`` 캐시 HIT 결과
 
 
-HLS는 상위 태그만 제외하고 HTTP통계와 모든 필드/의미가 동일하다. ::
+HLS 클라이언트 통계는 HTTP 클라이언트 통계와 모든 필드/의미가 동일하다. ::
 
    "Hls": { ... }                                <Hls RequestHitRatio="0"> ... </Hls>
 
@@ -807,7 +797,7 @@ RTMP 통계는 다음과 같다. ::
         "version": "2.0.0",
         "method": "vhostslist",
         "status": "OK",
-        "result": [ "www.example.com","www.winesoft.com", "site1.com" ] 
+        "result": [ "www.example.com","/foo", "www.example.com/bar" ] 
     }
 
 
@@ -817,23 +807,23 @@ RTMP 통계는 다음과 같다. ::
 캐싱정보
 ====================================
 
-캐싱하고 있는 파일상태를 모니터링한다. 
+캐싱하고 있는 파일상태를 모니터링한다.
 일반적으로 파일은 URL로 구분되지만 같은 URL에 다른 옵션(i.e. Accept-Encoding등)이 
 존재하는 경우 여러 개의 파일이 존재할 수 있다. ::
 
-    http://127.0.0.1:20040/monitoring/fileinfo?url=example.com/sample.dat
+    http://127.0.0.1:20040/monitoring/fileinfo?url=example.com/trip.mp4
     
 결과는 JSON형식으로 제공된다.
-다음은 /sample.dat파일의 정보를 열람한 결과이다. ::
+다음은 /trip.mp4파일의 정보를 열람한 결과이다. ::
 
     {
-        "version": "2.0.0",
+        "version": "1.0.0",
         "method": "fileinfo",
         "status": "OK",
         "result":
         [ 
             {
-                "URI": "/sample.dat",
+                "URI": "/trip.mp4",
                 "Accept-Encoding": "N",
                 "RefCount": 0,
                 "Disk-Index": 0,
@@ -843,8 +833,8 @@ RTMP 통계는 다음과 같다. ::
                 "File-Opened ": "N",
                 "File-Updating": "-",
                 "Downloader-Count": "0",
-                "LastAccess": "[ 2012.09.03 14:29:50, -2 ]",
-                "UpdateTime": "[ 2012.09.03 13:53:43, -2169 ]",
+                "LastAccess": "[ 2016.09.03 14:29:50, -2 ]",
+                "UpdateTime": "[ 2016.09.03 13:53:43, -2169 ]",
                 "TTL-Left": "[ 2012.10.03 13:53:43, 2589831 ]",
                 "ResponseCode": 200,
                 "ContentType": "text/plain",
