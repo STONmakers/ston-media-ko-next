@@ -4,19 +4,20 @@
 ******************
 
 이 장에서는 STON 미디어서버와 HTTP 원본서버 구간의 통신에 대해 알아본다.
-HTTP 원본서버란 일반적으로 Apache같은 웹서버를 의미하지만 AWS의 S3같은 HTTP로 통신할 수 있는 서버 모두를 포함한다. ::
+HTTP 원본서버에 대해 Apache 웹서버만 생각하기 쉽지만 AWS S3같은 HTTP로 통신할 수 있는 서버 모두를 포함한다. ::
 
-   # server.xml - <Server><VHostDefault><OriginOptions>
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions>
+   # server.xml - <Server><VHostDefault>
+   # vhosts.xml - <Vhosts><Vhost>
 
-   <Http>
-       ... (세부설정) ...
-   </Http>
+   <OriginOptions>
+       <Http>
+           ... (세부설정) ...
+       </Http>
+   </OriginOptions>
 
 이 장에서 다루는 모든 설정은 ``<Http>`` 하위 태그로 구성된다.
 
-관리자라면 원본서버를 보호하기 위해 이번 장의 모든 내용을 숙지할 필요가 있다.
-이를 바탕으로 원본서버 장애에도 서비스가 안정적으로 운영될 수 있도록 높은 내구성을 갖출 수 있다. 
+
 
 .. toctree::
    :maxdepth: 2
@@ -27,7 +28,7 @@ HTTP 원본서버란 일반적으로 Apache같은 웹서버를 의미하지만 A
 장애감지와 복구
 ====================================
 
-Caching과정 중 HTTP 원본서버에 장애가 발생하면 자동배제한다.
+Caching과정 중 원본서버에 장애가 발생하면 자동배제한다.
 다시 안정화됐다고 판단하면 서비스에 투입한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
@@ -66,46 +67,8 @@ Caching과정 중 HTTP 원본서버에 장애가 발생하면 자동배제한다
       콤마(,)를 사용하여 유효한 응답코드를 멀티로 설정한다.
       200, 206, 404로 설정하면 응답코드가 이 중 하나인 경우 정상응답으로 처리한다.
 
-   -  ``Log (기본: ON)`` 복구를 위해 사용된 HTTP Transaction을 :ref:`admin-log-origin` 에 기록한다.
+   -  ``Log (기본: ON)`` 복구를 위해 사용된 HTTP 트랜잭션을 :ref:`admin-log-origin` 에 기록한다.
 
-
-
-.. _http_origin_health_checker:
-
-Health-Checker
-====================================
-
-`장애감지와 복구`_ 는 Caching 과정 중 발생하는 장애에 대응한다.
-``<Recovery>`` 는 응답코드를 받는 즉시 HTTP Transaction을 종료한다.
-하지만 Health-Checker는 HTTP Transaction이 성공함을 확인한다. ::
-
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
-
-   <HealthChecker ResCode="0" Timeout="10" Cycle="10"
-                  Exclusion="3" Recovery="5" Log="ON">/</HealthChecker>
-   <HealthChecker ResCode="200, 404" Timeout="3" Cycle="5"
-                  Exclusion="5" Recovery="20" Log="ON">/alive.html</HealthChecker>
-
--  ``<HealthChecker> (기본: /)``
-
-   Health-Checker를 구성한다. 멀티로 구성이 가능하다.
-   값으로 Uri를 지정하며, XML예외 문자의 경우 CDATA를 사용한다.
-
-   -  ``ResCode (기본: 0)`` 올바른 응답코드 (콤마로 멀티 구성가능)
-
-   -  ``Timeout (기본: 10초)`` 소켓연결부터 HTTP Transaction이 완료될 때까지 유효시간
-
-   -  ``Cycle (기본: 10초)`` 실행주기
-
-   -  ``Exclusion (기본: 3회)`` 연속 n회 실패 시 해당서버 배제
-
-   -  ``Recovery (기본: 5회)`` 연속 n회 성공 시 해당서버 재투입
-
-   -  ``Log (기본: ON)`` HTTP Transaction을 :ref:`admin-log-origin` 에 기록한다.
-
-Health-Checker는 멀티로 구성할 수 있으며 클라이언트 요청과 상관없이 독립적으로 수행된다.
-`장애감지와 복구`_ 나 다른 Health-Checker와도 정보를 공유하지 않고
-자신만의 기준으로 배제와 투입을 결정한다.
 
 
 .. _http_origin_use_policy:
@@ -348,11 +311,11 @@ Range요청
 전체 Range 초기화
 ====================================
 
-HTTP 원본서버로부터 처음 파일을 다운로드 할 때나 갱신확인 할 때는 다음과 같이 단순한 형태의 GET 요청을 보낸다. ::
+원본서버로부터 처음 파일을 다운로드 할 때나 갱신확인 할 때는 다음과 같이 단순한 형태의 GET 요청을 보낸다. ::
 
-    GET /video.mp4 HTTP/1.1
+    GET /trip.mp4 HTTP/1.1
 
-하지만 HTTP 원본서버가 일반적인 GET요청에 대하여 항상 파일을 변조하도록 설정되어 있다면 원본파일 그대로를 Caching할 수 없어서 문제가 될 수 있다.
+하지만 원본서버가 일반적인 GET요청에 대하여 항상 파일을 변조하도록 설정되어 있다면 원본파일 그대로를 Caching할 수 없어서 문제가 될 수 있다.
 
 가장 대표적인 예는 Apache 웹서버가 mod_h.264_streaming같은 외부모듈과 같이 구동되는 경우이다.
 Apache 웹서버는 GET요청에 대해서 항상 mod_h.264_streaming모듈을 통해서 응답한다.
@@ -377,7 +340,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
    - ``ON`` 0부터 시작하는 Range요청을 보낸다.
      Apache의 경우 Range헤더가 명시되면 모듈을 우회한다. ::
 
-        GET /video.mp4 HTTP/1.1
+        GET /trip.mp4 HTTP/1.1
         Range: bytes=0-
 
      최초로 파일 Caching할 때는 컨텐츠의 Range를 알지 못하므로 Full-Range(=0부터 시작하는)를 요청한다.
@@ -386,7 +349,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
 콘텐츠를 갱신할 때는 다음과 같이 **If-Modified-Since** 헤더가 같이 명시된다.
 원본서버가 올바르게 **304 Not Modified** 로 응답해야 한다. ::
 
-   GET /video.mp4 HTTP/1.1
+   GET /trip.mp4 HTTP/1.1
    Range: bytes=0-
    If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
 
@@ -405,7 +368,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
 HTTP 요청헤더
 ====================================
 
-STON 미디어서버가 HTTP 원본서버에서 다운로드를 위해 보내는 HTTP 요청헤더를 설정한다.
+STON 미디어서버가 원본서버에서 다운로드를 위해 보내는 HTTP 요청헤더를 설정한다.
 
 Host 헤더
 ---------------------
@@ -451,7 +414,7 @@ HTTP 요청의 User-Agent헤더를 설정한다. ::
 XFF(X-Forwarded-For) 헤더
 ---------------------
 
-HTTP 클라이언트와 HTTP 원본서버 사이에 STON 미디어서버가 위치하면 HTTP 원본서버는 클라이언트 IP를 얻을 수 없다.
+HTTP 클라이언트와 원본서버 사이에 STON 미디어서버가 위치하면 원본서버는 클라이언트 IP를 얻을 수 없다.
 때문에 원본서버로 보내는 모든 HTTP 요청에 X-Forwarded-For헤더를 명시한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
@@ -474,7 +437,7 @@ HTTP 클라이언트와 HTTP 원본서버 사이에 STON 미디어서버가 위�
 ETag 헤더 인식
 ---------------------
 
-HTTP 원본서버에서 응답하는 ETag헤더 인식여부를 설정한다. ::
+원본서버에서 응답하는 ETag헤더 인식여부를 설정한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
@@ -494,7 +457,7 @@ HTTP 원본서버에서 응답하는 ETag헤더 인식여부를 설정한다. ::
 헤더변경
 ====================================
 
-HTTP 원본서버로 요청을 보낼 때 조건에 따라 HTTP 헤더를 변경한다. ::
+원본서버로 요청을 보낼 때 조건에 따라 HTTP 헤더를 변경한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Http>
@@ -562,3 +525,50 @@ HTTP 원본서버로 요청을 보낼 때 조건에 따라 HTTP 헤더를 변경
 
 정상적인 서버라면 5xx로 응답하지 않는다.
 주로 서버의 일시적인 장애로부터 콘텐츠를 무효화하여 원본부하를 가중시키지 않기 위한 용도로 사용된다.
+
+
+
+
+.. _http_origin_health_checker:
+
+Health-Checker
+====================================
+
+`장애감지와 복구`_ 는 Caching 과정 중 발생하는 장애에만 대응한다.
+주기적으로 동작하는 Health-Checker를 설정해 놓으면 장애를 더 빨리 감지할 수 있다.
+Health-Checker는 HTTP 트랜잭션이 올바르게 이루어지까지 확인한다.
+
+.. note::
+
+   Health-Checker는 <Origin> 태그 하위에 설정한다.
+
+::
+
+   # vhosts.xml - <Vhosts><Vhost>
+
+   <Origin>
+       <HttpHealthChecker ResCode="0" Timeout="10" Cycle="10"
+                          Exclusion="3" Recovery="5" Log="ON">/</HealthChecker>
+       <HttpHealthChecker ResCode="200, 404" Timeout="3" Cycle="5"
+                          Exclusion="5" Recovery="20" Log="ON">/alive.html</HealthChecker>
+   </Origin>
+
+-  ``<HealthChecker> (기본: /)``
+
+   Health-Checker를 구성한다. 멀티로 구성이 가능하다.
+   값으로 URI를 지정하며, XML예외 문자의 경우 CDATA로 감싸주어야 한다.
+
+   -  ``ResCode (기본: 0)`` 올바른 HTTP 응답코드 (콤마로 멀티 구성가능)
+
+   -  ``Timeout (기본: 10초)`` 소켓연결부터 HTTP 트랜잭션이 완료될 때까지 유효시간
+
+   -  ``Cycle (기본: 10초)`` 실행주기
+
+   -  ``Exclusion (기본: 3회)`` 연속 n회 실패 시 해당서버 배제
+
+   -  ``Recovery (기본: 5회)`` 연속 n회 성공 시 해당서버 재투입
+
+   -  ``Log (기본: ON)`` HTTP 트랜잭션을 :ref:`admin-log-origin` 에 기록한다.
+
+Health-Checker는 멀티로 구성할 수 있으며 클라이언트 요청과 상관없이 독립적으로 수행된다.
+`장애감지와 복구`_ 나 다른 Health-Checker와도 정보를 공유하지 않고 자신만의 기준으로 배제와 투입을 결정한다.
