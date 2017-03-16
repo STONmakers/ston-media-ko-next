@@ -312,9 +312,9 @@ Purge API가 호출될 때 컨텐츠 복구 여부를 선택한다. ::
    심지어 원본서버가 어떤 페이지를 응답했는지 알지 못한다.
    간단히 정리하면 Cache서버의 관점에서는 디렉토리 표현도 URL의 한 종류일 뿐이다. ::
 
-      www.example.com/img/          // www.example.com 가상호스트의 /img/ 에 접근한 결과 페이지
+      www.example.com/hot/          // www.example.com 가상호스트의 /hot/ 에 접근한 결과 페이지
       www.example.com/              // www.example.com 가상호스트의 기본 페이지(/)
-      www.example.com/img/*         // www.example.com 가상호스트의 /img 디렉토리와 그 하위 페이지
+      www.example.com/hot/*         // www.example.com 가상호스트의 /hot 디렉토리와 그 하위 페이지
       www.example.com/*             // www.example.com 가상호스트의 모든 콘텐츠
 
 
@@ -342,4 +342,4 @@ POST 규격
    Content-Length: 37
 
    url=http://www.example.com/trip.mp4
-   
+
