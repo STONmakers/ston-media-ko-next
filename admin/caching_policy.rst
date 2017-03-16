@@ -125,16 +125,26 @@ URL마다 별도로 TTL을 설정한다.
     # /svc/www.example.com/ttl.txt
     # 구분자는 콤마(,)이며 시간 단위는 초이다.
 
-    *.jsp, 10
-    /,5
-    /index.html, 5
-    /script/*.js, 300
-    /image/ad.jpg, 1800
+    /hot/*.mp4, 300
+    /trip.mp4, 3600
 
+프로토콜에 따라 클라이언트가 접속하는 URL이 다르기 때문에 원본서버에서 제공하는 URL을 설정해야 한다. 
+예를 들어 원본서버 URL이 /hot/sample.mp4라면 위 설정에 의해 300초 TTL이 설정된다. 
+이때 클라이언트 주소는 아래와 같다. ::
 
-모든 페이지(html, php, jsp 등)에 별도의 TTL을 설정하기 위하여 *.html을 추가하였더라도 첫 페이지(/)에는 설정되지 않는다.
-원본서버가 첫 페이지를 어떤 페이지(예를 들어 index.php로 default.jsp 등)로 설정하였는지 HTTP 프로토콜로는 알 수 없다.
-그러므로 모든 페이지에 별도의 TTL을 설정하려면 반드시 /를 추가해야 한다.
+   //////////////////////////////////////////////////////
+   // <Vhost Name="www.example.com/bar">
+   //////////////////////////////////////////////////////
+
+   // Adobe Flash Player (RTMP)
+   Server: rtmp://www.example.com/bar
+   Stream: mp4:hot/sample.mp4
+
+   // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
+   http://www.example.com/bar/mp4:hot/sample.mp4/playlist.m3u8
+
+   // HTTP Pseudo-Streaming
+   http://www.example.com/bar/mp4:hot/sample.mp4
 
 
 TTL 우선순위
