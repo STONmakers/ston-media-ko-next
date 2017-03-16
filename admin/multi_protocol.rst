@@ -32,13 +32,12 @@ RTMP 클라이언트
 
 RTMP 클라이언트에 대해 설정한다. ::
 
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
+   # server.xml - <Server><VHostDefault><Options><Rtmp>
+   # vhosts.xml - <Vhosts><Vhost><Options><Rtmp>
    
-   <Rtmp>
-       <BufferSize>3</BufferSize>
-       <ClientKeepAliveSec>10</ClientKeepAliveSec>
-   </Rtmp>
+   
+   <BufferSize>3</BufferSize>
+   <ClientKeepAliveSec>10</ClientKeepAliveSec>
 
 -  ``<BufferSize> (기본: 3초)``
    PLAY가 시작되면 설정된 시간(초)만큼을 대역폭 제한없이 클라이언트에게 전송한다.
@@ -57,14 +56,12 @@ HTTP 클라이언트
 HTTP 클라이언트가 요청을 보내고 응답이 완료되기 까지를 이라고 부른다.
 HTTP 클라이언트는 하나의 연결을 통해 여러 번의 HTTP 트랜잭션을 진행한다. ::
 
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
+   # server.xml - <Server><VHostDefault><Options><Http>
+   # vhosts.xml - <Vhosts><Vhost><Options><Http>
    
-   <Http>
-       <ClientKeepAliveSec>10</ClientKeepAliveSec>
-       <ConnectionHeader>keep-alive</ConnectionHeader>
-       <KeepAliveHeader Max="0">ON</KeepAliveHeader>
-   </Http>
+   <ClientKeepAliveSec>10</ClientKeepAliveSec>
+   <ConnectionHeader>keep-alive</ConnectionHeader>
+   <KeepAliveHeader Max="0">ON</KeepAliveHeader>
 
 -  ``<ClientKeepAliveSec> (기본: 10초)``
    아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
@@ -621,18 +618,16 @@ MP4 포맷
 ---------------------
 MP4 포맷을 HLS(HTTP Live Streaming)로 서비스한다. ::
 
-   # server.xml - <Server><VHostDefault><Options>
-   # vhosts.xml - <Vhosts><Vhost><Options>
-   
-   <Hls>
-       <ClientKeepAliveSec>10</ClientKeepAliveSec>
-       <MP4 Status="Active">
-          <Index Ver="3" Alternates="ON">index.m3u8</Index>
-          <Sequence>0</Sequence>
-          <Duration>10</Duration>
-          <AlternatesName>playlist.m3u8</AlternatesName>
-       </MP4>
-   </Hls>
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+
+   <ClientKeepAliveSec>10</ClientKeepAliveSec>
+   <MP4 Status="Active">
+      <Index Ver="3" Alternates="ON">index.m3u8</Index>
+      <Sequence>0</Sequence>
+      <Duration>10</Duration>
+      <AlternatesName>playlist.m3u8</AlternatesName>
+   </MP4>
 
 -  ``<ClientKeepAliveSec> (기본: 10초)``
    아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
