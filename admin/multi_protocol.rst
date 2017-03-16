@@ -253,7 +253,7 @@ Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 
          <Ratio>150</Ratio>
          <Boost>5</Boost>
       </Settings>
-      <Throttling>OFF</Throttling>
+      <Throttling>ON</Throttling>
    </BandwidthThrottling>
 
 ``<BandwidthThrottling>`` 태그 하위에 기본동작을 설정한다.
@@ -275,8 +275,8 @@ Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 
 
 -  ``<Throttling>``
 
-   -  ``OFF (기본)`` BT를 적용하지 않는다.
-   -  ``ON`` 조건목록과 일치하면 BT를 적용한다.
+   -  ``ON (기본)`` 조건목록과 일치하면 쓰로틀링을 적용한다.
+   -  ``OFF (기본)`` 쓰로틀링을 적용하지 않는다. 최대 속도로 전송한다.
 
 
 쓰로틀링은 조건목록을 설정해야 동작한다.
@@ -299,7 +299,7 @@ Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 
    # boost만 정의. 10초의 데이터를 속도 제한없이 전송한 후 1000 Kbps로 클라이언트에게 전송한다.
    HEADER[cookie], , , 10
 
-   # 확장자가 m4a인 경우 BT를 적용하지 않는다.
+   # 확장자가 m4a인 경우 쓰로틀링을 적용하지 않는다.
    $URL[*.m4a], no
 
 미디어 파일(MP4, M4A, MP3)을 분석하면 Encoding Rate로부터 Bandwidth를 얻을 수 있다.
