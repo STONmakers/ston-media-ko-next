@@ -25,7 +25,6 @@ STON Media Server 완벽 가이드
    admin/vhost_url
    admin/multi_protocol
    admin/http_origin
-   admin/https
    admin/caching_policy
    admin/caching_purge
 
@@ -49,6 +48,7 @@ STON Media Server 완벽 가이드
    :maxdepth: 2
 
    admin/content_transform
+   admin/https
    admin/adv_vhost
    admin/adv_topics
 
