@@ -756,7 +756,7 @@ MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한�
    ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
    영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
 
-      /bar/mp4:trip.mp4?start=0&end=60/index.m3u8
+      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
 
    동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
    이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
