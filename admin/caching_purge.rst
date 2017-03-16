@@ -93,6 +93,103 @@
    :maxdepth: 2
 
 
+
+
+
+.. _api-monitoring-fileinfo:
+   
+캐싱조회
+====================================
+
+캐싱하고 있는 파일상태를 모니터링한다.
+일반적으로 파일은 URL로 구분되지만 같은 URL에 다른 옵션(i.e. Accept-Encoding등)이 
+존재하는 경우 여러 개의 파일이 존재할 수 있다. ::
+
+    http://127.0.0.1:20040/monitoring/fileinfo?url=example.com/trip.mp4
+    
+결과는 JSON형식으로 제공된다.
+다음은 /trip.mp4파일의 정보를 열람한 결과이다. ::
+
+    {
+        "version": "1.0.0",
+        "method": "fileinfo",
+        "status": "OK",
+        "result":
+        [ 
+            {
+                "URI": "/trip.mp4",
+                "Accept-Encoding": "N",
+                "RefCount": 0,
+                "Disk-Index": 0,
+                "Size": 2100267,
+                "FID": 24267,
+                "LocalPath": "/cache1/example.com/000i/q3.bin",
+                "File-Opened ": "N",
+                "File-Updating": "-",
+                "Downloader-Count": "0",
+                "LastAccess": "[ 2016.09.03 14:29:50, -2 ]",
+                "UpdateTime": "[ 2016.09.03 13:53:43, -2169 ]",
+                "TTL-Left": "[ 2012.10.03 13:53:43, 2589831 ]",
+                "ResponseCode": 200,
+                "ContentType": "text/plain",
+                "LastModifiedTime": "[ 2010.11.22 20:31:47, -56224685 ]",
+                "ExpireTime": "[ 0, 0 ]",
+                "CacheControl": "not-specified",
+                "ETag": "502dd614:200c2b",
+                "CustomTTL": 0,
+                "NoMoreExist": "N",
+                "LocalFileExist": "Y",
+                "SmallFile": "N",
+                "State": "Cached",
+                "Deleted": "N",
+                "AddedSize": "Y",
+                "TransferEncoding": "N",
+                "Compression": "-",
+                "Purge": "N",
+                "Ignore-IMS ": "N",
+                "Redirect-Location ": "-",
+                "Content-Disposition ": "-",
+                "NoCache": "N"
+            }
+        ]
+    }
+    
+-  ``URI`` 파일 URI
+-  ``Accept-Encoding`` ("Y" or "N") Accept-Encoding을 지원한다면 "Y"
+-  ``RefCount`` 파일참조 카운트
+-  ``Size`` (Bytes) 파일크기
+-  ``Disk-Index`` (0부터 시작) 저장된 디스크 인덱스
+-  ``FID`` 파일 ID
+-  ``LocalPath`` 로컬 경로
+-  ``File-Opened`` ("Y" or "N") 로컬파일을 열고 있다면 "Y"
+-  ``File-Updating`` 파일을 갱신 중이라면 갱신하는 객체의 포인터가 명시
+-  ``Downloader-Count`` 원본서버에서 이 파일을 다운로드 받는 현재 세션의 개수
+-  ``LastAccess`` (마지막 접근시간, 마지막 접근시간-현재시간) [ 2012.09.03 14:29:50, -2 ]의 의미는 2012.09.03 14:29:50에 접근됐으며 현재로부터 2초 전에 접근됐다는 의미이다.
+-  ``UpdateTime`` (갱신시간, 갱신시간-현재시간) 파일이 마지막으로 갱신된 시간. 304 Not Modified에도 시간은 갱신된다.
+-  ``TTL-Left`` (만료시간, 만료시간-현재시간) 컨텐츠 만료 예정시간. TTL이 남았다면 양수로, 만료됐다면 음수로 표기된다.
+-  ``ResponseCode`` 원본서버 응답코드
+-  ``ContentType`` MIME Type
+-  ``LastModifiedTime`` (Last Modified Time, Last Modified Time`` 현재시간) 원본서버가 보낸 Last Modified Time. 원본서버가 이 값을 보내지 않았다면 0으로 표시된다.
+-  ``ExpireTime`` (Expire Time, Expire Time`` 현재시간) 원본서버가 보낸 Expire Time. 원본서버가 이 값을 보내지 않았다면 0으로 표시된다.
+-  ``CacheControl`` ("no-cache" or "not-specified" or (정수)) 원본서버가 보낸 Cache-Contorl 값
+-  ``ETag`` STON이 생성한 ETag
+-  ``CustomTTL`` 커스텀 TTL. 설정되어 있지 않다면 0이다.
+-  ``NoMoreExist`` ("Y" or "N") 파일을 파기예약되어 있다면 "Y"
+-  ``LocalFileExist`` ("Y" or "N") 로컬에 파일이 존재하면 "Y" (200 OK가 아닌 파일들은 항상 "Y")
+-  ``SmallFile`` ("Y" or "N") 파일을 작은파일로 판단한다면 "Y" (개발적인 이유)
+-  ``State`` ("Not Init" or "Cached" or "Error") 파일 상태
+-  ``Deleted`` ("Y" or "N") 삭제되었다면 "Y" (개발적인 이유)
+-  ``AddedSize`` ("Y" or "N") 크기가 통계에 반영되었다면 "Y" (개발적인 이유)
+-  ``TransferEncoding`` ("Y" or "N") Transfer-Encoding을 지원한다면 "Y"
+-  ``Compression`` 압축방식
+-  ``Purge`` ("Y" or "N") Purge됐다면 "Y"
+-  ``Ignore-IMS`` ("Y" or "N") 갱신할 때 If-Modified-Since헤더를 보내지 않도록 설정되었다면 "Y"
+-  ``Redirect-Location`` Location 헤더 값
+-  ``Content-Disposition`` Content-Disposition 헤더 값
+-  ``NoCache`` ("Y" or "N") 원본서버에서 no-cache응답을 줬다면 "Y"
+
+
+
 .. _api-cmd-purge:
 
 Purge
