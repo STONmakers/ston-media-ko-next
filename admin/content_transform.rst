@@ -5,7 +5,7 @@
 
 이 장에서는 미디어를 동적으로 가공하여 서비스하는 방법에 대해 설명한다.
 미디어는 클라이언트 환경과 서비스 형태에 따라 다양한 형태로 가공된다.
-때문에 같은 콘텐츠지만 여러 형태로 원본서버에 존재하게 된다.
+때문에 같은 콘텐츠이지만 여러 형태로 원본서버에 존재하게 된다.
 이런 방식은 처리시간과 저장공간의 낭비로 이어질 뿐만 아니라 관리하기도 매우 어렵다.
 
 
@@ -19,7 +19,7 @@
 Trimming
 ====================================
 
-시간 값을 기준으로 원하는 구간을 추출한다.
+시간 값을 기준으로 영상에서 원하는 구간을 추출한다.
 Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지 않는다.
 별도의 저장공간을 사용하지 않는다. ::
 
@@ -44,17 +44,24 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
      - ``ON`` 모든 트랙을 Trimming한다. 사용 전 반드시 플레이어 호환성을 확인해야 한다.
 
 파라미터는 클라이언트 QueryString을 통해 입력받는다.
-예를 들어 10분 분량의 동영상(/video.mp4)을 특정 구간만 Trimming하고 싶다면 QueryString에 원하는 시점(단위: 초)을 명시한다. ::
+예를 들어 10분 분량의 동영상(/trip.mp4)을 특정 구간만 Trimming하고 싶다면 QueryString에 원하는 시점(단위: 초)을 명시한다. ::
 
-   http://vod.wineosoft.co.kr/mp4:video.mp4                // 10분 : 전체 동영상
-   http://vod.wineosoft.co.kr/mp4:video.mp4?end=60         // 1분 : 처음부터 60초까지
-   http://vod.wineosoft.co.kr/mp4:video.mp4?start=120      // 8분 : 2분(120초)부터 끝까지
-   http://vod.wineosoft.co.kr/mp4:video.mp4?start=3&end=13 // 10초 : 3초부터 13초까지
+   // HTTP Pseudo-Streaming
+   http://www.example.com/bar/mp4:trip.mp4                // 10분 : 전체 동영상
+   http://www.example.com/bar/mp4:trip.mp4?end=60         // 1분 : 처음부터 60초까지
+   http://www.example.com/bar/mp4:trip.mp4?start=120      // 8분 : 2분(120초)부터 끝까지
+   http://www.example.com/bar/mp4:trip.mp4?start=3&end=13 // 10초 : 3초부터 13초까지
+
+   // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
+   http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8?start=3&end=13
+
+   // Adobe Flash Player (RTMP)
+   Server: rtmp://www.example.com/bar
+   Stream: mp4:trip.mp4?start=3&end=13
 
 ``StartParam`` 값이 ``EndParam`` 값보다 클 경우 구간이 지정되지 않은 것으로 판단한다.
-이 기능은 HTTP Pseudo-Streaming으로 구현된 동영상 플레이어의 Skip기능을 위해서 개발되었다.
-그러므로 Range요청을 처리하는 것처럼 파일을 Offset기반으로 자르지 않고 올바르게 재생될 수 있도록 키프레임과 시간을 인지하여 구간을 추출한다.
 
+이 기능은 파일을 단순히 자르기만 하는 것이 아니라 올바르게 재생될 수 있도록 키프레임등 미디어 파일을 분석하여 구간을 추출한다.
 클라이언트에게 전달되는 파일은 다음 그림처럼 MP4헤더가 재생성된 완전한 형태의 MP4파일이다.
 
 .. figure:: img/conf_media_mp4trimming.png
@@ -73,15 +80,15 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
 구간추출 파라미터가 QueryString 표현을 사용하기 때문에 자칫 :ref:`caching-policy-applyquerystring` 과 헷갈릴 수 있다.
 ``<ApplyQueryString>`` 설정이 ``ON`` 인 경우 클라이언트가 요청한 URL의 QueryString이 모두 인식되지만 ``StartParam`` 과 ``EndParam`` 은 제거된다. ::
 
-   GET /mp4:video.mp4?start=30&end=100
-   GET /mp4:video.mp4?tag=3277&start=30&end=100&date=20130726
+   GET /bar/mp4:trip.mp4?start=30&end=100
+   GET /bar/mp4:trip.mp4?tag=3277&start=30&end=100&date=20130726
 
 예를 들어 위와 같이 ``StartParam`` 이 **start** 로 ``EndParam`` 이 **end** 로 입력된 경우
 이 값들은 구간을 추출하는데 쓰일 뿐 Caching-Key를 생성하거나 원본서버로 요청을 보낼 때는 제거된다.
 각각 다음과 같이 인식된다. ::
 
-   GET /mp4:video.mp4
-   GET /mp4:video.mp4?tag=3277&date=20130726
+   GET /bar/mp4:trip.mp4
+   GET /bar/mp4:trip.mp4?tag=3277&date=20130726
 
 또한 QueryString파라미터는 확장모듈이나 CDN솔루션에 따라 달라질 수 있다.
 
@@ -106,7 +113,7 @@ Multi-Trimming
 .. figure:: img/conf_media_multitrimming.png
    :align: center
 
-   /mp4:video.mp4?trimming=0-30,210-270,525-555
+   /mp4:trip.mp4?trimming=0-30,210-270,525-555
 
 구간 지정방법만 다를뿐 동작방식은 `Trimming`_ 과 동일하다. ::
 
@@ -128,16 +135,24 @@ Multi-Trimming
 
 예를 들어 다음과 같이 호출하면 3분짜리 영상이 생성된다. ::
 
-   http://www.example.com/mp4:video.mp4?trimming=10-70,560-620,1245-1305
+   // HTTP Pseudo-Streaming
+   http://www.example.com/bar/mp4:trip.mp4?trimming=10-70,560-620,1245-1305
+
+   // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
+   http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8?trimming=10-70,560-620,1245-1305
+
+   // Adobe Flash Player (RTMP)
+   Server: rtmp://www.example.com/bar
+   Stream: mp4:trip.mp4?trimming=10-70,560-620,1245-1305
 
 같은 영상을 반복하거나 앞 뒤가 바뀐 영상을 만들 수도 있다. ::
 
-   http://www.example.com/mp4:video.mp4?trimming=17-20,17-20,17-20,17-20
-   http://www.example.com/mp4:video.mp4?trimming=1000-1200,500-623,1900-2000
-   http://www.example.com/mp4:video.mp4?trimming=600-,400-600
+   // HTTP Pseudo-Streaming
+   http://www.example.com/mp4:trip.mp4?trimming=17-20,17-20,17-20,17-20
+   http://www.example.com/mp4:trip.mp4?trimming=1000-1200,500-623,1900-2000
+   http://www.example.com/mp4:trip.mp4?trimming=600-,400-600
 
 구간 값을 지정하지 않은 경우 맨 앞 또는 맨 뒤를 의미한다.
-
 
 .. note::
 
