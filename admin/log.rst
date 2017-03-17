@@ -409,12 +409,11 @@ HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
    # server.xml - <Server><VHostDefault><Log><Access>
    # vhosts.xml - <Vhosts><Vhost><Log><Access>
 
-   <Http>
-       <Custom Form="custom">ON</Custom>
+   <Http Form="custom">
        <CustomFormat>%a %A %b id=%{userid}C %f %h %H "%{user-agent}i" %m %P "%r" %s %t %T %X %I %O %R %e %S %K</CustomFormat>
    </Http>
 
--  ``<Custom>`` 의 ``Form`` 속성을 ``custom`` 으로 설정한다.
+-  ``<Http>`` 의 ``Form`` 속성을 ``custom`` 으로 설정한다.
 
 -  ``<CustomFormat>`` 사용자정의 로그 형식.
 
