@@ -62,7 +62,7 @@ XML형식의 텍스트파일이다. ::
     </Server>
 
 우선 전역설정의 구조와 간단한 기능위주로 설명한다.
-:ref:`access-control` 나 :ref:`snmp` 등 전역설정에 위치하지만 덩치가 큰 기능들에 대해서는 각 주제를 다루는 장에서 설명한다.
+접근제어나 SNMP등 전역설정에 위치하지만 덩치가 큰 기능들에 대해서는 각 주제를 다루는 장에서 설명한다.
 
 .. toctree::
    :maxdepth: 2
@@ -191,7 +191,7 @@ Caching된 콘텐츠를 저장할 Storage를 구성한다. ::
 
          ContentMemoryRatio를 통해 메모리비율을 설정한다.
 
-   예를 들어 게임 다운로드처럼 파일 개수는 많지 않지만 Contents크기가 큰 서비스의 경우 File I/O 부하가 부담스럽다.
+   예를 들어 4K 고화질 영상처럼 파일 Contents크기가 큰 서비스의 경우 File I/O 부하가 부담스럽다.
    이런 경우 ``<ContentMemoryRatio>`` 를 높여서 보다 많은 Contents데이터가 메모리에 상주할 수 있도록 설정하면 서비스 품질을 높일 수 있다.
 
       .. figure:: img/bodyratio2.png
@@ -356,21 +356,21 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
         [
             {
                 "id" : "5",
-                "conf-date" : "2013-11-06",
+                "conf-date" : "2017-02-25",
                 "conf-time" : "15:26:37",
                 "type" : "loaded",
                 "size" : "16368",
                 "hash" : "D62CA26F16FE7C66F81D215D8C52266AB70AA5C8",
-                "ver": "1.2.8"
+                "ver": "1.0.0"
             },
             {
                 "id" : "6",
-                "conf-date" : "2013-11-07",
+                "conf-date" : "2017-02-26",
                 "conf-time" : "07:02:21",
                 "type" : "modified",
                 "size" : "27544",
                 "hash" : "F81D215D8C52266AB70AA5C8D62CA26F16FE7C66",
-                "ver": "1.2.8"
+                "ver": "1.0.1"
             }
         ]
     }
@@ -379,7 +379,7 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
 -  ``conf-date`` 설정 변경날짜
 -  ``conf-time`` 설정 변경시간
 -  ``type`` 설정이 반영된 형태
-   - ``loaded`` STON이 시작될 때
+   - ``loaded`` STON 미디어 서버가 시작될 때
    - ``modified`` 설정이 (관리자 또는 WM에 의해) 변경될 때
    - ``uploaded`` 설정파일 API를 통해 업로드 되었을 때
    - ``restored`` 설정파일이 API를 통해 복구되었을 때

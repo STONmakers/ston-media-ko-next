@@ -276,7 +276,7 @@ Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 
 -  ``<Throttling>``
 
    -  ``ON (기본)`` 조건목록과 일치하면 쓰로틀링을 적용한다.
-   -  ``OFF (기본)`` 쓰로틀링을 적용하지 않는다. 최대 속도로 전송한다.
+   -  ``OFF`` 쓰로틀링을 적용하지 않는다. 최대 속도로 전송한다.
 
 
 쓰로틀링은 조건목록을 설정해야 동작한다.
@@ -306,10 +306,10 @@ Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 
 접근되는 콘텐츠의 확장자는 반드시 .mp4, .m4a, .mp3 중 하나여야 한다.
 동적으로 Bandwidth를 추출하려면 다음과 같이 Bandwidth뒤에 **x** 를 붙인다. ::
 
-   # /vod/*.mp4 파일에 대한 접근이라면 bandwidth를 구한다. 구할 수 없다면 1000을 bandwidth로 사용한다.
+   # /vod/*.mp4 파일에 대한 접근이라면 bandwidth를 구한다. 구할 수 없다면 1000Kbps을 bandwidth로 사용한다.
    $URL[/vod/*.mp4], 1000x, 120, 5
 
-   # user-agent헤더가 없다면 bandwidth를 구한다. 구할 수 없다면 500을 bandwidth로 사용한다.
+   # user-agent헤더가 없다면 bandwidth를 구한다. 구할 수 없다면 500Kbps을 bandwidth로 사용한다.
    !HEADER[user-agent], 500x
 
    # /low_quality/* 파일에 대한 접근이라면 bandwidth를 구한다. 구할 수 없다면 기본 값을 bandwidth로 사용한다.
@@ -459,7 +459,7 @@ Value가 입력되지 않은 경우 빈 값("")이 입력된다.
 {Action}은 ``set`` , ``put`` , ``append`` , ``unset``  4가지로 설정이 가능하다.
 
 -  ``set``  요청/응답 헤더에 설정되어 있는 Key와 Value를 헤더에 추가한다.
-   이미 같은 Key가 존재한다면 이전 값을 덮어쓴다.
+   이미 같은 Key의 Value 존재한다면 새로운 Value로 덮어쓴다.
 
 -  ``put``  ( ``set`` 과 유사하나) 같은 Key가 존재하면, 덮어쓰지 않고 새로운 라인으로 붙여 넣는다.
 
@@ -695,6 +695,55 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구
    #EXT-X-ENDLIST
 
 
+
+
+
+.. _multi_protocol_hls_session_segmentation:
+
+키 프레임과 분할
+---------------------
+
+분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
+
+-  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
+   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
+
+-  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
+   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
+
+-  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
+   KeyFrame단위로 분할된다.
+
+다음 클라이언트 요청에 대해 STON 미디어 서버가 어떻게 동작하는지 이해해보자. ::
+
+   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
+   Range: bytes=0-512000
+   Host: www.example.com
+
+1.	**STON Media Server** : 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
+#.	**HTTP/HLS Client** : HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
+#.	**STON Media Server** : /trip.mp4 파일 캐싱객체 생성
+#.	**STON Media Server** : /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
+#.	**STON Media Server** : 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
+#.	**STON Media Server** : 100번째(99.ts)파일 생성 후 Range 서비스
+#.	**STON Media Server** : 서비스가 완료되면 99.ts파일 파괴
+
+.. note::
+
+   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
+   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
+
+      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
+
+   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
+   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
+
+      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
+      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
+
+
+
+
 .. _multi_protocol_hls_session_mp3:
 
 MP3 분할
@@ -718,48 +767,3 @@ MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한�
 
 그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
 
-
-
-
-.. _multi_protocol_hls_session_segmentation:
-
-키 프레임과 분할
----------------------
-
-키 프레임에 따라 분할(Segmentation)에는 3가지 경우가 있다.
-
--  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
-   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
-
--  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
-   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
-
--  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
-   KeyFrame단위로 분할된다.
-
-다음 클라이언트 요청에 대해 STON 미디어 서버가 어떻게 동작하는지 이해해보자. ::
-
-   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
-   Range: bytes=0-512000
-   Host: www.example.com
-
-1.	``STON`` 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
-#.	``Client`` HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
-#.	``STON`` /trip.mp4 파일 캐싱객체 생성
-#.	``STON`` /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
-#.	``STON`` 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
-#.	``STON`` 100번째(99.ts)파일 생성 후 Range 서비스
-#.	``STON`` 서비스가 완료되면 99.ts파일 파괴
-
-.. note::
-
-   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
-   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
-
-      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
-
-   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
-   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
-
-      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
-      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
