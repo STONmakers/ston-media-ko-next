@@ -118,7 +118,7 @@ OS 구성
           `./stonx' -> `/usr/local/ston/stonx'
           `./stonr' -> `/usr/local/ston/stonr'
           `./stonu' -> `/usr/local/ston/stonu'
-          `./stonapi' -> `/usr/local/ston/stonapi'
+          `./stonmapi' -> `/usr/local/ston/stonmapi'
           `./server.xml.default' -> `/usr/local/ston/server.xml.default'
           `./vhosts.xml.default' -> `/usr/local/ston/vhosts.xml.default'
           `./ston_format.sh' -> `/usr/local/ston/ston_format.sh'
@@ -271,7 +271,7 @@ STON 미디어 서버 버전을 확인한다. ::
 
 같은 API를 Linux Shell에서 명령어로 수행한다. ::
 
-   ./stonapi version
+   ./stonmapi version
 
 .. note:
 
@@ -363,5 +363,5 @@ Caching 초기화
 
 콘솔에서는 다음 명령어를 통해 전체 또는 하나의 가상호스트를 초기화한다. ::
 
-   ./stonapi reset
-   ./stonapi reset/www.example.com
+   ./stonmapi reset
+   ./stonmapi reset/www.example.com
