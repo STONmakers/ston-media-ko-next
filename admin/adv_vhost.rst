@@ -121,3 +121,20 @@ HTTP Redirect 추적
      무한히 Redirect되는 경우를 방지하기 위하여 1회만 추적한다.
 
 
+
+가상호스트 Bandwidth 제한
+====================================
+
+가상호스트의 최대 Bandwidth을 제한한다. ::
+
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
+
+   <TrafficCap>0</TrafficCap>
+
+-  ``<TrafficCap> (기본: 0)``
+   가상호스트의 최대 Bandwidth를 Mbps단위로 설정한다.
+   0으로 설정하면 Bandwidth을 제한하지 않는다.
+
+STON 미디어 서버와 모든 클라이언트 사이에 발생하는 대역폭의 총합은 ``<TrafficCap>`` 을 넘을 수 없다.
+``<TrafficCap>`` 을 50 (Mbps)로 설정했다면 50Mbps NIC를 설치한 것과 같은 효과를 낸다.

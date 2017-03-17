@@ -23,8 +23,8 @@ Trimming
 Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지 않는다.
 별도의 저장공간을 사용하지 않는다. ::
 
-   # server.xml - <Server><VHostDefault>
-   # vhosts.xml - <Vhosts><Vhost>
+   # server.xml - <Server><VHostDefault><Options>
+   # vhosts.xml - <Vhosts><Vhost><Options>
 
    <ContentTransform>
        <MP4Trimming StartParam="start" EndParam="end" AllTracks="off">OFF</MP4Trimming>
