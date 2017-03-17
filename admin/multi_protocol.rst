@@ -700,7 +700,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구
 
 .. _multi_protocol_hls_session_segmentation:
 
-키 프레임과 분할
+키 프레임과 <Duration>
 ---------------------
 
 분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
