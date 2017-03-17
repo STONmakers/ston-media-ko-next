@@ -341,17 +341,25 @@ TSO 설정은 다음과 같이 설정/확인할 수 있다. (K의 대/소문자�
 
 
 
-HTTP 클라이언트 세션 수
+클라이언트 세션 수
 ====================================
 
-HTTP 클라이언트 연결을 처리하기 위한 초기/증설 세션 수를 설정한다. ::
+RtmpClientSession: Init: 10000, TopUp: 3000
+HttpClientSession: Init: 10000, TopUp: 3000
+
+클라이언트 연결을 처리하기 위한 초기/증설 세션 수를 설정한다. 
+HLS/MPEG-DASH등 HTTP기반 프로토콜은 HTTP 클라이언트 세션 설정에 포함된다. ::
 
     # server.xml - <Server><Cache>
 
     <HttpClientSession>
-       <Init>20000</Init>
-       <TopUp>6000</TopUp>
+       <Init>10000</Init>
+       <TopUp>3000</TopUp>
     </HttpClientSession>
+    <RtmpClientSession>
+       <Init>10000</Init>
+       <TopUp>3000</TopUp>
+    </RtmpClientSession>
 
 -  ``<Init>`` STON 시작시 미리 생성해놓는 소켓 수
 
