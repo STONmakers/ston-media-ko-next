@@ -553,7 +553,7 @@ Health-Checker는 HTTP 트랜잭션이 올바르게 이루어지까지 확인한
                           Exclusion="5" Recovery="20" Log="ON">/alive.html</HealthChecker>
    </Origin>
 
--  ``<HealthChecker> (기본: /)``
+-  ``<HttpHealthChecker> (기본: /)``
 
    Health-Checker를 구성한다. 멀티로 구성이 가능하다.
    값으로 URI를 지정하며, XML예외 문자의 경우 CDATA로 감싸주어야 한다.
