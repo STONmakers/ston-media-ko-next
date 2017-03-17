@@ -122,10 +122,10 @@ HTTP Redirect 추적
 
 
 
-가상호스트 Bandwidth 제한
+대역폭 제한
 ====================================
 
-가상호스트의 최대 Bandwidth을 제한한다. ::
+가상호스트의 최대 Outbound 대역폭을 제한한다. ::
 
    # server.xml - <Server><VHostDefault><Options>
    # vhosts.xml - <Vhosts><Vhost><Options>
