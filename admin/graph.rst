@@ -205,7 +205,8 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
     http://127.0.0.1:20040/graph/vhost/client_traffic_*.png?vhost=www.example.com&protocol=all
 
-``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` 중 선택할 수 있다.
+``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` 중 선택할 수 있다. 
+프로토콜별 그래프를 지원하는 경우 소제목 옆에 ``protocol`` 을 명시한다.
 
 아래 목록에서 *는 타입(dash, day, week, month, year) 중 한 가지를 의미한다.
 
