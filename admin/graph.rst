@@ -203,7 +203,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 원본/클라이언트 트래픽의 경우 프로토콜별 그래프가 제공된다. 프로토콜 변수는 ``protocol`` 로 지정한다. ::
 
-    http://127.0.0.1:20040/graph/vhost/client_traffic_*.png?vhost=www.example.com& ``protocol`` =all
+    http://127.0.0.1:20040/graph/vhost/client_traffic_*.png?vhost=www.example.com&protocol=all
 
 ``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` 중 선택할 수 있다.
 
@@ -211,7 +211,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-히트율
+히트율 ``protocol``
 ---------------------
 ::
 
