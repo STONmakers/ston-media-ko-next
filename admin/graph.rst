@@ -103,11 +103,13 @@ Load Average
 
 
 
-서버소켓 이벤트 (클라이언트 -> STON)
+서버소켓 이벤트
 ---------------------
 ::
 
     /graph/ssockevent_*.png
+
+클라이언트와 STON 미디어 서버의 소켓연결 이벤트를 의미한다.
 
 -  ``Main`` Accepted
 -  ``Sub`` Closed
@@ -120,16 +122,20 @@ Load Average
 
     /graph/ssockusage_*.png
 
+클라이언트와 STON 미디어 서버의 연결 수를 의미한다.
+
 -  ``Main`` 전체
 -  ``Sub`` Established
 
 
 
-클라이언트소켓 이벤트 (STON -> 원본서버)
+클라이언트소켓 이벤트
 ---------------------
 ::
 
     /graph/csockevent_*.png
+
+STON 미디어 서버와 원본서버의 소켓연결 이벤트를 의미한다.
 
 -  ``Main`` Connected
 -  ``Sub`` Closed
@@ -141,6 +147,8 @@ Load Average
 ::
 
     /graph/csockusage_*.png
+
+STON 미디어 서버와 원본서버의 연결 수를 의미한다.
 
 -  ``Main`` 전체
 -  ``Sub`` Established
@@ -164,19 +172,6 @@ Load Average
     /graph/eq_*.png
 
 -  ``Main`` 이벤트 큐 길이
-
-
-
-쓰기대기
----------------------
-::
-
-    /graph/wf2w_*.png
-
--  ``Main`` 쓰기 대기중인 파일개수
-
-
-.. _api-graph-urlrewrite:
 
 
 
@@ -206,24 +201,12 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
     http://127.0.0.1:20040/graph/vhost/client_traffic_*.png?vhost=www.example.com&protocol=all
 
 ``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` 중 선택할 수 있다. 
-프로토콜별 그래프를 지원하는 경우 소제목 옆에 ``protocol`` 을 명시한다.
+프로토콜별 그래프를 지원하는 경우 소제목 옆에 지원 프로토콜을 을 명시한다.
 
 아래 목록에서 *는 타입(dash, day, week, month, year) 중 한 가지를 의미한다.
 
 
-
-히트율 ``protocol``
----------------------
-::
-
-    /graph/vhost/hitratio_*.png
-
--  ``Main`` Request Hit Ratio
--  ``Sub`` Byte Hit Ratio
-
-
-
-컨텐츠개수
+콘텐츠개수
 ---------------------
 ::
 
@@ -243,27 +226,19 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 바이패스
+히트율 ``all`` ``rtmp`` ``http`` ``hls``
 ---------------------
 ::
 
-    /graph/vhost/client_httpreq_bypass_*.png
+    /graph/vhost/hitratio_*.png
 
--  ``Main`` 바이패스된 클라이언트 HTTP요청
-
-
-
-클라이언트 요청차단
----------------------
-::
-
-    /graph/vhost/client_httpreq_denied_*.png
-
--  ``Main`` 차단된 클라이언트 요청
+-  ``Main`` Request Hit Ratio
+-  ``Sub`` Byte Hit Ratio
 
 
 
-클라이언트 세션
+
+클라이언트 세션 ``protocol``
 ---------------------
 ::
 
@@ -274,7 +249,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 트래픽
+클라이언트 트래픽 ``protocol``
 ---------------------
 ::
 
@@ -285,7 +260,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 응답
+클라이언트 응답 ``protocol``
 ---------------------
 ::
 
@@ -296,7 +271,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 상세응답
+클라이언트 상세응답 ``protocol``
 ---------------------
 ::
 
@@ -345,16 +320,6 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 .. figure:: img/graph_filehit.png
 
-
-
-클라이언트 SSL트래픽
----------------------
-::
-
-    /graph/vhost/client_traffic_ssl_*.png
-
--  ``Main`` Inbound
--  ``Sub`` Outbound
 
 
 
