@@ -242,7 +242,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_session_*.png
+    /graph/vhost/client_session_*.png
 
 -  ``Main`` 전체 클라이언트 세션
 -  ``Sub`` 전송 진행 중인 클라이언트 세션
@@ -264,10 +264,10 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_res_*.png
+    /graph/vhost/client_res_*.png
 
--  ``Main`` 클라이언트 HTTP 응답횟수
--  ``Sub`` 클라이언트 HTTP 요청횟수
+-  ``Main`` 클라이언트 응답횟수
+-  ``Sub`` 클라이언트 요청횟수
 
 
 
@@ -275,10 +275,10 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_res_complete_*.png
+    /graph/vhost/client_res_complete_*.png
 
--  ``Main`` 완료된 클라이언트 HTTP응답횟수
--  ``Sub`` 클라이언트 HTTP 요청횟수
+-  ``Main`` 완료된 클라이언트 응답횟수
+-  ``Sub`` 클라이언트 요청횟수
 
 
 
@@ -286,9 +286,9 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_res_time1_*.png
+    /graph/vhost/client_res_time1_*.png
 
--  ``Main`` 클라이언트 요청에 대한 HTTP 응답시간
+-  ``Main`` 클라이언트 요청에 대한 응답시간
 
 
 
@@ -296,9 +296,9 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_res_time2_*.png
+    /graph/vhost/client_res_time2_*.png
 
--  ``Main`` 클라이언트 요청에 대한 HTTP 트랜잭션 완료시간
+-  ``Main`` 클라이언트 요청에 대한 트랜잭션 완료시간
 
 
 
@@ -306,7 +306,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_http_res_hit_*.png
+    /graph/vhost/client_res_hit_*.png
 
 .. figure:: img/graph_filehit.png
 
@@ -333,7 +333,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_http_session_*.png
+    /graph/vhost/origin_session_*.png
 
 -  ``Main`` 전체 원본 세션
 -  ``Sub`` 전송 진행 중인 원본 세션
@@ -355,10 +355,10 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_http_res_*.png
+    /graph/vhost/origin_res_*.png
 
--  ``Main`` 원본 HTTP 응답횟수
--  ``Sub`` 원본 HTTP 요청횟수
+-  ``Main`` 원본 응답횟수
+-  ``Sub`` 원본 요청횟수
 
 
 
@@ -366,10 +366,10 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_http_res_complete_*.png
+    /graph/vhost/origin_res_complete_*.png
 
--  ``Main`` 완료된 원본서버 HTTP응답횟수
--  ``Sub`` 원본서버 HTTP 요청횟수
+-  ``Main`` 완료된 원본서버 응답횟수
+-  ``Sub`` 원본서버 요청횟수
 
 
 
@@ -377,9 +377,9 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_http_res_time1_*.png
+    /graph/vhost/origin_res_time1_*.png
 
--  ``Main`` 원본서버에 보낸 요청에 대한  HTTP 응답시간
+-  ``Main`` 원본서버에 보낸 요청에 대한 응답시간
 
 
 
@@ -387,9 +387,9 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_http_res_time2_*.png
+    /graph/vhost/origin_res_time2_*.png
 
--  ``Main`` 원본서버에 보낸 요청에 대한 HTTP 트랜잭션 완료시간
+-  ``Main`` 원본서버에 보낸 요청에 대한 트랜잭션 완료시간
 
 
 
