@@ -271,21 +271,6 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 상세응답
----------------------
-::
-
-    /graph/vhost/client_http_res_detail_*.png
-    /graph/vhost/client_hls_res_detail_*.png
-
-.. figure:: img/graph_rescode_detail.png
-
-::
-
-    /graph/vhost/client_rtmp_res_detail_*.png
-
-
-
 클라이언트 트랜잭션 ``http`` ``hls``
 ---------------------
 ::
@@ -328,6 +313,22 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
+클라이언트 상세응답
+---------------------
+::
+
+    /graph/vhost/client_http_res_detail_*.png
+    /graph/vhost/client_hls_res_detail_*.png
+
+.. figure:: img/graph_rescode_detail.png
+
+::
+
+    /graph/vhost/client_rtmp_res_detail_*.png
+
+
+
+
 원본서버 세션 ``all`` ``http``
 ---------------------
 ::
@@ -361,16 +362,6 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 상세응답
----------------------
-::
-
-    /graph/vhost/origin_http_res_detail_*.png
-
-.. figure:: img/graph_rescode_detail.png
-
-
-
 원본서버 트랜잭션 ``http``
 ---------------------
 ::
@@ -399,3 +390,14 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
     /graph/vhost/origin_http_res_time2_*.png
 
 -  ``Main`` 원본서버에 보낸 요청에 대한 HTTP 트랜잭션 완료시간
+
+
+
+원본서버 상세응답
+---------------------
+::
+
+    /graph/vhost/origin_http_res_detail_*.png
+
+.. figure:: img/graph_rescode_detail.png
+
