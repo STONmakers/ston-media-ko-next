@@ -157,6 +157,8 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
    URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
 
       http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
+      http://www.example.com/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
+      http://{ston-ip-address}/foo/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
 
 
 .. _env-vhost-find:
@@ -206,6 +208,8 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
    URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
 
       http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4
+      http://www.example.com/_definst_/mp4:http/mov/trip.mp4
+      http://{ston-ip-address}/foo/_definst_/mp4:http/mov/trip.mp4
 
 
 
