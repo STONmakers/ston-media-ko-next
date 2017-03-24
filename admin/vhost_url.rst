@@ -106,6 +106,14 @@ www.example.com       rtmp://www.example.com
    mp4:http/mov/trip.mp4
 
 
+.. note::
+
+   NetConnection 연결에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+
+     rtmp://www.example.com/bar/_definst_
+     rtmp://www.example.com/_definst_
+     rtmp://{ston-ip-address}/foo/_definst_
+
 
 Apple HLS
 ====================================
