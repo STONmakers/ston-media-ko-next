@@ -152,6 +152,12 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 ================================== ==============================================================
 
 
+.. note::
+
+   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+
+      http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
+
 
 .. _env-vhost-find:
 
@@ -195,23 +201,10 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
 /foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4
 ================================== ====================================================
 
+.. note::
 
+   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
 
-_definst_
-====================================
-
-WOWZA Streaming Engine의 경우 Application이름 뒤에 application-instance명을 함께 명시하고 있다.
-이 값은 대부분 ``_definst_`` 이다.
-STON 미디어 서버는 별도의 설정없이 ``_definst_`` 가 명시된 주소를 인식한다. ::
-
-      // Adobe Flash Player (RTMP) - 동일
-      Connection: rtmp://www.example.com/bar
-      Stream: mp4:http/mov/trip.mp4
-
-      // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-      http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
-
-      // HTTP Pseudo-Streaming (+ Bandwidth-Throttling)
       http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4
 
 
