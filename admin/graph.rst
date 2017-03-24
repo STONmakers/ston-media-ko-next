@@ -286,7 +286,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_res_time1_*.png
+    /graph/vhost/client_res_time_*.png
 
 -  ``Main`` 클라이언트 요청에 대한 응답시간
 
@@ -296,7 +296,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/client_res_time2_*.png
+    /graph/vhost/client_res_complete_time_*.png
 
 -  ``Main`` 클라이언트 요청에 대한 트랜잭션 완료시간
 
@@ -377,7 +377,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_res_time1_*.png
+    /graph/vhost/origin_res_time_*.png
 
 -  ``Main`` 원본서버에 보낸 요청에 대한 응답시간
 
@@ -387,7 +387,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 ---------------------
 ::
 
-    /graph/vhost/origin_res_time2_*.png
+    /graph/vhost/origin_res_complete_time_*.png
 
 -  ``Main`` 원본서버에 보낸 요청에 대한 트랜잭션 완료시간
 
