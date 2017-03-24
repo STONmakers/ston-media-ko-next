@@ -89,13 +89,13 @@ RTMP URL 형식은 다음과 같다. ::
 
 NetConnection.connect 에서 사용해야 하는 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
 
-======================= ================================
-<Vhost Name=" ... ">    NetConnection.connect
-======================= ================================
-www.example.com/bar     rtmp://www.example.com/bar
-www.example.com         rtmp://www.example.com
-/foo                    rtmp://{ston-ip-address}/foo
-======================= ================================
+===================== ================================
+<Vhost Name="...">    NetConnection.connect
+===================== ================================
+www.example.com/bar   rtmp://www.example.com/bar
+www.example.com       rtmp://www.example.com
+/foo                  rtmp://{ston-ip-address}/foo
+===================== ================================
 
 원본서버 URL이 /subdir/trip.mp4인 경우 Stream주소는 다음과 같다. ::
 
@@ -133,23 +133,23 @@ HLS의 URL 형식은 다음과 같다. ::
 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
 예를 들어 원본서버 URL이 /subdir/trip.mp4인 경우 URL는 다음과 같다.
 
-======================= ==============================================================
-<Vhost Name=" ... ">    URL
-======================= ==============================================================
-www.example.com/bar     http://www.example.com/bar/mp4:subdir/trip.mp4/playlist.m3u8
-www.example.com         http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
-/foo                    http://{ston-ip-address}/foo/mp4:subdir/trip.mp4/playlist.m3u8
-======================= ==============================================================
+===================== ==============================================================
+<Vhost Name="...">    URL
+===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/mp4:subdir/trip.mp4/playlist.m3u8
+www.example.com       http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
+/foo                  http://{ston-ip-address}/foo/mp4:subdir/trip.mp4/playlist.m3u8
+===================== ==============================================================
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
 
-==================================== ==============================================================
-<Vhost Name=" ... " Prefix="http/">  URL
-==================================== ==============================================================
-www.example.com/bar                  http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
-www.example.com                      http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
-/foo                                 http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
-==================================== ==============================================================
+================================== ==============================================================
+<Vhost Name="..." Prefix="http/">  URL
+================================== ==============================================================
+www.example.com/bar                http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
+www.example.com                    http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
+================================== ==============================================================
 
 
 
