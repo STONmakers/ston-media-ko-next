@@ -143,13 +143,13 @@ www.example.com         http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
 
-======================= ==============================================================
-<Vhost Name=" ... ">    URL
-======================= ==============================================================
-www.example.com/bar     http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
-www.example.com         http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
-/foo                    http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
-======================= ==============================================================
+==================================== ==============================================================
+<Vhost Name=" ... " Prefix="http/">  URL
+==================================== ==============================================================
+www.example.com/bar                  http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
+www.example.com                      http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
+/foo                                 http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
+==================================== ==============================================================
 
 
 
