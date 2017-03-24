@@ -97,13 +97,13 @@ www.example.com       rtmp://www.example.com
 /foo                  rtmp://{ston-ip-address}/foo
 ===================== ================================
 
-원본서버 URL이 /subdir/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+원본서버 URL이 /mov/trip.mp4인 경우 Stream주소는 다음과 같다. ::
 
-   mp4:subdir/trip.mp4
+   mp4:mov/trip.mp4
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
 
-   mp4:http/subdir/trip.mp4
+   mp4:http/mov/trip.mp4
 
 
 
@@ -131,14 +131,14 @@ HLS의 URL 형식은 다음과 같다. ::
 -  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
-예를 들어 원본서버 URL이 /subdir/trip.mp4인 경우 URL는 다음과 같다.
+예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
 
 ===================== ==============================================================
 <Vhost Name="...">    URL
 ===================== ==============================================================
-www.example.com/bar   http://www.example.com/bar/mp4:subdir/trip.mp4/playlist.m3u8
-www.example.com       http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
-/foo                  http://{ston-ip-address}/foo/mp4:subdir/trip.mp4/playlist.m3u8
+www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
+/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
 ===================== ==============================================================
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
@@ -146,9 +146,9 @@ www.example.com       http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 <Vhost Name="..." Prefix="http/">  URL
 ================================== ==============================================================
-www.example.com/bar                http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
-www.example.com                    http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
-/foo                               http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
+www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
+www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 
 
@@ -169,7 +169,7 @@ http://foo.com/foo/...                         /foo
 http://foo.com/...                             (찾을 수 없음)
 ============================================== ========================
 
-예를 들어 HTTP 원본서버의 URL이 /subdir/trip.mp4 라면 STON 미디어 서버의 서비스 URL은 아래와 같다. ::
+예를 들어 HTTP 원본서버의 URL이 /mov/trip.mp4 라면 STON 미디어 서버의 서비스 URL은 아래와 같다. ::
 
     //////////////////////////////////////////////////////
     // <Vhost Name="www.example.com/bar">
@@ -177,13 +177,13 @@ http://foo.com/...                             (찾을 수 없음)
 
     // Adobe Flash Player (RTMP)
     Connection: rtmp://www.example.com/bar
-    Stream: mp4:subdir/trip.mp4
+    Stream: mp4:mov/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/bar/mp4:subdir/trip.mp4/playlist.m3u8
+    http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
 
     // HTTP Pseudo-Streaming
-    http://www.example.com/bar/mp4:subdir/trip.mp4
+    http://www.example.com/bar/mp4:mov/trip.mp4
 
 
     //////////////////////////////////////////////////////
@@ -192,13 +192,13 @@ http://foo.com/...                             (찾을 수 없음)
 
     // Adobe Flash Player (RTMP)
     Connection: rtmp://www.example.com/
-    Stream: mp4:subdir/trip.mp4
+    Stream: mp4:mov/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
+    http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
 
     // HTTP Pseudo-Streaming
-    http://www.example.com/mp4:subdir/trip.mp4
+    http://www.example.com/mp4:mov/trip.mp4
 
 
     //////////////////////////////////////////////////////
@@ -207,13 +207,13 @@ http://foo.com/...                             (찾을 수 없음)
 
     // Adobe Flash Player (RTMP)
     Connection: rtmp://1.1.1.1/foo
-    Stream: mp4:subdir/trip.mp4
+    Stream: mp4:mov/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://1.1.1.1/foo/mp4:subdir/trip.mp4/playlist.m3u8
+    http://1.1.1.1/foo/mp4:mov/trip.mp4/playlist.m3u8
 
     // HTTP Pseudo-Streaming
-    http://1.1.1.1/foo/mp4:subdir/trip.mp4
+    http://1.1.1.1/foo/mp4:mov/trip.mp4
 
 
 이미 배포된 URL과의 호환성을 위해 가상호스트 Prefix 속성을 제공한다. ::
@@ -228,13 +228,13 @@ Prefix가 추가된 주소는 다음과 같다. ::
 
     // Adobe Flash Player (RTMP)
     Connection: rtmp://www.example.com/bar
-    Stream: mp4:http/subdir/trip.mp4
+    Stream: mp4:http/mov/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
+    http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
 
     // HTTP Pseudo-Streaming
-    http://www.example.com/bar/mp4:http/subdir/trip.mp4
+    http://www.example.com/bar/mp4:http/mov/trip.mp4
 
 .. note::
 
@@ -244,13 +244,13 @@ Prefix가 추가된 주소는 다음과 같다. ::
 
       // Adobe Flash Player (RTMP) - 동일
       Connection: rtmp://www.example.com/bar
-      Stream: mp4:http/subdir/trip.mp4
+      Stream: mp4:http/mov/trip.mp4
 
       // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-      http://www.example.com/bar/_definst_/mp4:http/subdir/trip.mp4/playlist.m3u8
+      http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4/playlist.m3u8
 
       // HTTP Pseudo-Streaming (+ Bandwidth-Throttling)
-      http://www.example.com/bar/_definst_/mp4:http/subdir/trip.mp4
+      http://www.example.com/bar/_definst_/mp4:http/mov/trip.mp4
 
 
 
