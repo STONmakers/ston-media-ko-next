@@ -120,9 +120,7 @@ QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상
    Apple HLS는 Android에서도 지원되지만 일부 구버전 호환성 문제가 있다.
    JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
 
-
-VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
-Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
+STON 미디어 서버는 약속된 주소를 이용해 VOD 콘텐츠로부터 인덱스/메타 파일과 MPEG2-TS Chunk를 만들어낸다.
 HLS의 URL 형식은 다음과 같다. ::
 
    http://{virtual-host}/{stream-name}/playlist.m3u8
@@ -132,23 +130,26 @@ HLS의 URL 형식은 다음과 같다. ::
 -  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
 -  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
-HLS URL은 HTTP Pseudo-Streaming 주소 형식 에서 사용해야 하는 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+예를 들어 원본서버 URL이 /subdir/trip.mp4인 경우 URL는 다음과 같다.
 
 ======================= ==============================================================
-<Vhost Name=" ... ">    HLS URL
+<Vhost Name=" ... ">    URL
 ======================= ==============================================================
 www.example.com/bar     http://www.example.com/bar/mp4:subdir/trip.mp4/playlist.m3u8
 www.example.com         http://www.example.com/mp4:subdir/trip.mp4/playlist.m3u8
 /foo                    http://{ston-ip-address}/foo/mp4:subdir/trip.mp4/playlist.m3u8
-======================= ================================
+======================= ==============================================================
 
-예를 들어 원본서버 URL이 /subdir/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
 
-  mp4:subdir/trip.mp4
-
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
-
-  mp4:http/subdir/trip.mp4
+======================= ==============================================================
+<Vhost Name=" ... ">    URL
+======================= ==============================================================
+www.example.com/bar     http://www.example.com/bar/mp4:http/subdir/trip.mp4/playlist.m3u8
+www.example.com         http://www.example.com/mp4:http/subdir/trip.mp4/playlist.m3u8
+/foo                    http://{ston-ip-address}/foo/mp4:http/subdir/trip.mp4/playlist.m3u8
+======================= ==============================================================
 
 
 
