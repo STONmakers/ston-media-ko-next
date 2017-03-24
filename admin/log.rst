@@ -608,33 +608,33 @@ RTMP 클라이언트 통신내용을 기록한다.
 모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
 -  ``date`` RTMP 트랜잭션이 완료된 날짜
--  ``time`` RTMP 트랜잭션이 완료된 시간 
--  ``x-message-type`` 
+-  ``time`` RTMP 트랜잭션이 완료된 시간
+-  ``x-message-type``
 -  ``c-ip`` RTMP 클라이언트 IP
 -  ``s-ip`` 서버 IP
 -  ``s-port`` 서버 포트
--  ``x-app``
+-  ``x-app`` 가상호스트 ``Name`` 중 디렉토리. 없는 경우 - 로 기록
 -  ``cs-uri-stem`` RTMP 클라이언트가 보낸 URL중 QueryString을 제외한 부분
 -  ``cs-uri-query`` RTMP 클라이언트가 보낸 URL중 QueryString
 -  ``cs(Referrer)`` RTMP 클라이언트가 보낸 RTMP Referer
 -  ``cs(User-Agent)`` RTMP 클라이언트가 보낸 RTMP User-Agent
--  ``x-page-url``
--  ``cs-bytes`` RTMP 클라이언트가 보낸 Bytes (헤더)
--  ``sc-bytes`` 서버가 보낸 Bytes (헤더 + 컨텐츠)
+-  ``x-page-url`` Connection.connect 메쏘드의 pageUrl 파라미터
+-  ``cs-bytes (단위: Bytes)`` RTMP 클라이언트가 보낸 요청량
+-  ``sc-bytes (단위: Bytes)`` 서버가 보낸 응답량 (헤더 + 컨텐츠)
 -  ``sc-status`` 서버 응답코드
--  ``time-duration`` 
--  ``time-response`` 
--  ``time-taken`` 
--  ``x-sc-cachehit`` 
--  ``x-file-size`` 
--  ``x-file-length`` 
--  ``x-stream-pos`` 
--  ``x-stream-bytes`` 
--  ``x-session-id`` 
--  ``x-message-status`` 
--  ``x-sc-resinfo`` 
+-  ``time-duration (단위: ms)`` RTMP 세션이 접속한 시간(0)을 기준으로 로그를 기록할 때까지의 진행시간
+-  ``time-response (단위: ms)`` RTMP 메시지 요청으로부터 응답하기까지 소요된 시간
+-  ``time-taken (단위: ms)`` RTMP 메시지 요청으로부터 응답이 완료될 때까지 소요된 시간
+-  ``x-sc-cachehit`` TCP_HIT 등의 캐시히트 정보
+-  ``x-file-size (단위: Bytes)`` 영상의 크기
+-  ``x-file-length (단위: 초)`` 영상의 전체시간
+-  ``x-stream-pos (단위: ms)`` RTMP 클라이언트가 요청한 영상의 위치
+-  ``x-stream-bytes (단위: Bytes)`` RTMP헤더를 제외한 전송된 영상크기
+-  ``x-session-id`` 고유한 세션 ID
+-  ``x-message-status`` 메시지 전송이 완료된 세션인 경우 c, 완료되지 않고 세션이 종료되면 x
+-  ``x-sc-resinfo`` 부가정보를 기록하기 위한 예약필드
 
-HTTP 트랜잭션은 Payload의 전송의 완료/중단을 의미하지만 
+HTTP 트랜잭션은 Payload의 전송의 완료/중단을 의미하지만
 RTMP 트랜잭션은 Payload와 상관이 없다.
 
 
@@ -738,5 +738,3 @@ Monitoring 로그
    <Monitoring Type="size" Unit="10" Retention="10" Form="json">ON</Monitoring>
 
 -  ``Form`` 로그형식을 지정한다. ( ``json`` 또는 ``xml`` )
-
-

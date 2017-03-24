@@ -71,6 +71,7 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 다시 추가해도 콘텐츠는 되살아나지 않는다.
 
 
+.. _env-vhost-adobe_rtmp:
 
 Adobe RTMP
 ====================================
@@ -84,7 +85,7 @@ RTMP URL 형식은 다음과 같다. ::
 -  ``[virtual-host]`` 가상호스트 ``Name``
 -  ``[stream-name]`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
 
-NetConnection.connect 주소는 가상호스트 ``Name`` 표현에 따라 달라진다.
+NetConnection.connect 에서 사용해야 하는 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
 
 ======================= ================================
 <Vhost Name=" ... ">    NetConnection.connect
@@ -104,9 +105,47 @@ www.example.com         rtmp://www.example.com
 
 
 
+Apple HLS
+====================================
+
+STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)으로 전송할 수 있다.
+HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 엄밀히 따지만 HTTP 기반의 분할 전송방식이다.
+Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
+QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상)에서 지원한다.
+Android에서도 지원지만 
+
+VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
+Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
+RTMP URL 형식은 다음과 같다. ::
+
+   rtmp:// ``[virtual-host]`` / ``[stream-name]``
+
+-  ``[virtual-host]`` 가상호스트 ``Name``
+-  ``[stream-name]`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+
+NetConnection.connect 에서 사용해야 하는 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+
+======================= ================================
+<Vhost Name=" ... ">    NetConnection.connect
+======================= ================================
+www.example.com/bar     rtmp://www.example.com/bar
+www.example.com         rtmp://www.example.com
+/foo                    rtmp://[ston-ip-address]/foo
+======================= ================================
+
+원본서버 URL이 /subdir/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+
+  mp4:subdir/trip.mp4
+
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
+
+  mp4:http/subdir/trip.mp4
+
+
+
 .. _env-vhost-find:
 
-서비스 URL
+Apple HLS
 ====================================
 
 가장 명시적인 ``Name`` 표현을 우선으로 가상호스트를 선택한다.

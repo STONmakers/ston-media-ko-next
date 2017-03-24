@@ -201,60 +201,6 @@ STON 미디어 서버는 다음 경로에 설치된다. ::
 *.default파일은 항상 최신패키지와 함께 배포된다.
 
 
-.. _getting-started-rrderr:
-
-WM이 느리거나 그래프가 나오지 않는 문제
------------------------------------------------
-
-설치과정 중 RRD그래프는 동적으로 다운로드 받아서 설치된다.
-제한된 네트워크에서 STON 미디어 서버를 설치할 경우 RRD가 제대로 설치되지 않을 수 있다.
-이로 인해 :ref:`wm` 이 매우 느리게 동작하거나 :ref:`api-graph` 가 동작하지 않게 된다.
-다음과 같이 수정한다.
-
-
-**1. rrdtool 설치확인**
-
-   다음과 같이 설치여부를 확인한다. ::
-
-      [root@localhost StonMediaServer]# yum install rrdtool
-      Loaded plugins: fastestmirror, security
-      Loading mirror speeds from cached hostfile
-      * base: centos.mirror.cdnetworks.com
-      * elrepo: ftp.ne.jp
-      * epel: mirror.premi.st
-      * extras: centos.mirror.cdnetworks.com
-      * updates: centos.mirror.cdnetworks.com
-      Setting up Install Process
-      Package rrdtool-1.3.8-6.el6.x86_64 already installed and latest version
-      Nothing to do
-
-   다음은 Ubuntu계열의 경우이다. ::
-
-      root@ubuntu:~# apt-get install rrdtool
-      Reading package lists... Done
-      Building dependency tree
-      Reading state information... Done
-      rrdtool is already the newest version.
-      The following packages were automatically installed and are no longer required:
-        libgraphicsmagick3 libgraphicsmagick++3 libgraphicsmagick1-dev libgraphics-magick-perl libgraphicsmagick++1-dev
-      Use 'apt-get autoremove' to remove them.
-      0 upgraded, 0 newly installed, 0 to remove and 102 not upgraded.
-
-
-**2. RRD 수동설치**
-
-   만약 rrdtool이 yum을 이용해서 설치가 되지 않는다면,
-   OS 버전에 맞는 패키지를 `다운로드 <http://pkgs.repoforge.org/rrdtool/>`_ 후 수동으로 설치한다.
-
-======================================== =================== ======= ============================
-Name                                     Last Modified       Size    Description
-======================================== =================== ======= ============================
-tcl-rrdtool-1.4.7-1.el5.rf.i386.rpm      06-Apr-2012 16:57   36K     RHEL5 and CentOS-5 x86 32bit
-tcl-rrdtool-1.4.7-1.el5.rf.x86_64.rpm	 06-Apr-2012 16:57   37K     RHEL5 and CentOS-5 x86 64bit
-tcl-rrdtool-1.4.7-1.el6.rfx.i686.rpm     06-Apr-2012 16:57   35K     RHEL6 and CentOS-6 x86 32bit
-tcl-rrdtool-1.4.7-1.el6.rfx.x86_64.rpm	 06-Apr-2012 16:57   35K     RHEL6 and CentOS-6 x86 64bit
-======================================== =================== ======= ============================
-
 
 .. _api-etc-help:
 
