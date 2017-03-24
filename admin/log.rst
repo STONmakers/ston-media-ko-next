@@ -609,7 +609,7 @@ RTMP 클라이언트 통신내용을 기록한다.
 
 -  ``date`` RTMP 트랜잭션이 완료된 날짜
 -  ``time`` RTMP 트랜잭션이 완료된 시간
--  ``x-message-type``
+-  ``x-message-type`` RTMP 메시지 이름 (Connect, Play, Seek 등)
 -  ``c-ip`` RTMP 클라이언트 IP
 -  ``s-ip`` 서버 IP
 -  ``s-port`` 서버 포트

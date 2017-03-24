@@ -112,7 +112,12 @@ STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)으로 전송�
 HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 엄밀히 따지만 HTTP 기반의 분할 전송방식이다.
 Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
 QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상)에서 지원한다.
-Android에서도 지원지만 
+
+.. note::
+
+   Apple HLS는 Android에서도 지원되지만 버전 호환성 문제가 있다.
+   JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
+
 
 VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
 Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
