@@ -11,7 +11,7 @@
 가상호스트는 클라이언트가 요청하는 URL을 통해 어떤 프로토콜을 사용해야 하는지 알 수 있다.
 
 .. note:
-   
+
    STON 미디어 서버의 URL 표현은 Adobe 미디어 서버(= Flash 미디어 서버)와 완벽히 호환된다.
 
 
@@ -44,6 +44,7 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
         <Vhost Name="www.example.com"> ... </Vhost>
         <Vhost Name="/foo" Status="Active"> ... </Vhost>
         <Vhost Name="www.example.com/bar" Status="Inactive"> ... </Vhost>
+        <Vhost Name="/foobar" Prefix="http/"> ... </Vhost>
     </Vhosts>
 
 -  ``<Vhost>`` 가상호스트를 설정한다.
@@ -56,6 +57,8 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
    - ``Status (기본: Active)`` Inactive인 경우 해당 가상호스트는 임시적으로 서비스되지 않는다.
 
+   - ``Prefix`` 기존주소와 호환성을 맞추기 위한 문자열 설정
+
 가상호스트가 생성되면 멀티프로토콜(HTTP, HLS, RTMP) 서비스가 기본으로 활성화된다.
 
 .. note::
@@ -64,8 +67,40 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
 
 ``<Vhost>`` 를 삭제하면 해당 가상호스트가 삭제된다.
-삭제된 가상호스트의 모든 콘텐츠는 삭제된다. 
-다시 추가해도 콘텐츠는 되살아나지 않는다. 
+삭제된 가상호스트의 모든 콘텐츠는 삭제된다.
+다시 추가해도 콘텐츠는 되살아나지 않는다.
+
+
+
+Adobe RTMP
+====================================
+
+STON 미디어 서버는 VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
+Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
+RTMP URL 형식은 다음과 같다. ::
+
+    rtmp:// ``[virtual-host]`` / ``[stream-name]``
+
+-  ``[virtual-host]`` 가상호스트 ``Name``
+-  ``[stream-name]`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+
+NetConnection.connect 주소는 가상호스트 ``Name`` 표현에 따라 달라진다.
+
+======================= ================================
+<Vhost Name=" ... ">    NetConnection.connect
+======================= ================================
+www.example.com/bar     rtmp://www.example.com/bar
+www.example.com         rtmp://www.example.com
+/foo                    rtmp://[ston-ip-address]/foo
+======================= ================================
+
+원본서버 URL이 /subdir/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+
+   mp4:subdir/trip.mp4
+
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
+
+   mp4:http/subdir/trip.mp4
 
 
 
@@ -92,7 +127,7 @@ http://foo.com/...                             (찾을 수 없음)
     //////////////////////////////////////////////////////
 
     // Adobe Flash Player (RTMP)
-    Server: rtmp://www.example.com/bar
+    Connection: rtmp://www.example.com/bar
     Stream: mp4:subdir/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
@@ -107,7 +142,7 @@ http://foo.com/...                             (찾을 수 없음)
     //////////////////////////////////////////////////////
 
     // Adobe Flash Player (RTMP)
-    Server: rtmp://www.example.com/
+    Connection: rtmp://www.example.com/
     Stream: mp4:subdir/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
@@ -122,7 +157,7 @@ http://foo.com/...                             (찾을 수 없음)
     //////////////////////////////////////////////////////
 
     // Adobe Flash Player (RTMP)
-    Server: rtmp://1.1.1.1/foo
+    Connection: rtmp://1.1.1.1/foo
     Stream: mp4:subdir/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
@@ -143,7 +178,7 @@ http://foo.com/...                             (찾을 수 없음)
 Prefix가 추가된 주소는 다음과 같다. ::
 
     // Adobe Flash Player (RTMP)
-    Server: rtmp://www.example.com/bar
+    Connection: rtmp://www.example.com/bar
     Stream: mp4:http/subdir/trip.mp4
 
     // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
@@ -159,7 +194,7 @@ Prefix가 추가된 주소는 다음과 같다. ::
    STON 미디어 서버는 별도의 설정없이 다음 주소를 인식한다. ::
 
       // Adobe Flash Player (RTMP) - 동일
-      Server: rtmp://www.example.com/bar
+      Connection: rtmp://www.example.com/bar
       Stream: mp4:http/subdir/trip.mp4
 
       // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
@@ -274,5 +309,3 @@ Default 가상호스트
       "status": "OK",
       "result": [ "www.example.com","/foo", "www.example.com/bar" ]
    }
-
-
