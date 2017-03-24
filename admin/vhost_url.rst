@@ -108,14 +108,14 @@ www.example.com         rtmp://www.example.com
 Apple HLS
 ====================================
 
-STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)으로 전송할 수 있다.
-HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 엄밀히 따지만 HTTP 기반의 분할 전송방식이다.
+STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)로 전송할 수 있다.
+HLS는 "Cupertino" 스트리밍이라고도 알려져 있으며 엄밀히 따지만 Streaming이 아닌 HTTP 기반의 분할 전송방식이다.
 Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
 QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상)에서 지원한다.
 
 .. note::
 
-   Apple HLS는 Android에서도 지원되지만 버전 호환성 문제가 있다.
+   Apple HLS는 Android에서도 지원되지만 일부 구버전 호환성 문제가 있다.
    JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
 
 
@@ -150,7 +150,7 @@ www.example.com         rtmp://www.example.com
 
 .. _env-vhost-find:
 
-Apple HLS
+HTTP Pseudo-Streaming
 ====================================
 
 가장 명시적인 ``Name`` 표현을 우선으로 가상호스트를 선택한다.
