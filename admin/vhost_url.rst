@@ -158,89 +158,51 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 HTTP Pseudo-Streaming
 ====================================
 
-가장 명시적인 ``Name`` 표현을 우선으로 가상호스트를 선택한다.
+STON 미디어 서버는 VOD 콘텐츠를 HTTP Pseudo-Streaming으로 전송할 수 있다.
+서비스 효율을 높이는 다양한 기능이 제공된다.
 
-============================================== ========================
-HTTP URL                                       가상호스트 Name
-============================================== ========================
-http://www.example.com/bar/...                 www.example.com/bar
-http://www.example.com/...                     www.example.com
-http://foo.com/foo/...                         /foo
-http://foo.com/...                             (찾을 수 없음)
-============================================== ========================
+-   VOD 콘텐츠를 분석하여 가장 경제적인 대역폭으로 전송
+-   VOD 콘텐츠의 헤더가 뒤에 있어도 전송 단계에서 앞으로 재배치
+-   요청 즉시 캐싱/전송되는 빠른 반응성과 성능
 
-예를 들어 HTTP 원본서버의 URL이 /mov/trip.mp4 라면 STON 미디어 서버의 서비스 URL은 아래와 같다. ::
+HTTP Pseudo-Streaming의 URL형식은 다음과 같다. ::
 
-    //////////////////////////////////////////////////////
-    // <Vhost Name="www.example.com/bar">
-    //////////////////////////////////////////////////////
+    http://{virtual-host}/{stream-name}
+    http://{ston-ip-address}/{virtual-host}/{stream-name}
 
-    // Adobe Flash Player (RTMP)
-    Connection: rtmp://www.example.com/bar
-    Stream: mp4:mov/trip.mp4
+-  ``{virtual-host}`` 가상호스트 ``Name``
+-  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+-  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
-    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
 
-    // HTTP Pseudo-Streaming
-    http://www.example.com/bar/mp4:mov/trip.mp4
+===================== ==============================================================
+<Vhost Name="...">    URL
+===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4
+www.example.com       http://www.example.com/mp4:mov/trip.mp4
+/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4
+===================== ==============================================================
 
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
 
-    //////////////////////////////////////////////////////
-    // <Vhost Name="www.example.com">
-    //////////////////////////////////////////////////////
-
-    // Adobe Flash Player (RTMP)
-    Connection: rtmp://www.example.com/
-    Stream: mp4:mov/trip.mp4
-
-    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
-
-    // HTTP Pseudo-Streaming
-    http://www.example.com/mp4:mov/trip.mp4
+================================== ====================================================
+<Vhost Name="..." Prefix="http/">  URL
+================================== ====================================================
+www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4
+www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
+/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4
+================================== ====================================================
 
 
-    //////////////////////////////////////////////////////
-    // <Vhost Name="/foo">
-    //////////////////////////////////////////////////////
 
-    // Adobe Flash Player (RTMP)
-    Connection: rtmp://1.1.1.1/foo
-    Stream: mp4:mov/trip.mp4
+_definst_
+====================================
 
-    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://1.1.1.1/foo/mp4:mov/trip.mp4/playlist.m3u8
-
-    // HTTP Pseudo-Streaming
-    http://1.1.1.1/foo/mp4:mov/trip.mp4
-
-
-이미 배포된 URL과의 호환성을 위해 가상호스트 Prefix 속성을 제공한다. ::
-
-   # vhosts.xml
-
-   <Vhosts>
-      <Vhost Name="www.example.com/bar" Prefix="http/"> ... </Vhost>
-   </Vhosts>
-
-Prefix가 추가된 주소는 다음과 같다. ::
-
-    // Adobe Flash Player (RTMP)
-    Connection: rtmp://www.example.com/bar
-    Stream: mp4:http/mov/trip.mp4
-
-    // Apple iOS device (Cupertino/Apple HTTP Live Streaming)
-    http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
-
-    // HTTP Pseudo-Streaming
-    http://www.example.com/bar/mp4:http/mov/trip.mp4
-
-.. note::
-
-   WOWZA의 경우 Application이름 뒤에 application-instance명을 함께 명시하고 있다.
-   (이 값은 대부분 ``_definst_`` 이다.)
-   STON 미디어 서버는 별도의 설정없이 다음 주소를 인식한다. ::
+WOWZA Streaming Engine의 경우 Application이름 뒤에 application-instance명을 함께 명시하고 있다.
+이 값은 대부분 ``_definst_`` 이다.
+STON 미디어 서버는 별도의 설정없이 ``_definst_`` 가 명시된 주소를 인식한다. ::
 
       // Adobe Flash Player (RTMP) - 동일
       Connection: rtmp://www.example.com/bar
