@@ -321,7 +321,7 @@ Range요청
 Apache 웹서버는 GET요청에 대해서 항상 mod_h.264_streaming모듈을 통해서 응답한다.
 클라이언트(이 경우에는 STON)는 원본파일 그대로가 아닌 모듈에 의해 변조된 파일을 서비스 받는다.
 
-   .. figure:: img/conf_origin_fullrangeinit1.png
+   .. figure:: img/sms_origin_http_fullrangeinit.png
       :align: center
 
       mod_h.264_streaming모듈은 항상 원본을 변조한다.

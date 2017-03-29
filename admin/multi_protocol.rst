@@ -482,7 +482,7 @@ Accept-Encoding 헤더
 원본서버에 요청을 보내는 시점에 압축여부를 알 수 없다.
 응답을 받았다고해도 압축여부를 매번 비교할 수도 없다.
 
-   .. figure:: img/acceptencoding.png
+   .. figure:: img/sms_acceptencoding.png
       :align: center
 
       원본서버가 어떤 응답을 줄지 알 수 없다.
@@ -496,9 +496,11 @@ Accept-Encoding 헤더
 
 -  ``<AcceptEncoding>``
 
-   -  ``OFF (기본)`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 무시한다.
+   -  ``ON (기본)`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 인식한다.
 
-   -  ``ON`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 인식한다.
+   -  ``OFF`` HTTP 클라이언트가 보내는 Accept-Encoding 헤더를 무시한다.
+
+   
 
 원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
 
@@ -552,46 +554,15 @@ HLS 클라이언트
 
 미디어 파일을 HLS(HTTP Live Streaming)로 서비스한다.
 원본서버는 더 이상 HLS 서비스를 위해 파일을 분할/저장할 필요가 없다.
-
-..  note::
-
-    STON 미디어 서버가 지원하는 HLS는 Elementary Stream(Video 또는 Audio)을 변환하는 트랜스코딩(Transcoding)이 아니다.
-    그러므로 HLS에 적합한 형식으로 인코딩된 파일에 한해서 원활한 단말 재생이 가능하다.
-    인코딩이 적합하지 않을 경우 화면이나 깨지거나 소리가 재생되지 않을 수 있다.
-    Apple에서 밝히고 있는 Video/Audio 인코딩 규격은 다음과 같다.
-
-    What are the specifics of the video and audio formats supported?
-    Although the protocol specification does not limit the video and audio formats, the current Apple implementation supports the following formats:
-
-    [Video]
-    H.264 Baseline Level 3.0, Baseline Level 3.1, Main Level 3.1, and High Profile Level 4.1.
-
-    [Audio]
-    HE-AAC or AAC-LC up to 48 kHz, stereo audio
-    MP3 (MPEG-1 Audio Layer 3) 8 kHz to 48 kHz, stereo audio
-    AC-3 (for Apple TV, in pass-through mode only)
-
-    Note: iPad, iPhone 3G, and iPod touch (2nd generation and later) support H.264 Baseline 3.1. If your app runs on older versions of iPhone or iPod touch, however, you should use H.264 Baseline 3.0 for compatibility. If your content is intended solely for iPad, Apple TV, iPhone 4 and later, and Mac OS X computers, you should use Main Level 3.1.
-
-
 기존 방식의 HTTP Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일과 분할된 파일이 각각 존재해야 한다.
 이 방식의 단점은 분할 파일로 인한 저장공간 점유와 관리의 어려움이다.
 
-.. figure:: img/conf_media_mp4hls1.png
+.. figure:: img/sms_hls_flow.png
    :align: center
 
-   수고가 많은 HLS
-
-STON 미디어 서버는 원본파일로부터 HLS서비스에 필요한 파일을 동적으로 생성한다.
-
-.. figure:: img/conf_media_mp4hls2.png
-   :align: center
-
-   똑똑한 HLS
-
-모든 .m3u8/.ts파일은 원본파일에서 파생되며 별도의 저장공간을 소비하지 않는다.
+STON 미디어 서버는 단일 원본파일로부터 HLS 서비스를 위한 인덱스(.m3u8)와 Chunk(.ts)를 동적으로 생성한다.
+모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
 서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
-
 
 .. _multi_protocol_hls_session_clientkeepalivesec:
 
