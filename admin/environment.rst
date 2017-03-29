@@ -277,7 +277,7 @@ API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. 
    .. figure:: img/sms_conf_overriding.png
       :align: center
 
-      단일 상속이다.
+      별도로 명시하지 않은 설정은 <VHostDefault>의 값을 사용한다.
 
 가상호스트 foo.com의 경우 별도로 덮어쓰기(Overriding)한 값이 없으므로 ``ClientKeepAliveSec`` 는 10, ``BufferSize`` 는 3이 된다.
 반면 가상호스트 bar.com은 ``BufferSize`` 를 8로 덮어 쓰기(Overriding)했으므로 ``ClientKeepAliveSec`` 는 10, ``BufferSize`` 는 8이 된다.

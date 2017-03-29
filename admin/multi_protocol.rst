@@ -485,7 +485,7 @@ Accept-Encoding 헤더
    .. figure:: img/sms_acceptencoding.png
       :align: center
 
-      원본서버가 어떤 응답을 줄지 알 수 없다.
+      URL은 같지만 다른 파일로 인식하여 중복캐싱될 수 있다.
 
 ::
 
