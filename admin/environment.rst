@@ -15,7 +15,7 @@
 STON 미디어 서버는 XML표현을 사용한다. 
 설정파일은 전역(server.xml)과 가상호스트(vhosts.xml)로 나뉜다.
 
-   .. figure:: img/conf_files.png
+   .. figure:: img/sms_conf_files.png
       :align: center
 
       2개의 .xml파일이 전부입니다.
@@ -274,13 +274,13 @@ API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. 
 하지만 가상호스트를 생성할 때마다 동일한 설정을 반복하는 것은 매우 소모적이다.
 모든 가상호스트는 ``<VHostDefault>`` 을 상속받는다.
 
-   .. figure:: img/vhostdefault.png
+   .. figure:: img/sms_conf_overriding.png
       :align: center
 
       단일 상속이다.
 
-www.example.com의 경우 별도로 덮어쓰기(Overriding)한 값이 없으므로 A=1, B=2가 된다.
-반면 foo.com은 B=3으로 덮어쓰기했으므로 A=1, B=3이 된다.
+foo.com의 경우 별도로 덮어쓰기(Overriding)한 값이 없으므로 ``ClientKeepAliveSec'' 는 10, ``BufferSize`` 는 3이 된다.
+반면 bar.com은 ``BufferSize`` 를 8로 덮어쓰기했으므로 ``ClientKeepAliveSec'' 는 10, ``BufferSize`` 는 8이 된다.
 관리자들은 보통 같은 서비스특성을 가지는 서비스를 한 서버에 같이 구성한다.
 그러므로 상속은 매우 효과적인 방법이다.
 
