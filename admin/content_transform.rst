@@ -90,18 +90,6 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
    GET /bar/mp4:trip.mp4
    GET /bar/mp4:trip.mp4?tag=3277&date=20130726
 
-또한 QueryString파라미터는 확장모듈이나 CDN솔루션에 따라 달라질 수 있다.
-
-.. figure:: img/conf_media_mp4trimming_range.png
-   :align: center
-
-   JW Player에서 제공하고 있는 Module/CDN별 참고자료
-
-이외의 nginx의 `ngx_http_mp4_module <http://nginx.org/en/docs/http/ngx_http_mp4_module.html>`_ 과,
-lighttpd의 `Mod-H264-Streaming-Testing-Version2 <http://h264.code-shop.com/trac/wiki/Mod-H264-Streaming-Testing-Version2>`_ 에서도
-모두 **start** 를 QueryString으로 사용하고 있다.
-
-
 
 .. _content_transform_trimming:
 
