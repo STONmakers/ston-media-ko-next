@@ -176,7 +176,7 @@ OS 구성
 
 또는 :ref:`wm` 의 :ref:`wm-update` 를 통해 간편하게 업데이트를 진행할 수 있다.
 
-   .. figure:: img/conf_update1.png
+   .. figure:: img/sms_wm_update.png
       :align: center
 
 

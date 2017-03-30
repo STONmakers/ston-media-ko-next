@@ -29,12 +29,12 @@
 마찬가지로 하루에 한번 매일 0시 0분에 롤링하려면 1440(60분 X 24시)으로 ``Unit`` 값으로 설정한다.
 ``time`` 설정에서 로그는 하루에 한번 무조건 롤링되므로 ``Unit`` 의 최대값은 1440을 넘을 수 없다.
 
-.. figure:: img/sms_log_rolling1.png
+.. figure:: img/sms_log_rolling3.png
    :align: center
 
 최대 값인 24시간(Unit=1440)시간마다 로그가 롤링되도록 설정했다면 다음 그림과 같이 로그가 기록된다.
 
-.. figure:: img/sms_log_rolling2.png
+.. figure:: img/sms_log_rolling4.png
    :align: center
 
 

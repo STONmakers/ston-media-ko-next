@@ -76,7 +76,7 @@ TTL이 만료되면 원본서버로 콘텐츠 변경여부( **If-Modified-Since*
 
    ``MaxAge`` 가 0보다 크다면 max-age를 줄 수 있다.
 
-   .. figure:: img/nocache_maxage.png
+   .. figure:: img/sms_nocache_maxage1.png
       :align: center
 
       Max-Age만큼 클라이언트에 Caching된다.
@@ -248,7 +248,7 @@ TTL이 만료된 콘텐츠의 경우 원본서버에서 갱신여부를 확인�
 
 원본서버의 대소문자 구분여부를 능동적으로 알 수 없다.
 
-   .. figure:: img/sms_casesensitive.png
+   .. figure:: img/sms_casesensitive1.png
       :align: center
 
       아마도 같은 콘텐츠이거나 404가 발생한다.
@@ -275,7 +275,7 @@ QueryString 구분
 QueryString에 의하여 동적으로 생성되는 콘텐츠가 아니라면 QueryString을 인식하는 것은 불필요하다.
 아무 의미없는 Random값이나 항상 변하는 시간 값이 매번 붙는다면 원본에 엄청난 부하가 발생할 수 있다.
 
-   .. figure:: img/sms_querystring.png
+   .. figure:: img/sms_querystring1.png
       :align: center
 
       동적 콘텐츠가 아니라면 같은 콘텐츠일 가능성이 높다.

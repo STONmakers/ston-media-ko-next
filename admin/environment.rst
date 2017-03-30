@@ -274,7 +274,7 @@ API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. 
 하지만 가상호스트를 생성할 때마다 동일한 설정을 반복하는 것은 매우 소모적이다.
 모든 가상호스트는 ``<VHostDefault>`` 을 상속받는다.
 
-   .. figure:: img/sms_conf_overriding.png
+   .. figure:: img/sms_conf_overriding1.png
       :align: center
 
       별도로 명시하지 않은 설정은 <VHostDefault>의 값을 사용한다.

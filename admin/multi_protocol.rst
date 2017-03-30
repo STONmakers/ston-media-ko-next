@@ -482,7 +482,7 @@ Accept-Encoding 헤더
 원본서버에 요청을 보내는 시점에 압축여부를 알 수 없다.
 응답을 받았다고해도 압축여부를 매번 비교할 수도 없다.
 
-   .. figure:: img/sms_acceptencoding1.png
+   .. figure:: img/sms_acceptencoding2.png
       :align: center
 
       URL은 같지만 다른 파일로 인식하여 중복캐싱될 수 있다.
@@ -557,7 +557,7 @@ HLS 클라이언트
 기존 방식의 HTTP Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일과 분할된 파일이 각각 존재해야 한다.
 이 방식의 단점은 분할 파일로 인한 저장공간 점유와 관리의 어려움이다.
 
-.. figure:: img/sms_hls_flow.png
+.. figure:: img/sms_hls_flow1.png
    :align: center
 
 STON 미디어 서버는 단일 원본파일로부터 HLS 서비스를 위한 인덱스(.m3u8)와 Chunk(.ts)를 동적으로 생성한다.

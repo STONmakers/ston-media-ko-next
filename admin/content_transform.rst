@@ -64,7 +64,7 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
 이 기능은 파일을 단순히 자르기만 하는 것이 아니라 올바르게 재생될 수 있도록 키프레임등 미디어 파일을 분석하여 구간을 추출한다.
 클라이언트에게 전달되는 파일은 다음 그림처럼 MP4헤더가 재생성된 완전한 형태의 MP4파일이다.
 
-.. figure:: img/sms_transform_trimming.png
+.. figure:: img/sms_transform_trimming1.png
    :align: center
 
    완전한 형태의 파일이 제공된다.
@@ -72,7 +72,7 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
 추출된 구간은 별도의 파일로 인식되기 때문에 200 OK로 응답된다.
 그러므로 다음과 같이 Range헤더가 명시된 경우 추출된 파일로부터 Range를 계산하여 **206 Particial Content** 로 응답한다.
 
-.. figure:: img/sms_transform_trimming_range.png
+.. figure:: img/sms_transform_trimming_range1.png
    :align: center
 
    일반적인 Range요청처럼 처리된다.

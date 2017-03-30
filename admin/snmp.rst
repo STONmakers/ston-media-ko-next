@@ -66,7 +66,7 @@
    가상호스트의 삭제와 추가가 동시에 발생할 경우 삭제가 먼저 동작하며, 
    신규 추가된 가상호스트는 비어있는  ``[vhostIndex]`` 를 부여 받는다.
    
-   .. figure:: img/sms_snmp_vhostindex.png
+   .. figure:: img/sms_snmp_vhostindex1.png
       :align: center
       
       ``[vhostIndex]`` 의 동작방식
