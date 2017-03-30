@@ -482,7 +482,7 @@ Accept-Encoding 헤더
 원본서버에 요청을 보내는 시점에 압축여부를 알 수 없다.
 응답을 받았다고해도 압축여부를 매번 비교할 수도 없다.
 
-   .. figure:: img/sms_acceptencoding.png
+   .. figure:: img/sms_acceptencoding1.png
       :align: center
 
       URL은 같지만 다른 파일로 인식하여 중복캐싱될 수 있다.
