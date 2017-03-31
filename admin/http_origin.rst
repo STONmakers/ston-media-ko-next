@@ -3,7 +3,7 @@
 6장. HTTP 원본서버
 ******************
 
-이 장에서는 STON 미디어서버와 HTTP 원본서버 구간의 통신에 대해 알아본다.
+이 장에서는 STON 미디어 서버와 HTTP 원본서버 구간의 통신에 대해 알아본다.
 HTTP 원본서버에 대해 Apache 웹서버만 생각하기 쉽지만 AWS S3같은 HTTP로 통신할 수 있는 서버 모두를 포함한다. ::
 
    # server.xml - <Server><VHostDefault>
@@ -21,6 +21,49 @@ HTTP 원본서버에 대해 Apache 웹서버만 생각하기 쉽지만 AWS S3같
 
 .. toctree::
    :maxdepth: 2
+
+
+
+.. _http_origin_use_policy:
+
+원본주소 사용정책
+====================================
+
+원본주소(IP)는 다음 요소들에 의해 어떻게 사용될지 결정된다.
+
+-  :ref:`env-vhost-activeorigin` 주소 형식(IP 또는 Domain)과 보조주소
+-  `장애감지와 복구`_
+-  `Health-Checker`_
+
+서비스를 운영하다보면 원본주소가 배제/복구되는 일은 빈번하다.
+STON은 IP테이블을 기반으로 원본주소를 사용하며 `origin-status`_ API를 통해 정보를 제공한다.
+
+원본주소를 IP로 설정한 경우 매우 간단하다.
+
+-  설정변경 이외에 IP목록을 변화시키는 요인은 없다.
+-  TTL에 의해 IP주소가 만료되지 않는다.
+-  장애/복구 모두 설정(IP주소)에 기반하여 동작한다.
+
+원본주소를 Domain으로 설정하면 Resolving해서 IP를 얻어야 한다.
+( :ref:`admin-log-dns` 에 기록된다.)
+IP 목록은 동적으로 변경될 수 있으며 모든 IP는 TTL(Time To Live)동안만 유효하다.
+
+-  Domain은 주기적으로(1~10초) Resolving한다.
+-  Resolving결과를 통해 사용할 IP테이블을 구성한다.
+-  모든 IP는 TTL만큼만 유효하며 TTL이 만료되면 사용하지 않는다.
+-  같은 IP가 다시 Resolving되면 TTL을 갱신한다.
+-  IP테이블은 비어서는 안된다. (TTL이 만료되었더라도) 마지막 IP들은 삭제되지 않는다.
+
+원본주소를 Domain으로 설정하여도 장애/복구는 IP기반으로 동작한다.
+Domain주소 장애/복구 정책은 다음과 같다.
+
+-  (Domain에 대해) 알고 있는 모든 IP주소가 배제(Inactive)되면 해당 Domain주소가 배제된다.
+-  신규 IP가 Resolving되더라도 Domain이 배제되어 있다면 IP주소는 처음부터 배제된다.
+-  모든 IP가 TTL 만료되더라도 배제된 Domain상태는 풀리지 않는다.
+-  배제된 Domain에 속한 IP주소가 하나라도 복구되어야 해당 Domain은 다시 활성화된다.
+
+다소 복잡한 내용이므로 `http_origin_status`_ API를 통해 서비스 동작상태에 대해 이해도를 높이는 것이 좋다.
+
 
 
 .. _http_origin_exclusion_and_recovery:
@@ -68,48 +111,6 @@ Caching과정 중 원본서버에 장애가 발생하면 자동배제한다.
       200, 206, 404로 설정하면 응답코드가 이 중 하나인 경우 정상응답으로 처리한다.
 
    -  ``Log (기본: ON)`` 복구를 위해 사용된 HTTP 트랜잭션을 :ref:`admin-log-origin` 에 기록한다.
-
-
-
-.. _http_origin_use_policy:
-
-원본주소 사용정책
-====================================
-
-원본주소(IP)는 다음 요소들에 의해 어떻게 사용될지 결정된다.
-
--  :ref:`env-vhost-activeorigin` 주소 형식(IP 또는 Domain)과 보조주소
--  `장애감지와 복구`_
--  `Health-Checker`_
-
-서비스를 운영하다보면 원본주소가 배제/복구되는 일은 빈번하다.
-STON은 IP테이블을 기반으로 원본주소를 사용하며 `origin-status`_ API를 통해 정보를 제공한다.
-
-원본주소를 IP로 설정한 경우 매우 간단하다.
-
--  설정변경 이외에 IP목록을 변화시키는 요인은 없다.
--  TTL에 의해 IP주소가 만료되지 않는다.
--  장애/복구 모두 설정(IP주소)에 기반하여 동작한다.
-
-원본주소를 Domain으로 설정하면 Resolving해서 IP를 얻어야 한다.
-( :ref:`admin-log-dns` 에 기록된다.)
-IP 목록은 동적으로 변경될 수 있으며 모든 IP는 TTL(Time To Live)동안만 유효하다.
-
--  Domain은 주기적으로(1~10초) Resolving한다.
--  Resolving결과를 통해 사용할 IP테이블을 구성한다.
--  모든 IP는 TTL만큼만 유효하며 TTL이 만료되면 사용하지 않는다.
--  같은 IP가 다시 Resolving되면 TTL을 갱신한다.
--  IP테이블은 비어서는 안된다. (TTL이 만료되었더라도) 마지막 IP들은 삭제되지 않는다.
-
-원본주소를 Domain으로 설정하여도 장애/복구는 IP기반으로 동작한다.
-Domain주소 장애/복구 정책은 다음과 같다.
-
--  (Domain에 대해) 알고 있는 모든 IP주소가 배제(Inactive)되면 해당 Domain주소가 배제된다.
--  신규 IP가 Resolving되더라도 Domain이 배제되어 있다면 IP주소는 처음부터 배제된다.
--  모든 IP가 TTL 만료되더라도 배제된 Domain상태는 풀리지 않는다.
--  배제된 Domain에 속한 IP주소가 하나라도 복구되어야 해당 Domain은 다시 활성화된다.
-
-다소 복잡한 내용이므로 `origin-status`_ API를 통해 서비스 동작상태에 대해 이해도를 높이는 것이 좋다.
 
 
 
@@ -319,7 +320,7 @@ Range요청
 
 가장 대표적인 예는 Apache 웹서버가 mod_h.264_streaming같은 외부모듈과 같이 구동되는 경우이다.
 Apache 웹서버는 GET요청에 대해서 항상 mod_h.264_streaming모듈을 통해서 응답한다.
-클라이언트(이 경우에는 STON)는 원본파일 그대로가 아닌 모듈에 의해 변조된 파일을 서비스 받는다.
+클라이언트(이 경우에는 STON 미디어 서버)는 원본파일 그대로가 아닌 모듈에 의해 변조된 파일을 서비스 받는다.
 
    .. figure:: img/sms_origin_http_fullrangeinit1.png
       :align: center
@@ -351,7 +352,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
 
    GET /trip.mp4 HTTP/1.1
    Range: bytes=0-
-   If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
+   If-Modified-Since: Fri, 31 Mar 2017 19:43:31 GMT
 
 .. note::
 
@@ -368,7 +369,7 @@ Range요청을 사용하면 모듈을 우회하여 원본을 다운로드할 수
 HTTP 요청헤더
 ====================================
 
-STON 미디어서버가 원본서버에서 다운로드를 위해 보내는 HTTP 요청헤더를 설정한다.
+STON 미디어 서버가 원본서버에서 다운로드를 위해 보내는 HTTP 요청헤더를 설정한다.
 
 Host 헤더
 ---------------------
@@ -414,7 +415,7 @@ HTTP 요청의 User-Agent헤더를 설정한다. ::
 XFF(X-Forwarded-For) 헤더
 ---------------------
 
-HTTP 클라이언트와 원본서버 사이에 STON 미디어서버가 위치하면 원본서버는 클라이언트 IP를 얻을 수 없다.
+HTTP 클라이언트와 원본서버 사이에 STON 미디어 서버가 위치하면 원본서버는 클라이언트 IP를 얻을 수 없다.
 때문에 원본서버로 보내는 모든 HTTP 요청에 X-Forwarded-For헤더를 명시한다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions><Http>
@@ -536,7 +537,7 @@ Health-Checker
 
 `장애감지와 복구`_ 는 Caching 과정 중 발생하는 장애에만 대응한다.
 주기적으로 동작하는 Health-Checker를 설정해 놓으면 장애를 더 빨리 감지할 수 있다.
-Health-Checker는 HTTP 트랜잭션이 올바르게 이루어지까지 확인한다.
+Health-Checker는 HTTP 트랜잭션이 올바르게 완료되는지 확인한다.
 
 .. note::
 

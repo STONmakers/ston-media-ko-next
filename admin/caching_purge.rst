@@ -61,7 +61,7 @@
                 "Downloader-Count": "0",
                 "LastAccess": "[ 2016.09.03 14:29:50, -2 ]",
                 "UpdateTime": "[ 2016.09.03 13:53:43, -2169 ]",
-                "TTL-Left": "[ 2012.10.03 13:53:43, 2589831 ]",
+                "TTL-Left": "[ 2017.10.03 13:53:43, 2589831 ]",
                 "ResponseCode": 200,
                 "ContentType": "video/mp4",
                 "LastModifiedTime": "[ 2016.09.03 13:53:43, -2169 ]",
@@ -96,7 +96,7 @@
 -  ``File-Opened`` ("Y" or "N") 로컬파일을 열고 있다면 "Y"
 -  ``File-Updating`` 파일을 갱신 중이라면 갱신하는 객체의 포인터가 명시
 -  ``Downloader-Count`` 원본서버에서 이 파일을 다운로드 받는 현재 세션의 개수
--  ``LastAccess`` (마지막 접근시간, 마지막 접근시간-현재시간) [ 2012.09.03 14:29:50, -2 ]의 의미는 2012.09.03 14:29:50에 접근됐으며 현재로부터 2초 전에 접근됐다는 의미이다.
+-  ``LastAccess`` (마지막 접근시간, 마지막 접근시간-현재시간) [ 2016.09.03 14:29:50, -2 ]의 의미는 2016.09.03 14:29:50에 접근됐으며 현재로부터 2초 전에 접근됐다는 의미이다.
 -  ``UpdateTime`` (갱신시간, 갱신시간-현재시간) 파일이 마지막으로 갱신된 시간. 304 Not Modified에도 시간은 갱신된다.
 -  ``TTL-Left`` (만료시간, 만료시간-현재시간) 컨텐츠 만료 예정시간. TTL이 남았다면 양수로, 만료됐다면 음수로 표기된다.
 -  ``ResponseCode`` 원본서버 응답코드
@@ -142,7 +142,7 @@ Purge후 최초 접근 시점에 원본서버로부터 컨텐츠를 다시 캐�
     http://127.0.0.1:20040/command/purge?url=http://www.example.com/bar/trip.mp4
     http://127.0.0.1:20040/command/purge?url=www.example.com/bar/*.mp4
     http://127.0.0.1:20040/command/purge?url=www.example.com/bar/*.mp4|/bar/hot/sample.mp4
-    http://127.0.0.1:20040/command/purge?url=www.example.com/bar/trip.mp4|foo.com/page/*.pm3
+    http://127.0.0.1:20040/command/purge?url=www.example.com/bar/trip.mp4|foo.com/page/*.mp3
 
 결과는 JSON형식으로 제공된다.
 타겟 컨텐츠 개수/용량 및 처리시간(단위: ms)이 명시된다.
@@ -256,7 +256,7 @@ Purge API가 호출될 때 컨텐츠 복구 여부를 선택한다. ::
 -  ``<Purge2Expire> (기본: NONE)``
 
    `Purge`_ 요청을 설정에 따라 `Expire`_ 로 처리한다.
-   예를 들어 특정 패턴(*.jpg)를 `Purge`_ 하는 경우 의도하지 않게 많은 컨텐츠가
+   예를 들어 특정 패턴(/hotclips/*.mp4)를 `Purge`_ 하는 경우 의도하지 않게 많은 컨텐츠가
    삭제되어 원본에 과도한 부하를 발생시킬 수 있다.
    이런 경우 `Expire`_ 로 처리하도록 설정하면 과도한 원본부하를 방지할 수 있다.
 

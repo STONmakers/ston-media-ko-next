@@ -116,7 +116,7 @@ Info로그는 전역설정(server.xml)에 설정한다. ::
    <InfoLog Type="size" Unit="1" Retention="5">ON</InfoLog>
 
 -  ``<InfoLog> (기본: ON, Type: size, Unit: 1)``
-   STON의 동작과 설정변경에 대해 기록한다.
+   STON 미디어 서버의 동작과 설정변경에 대해 기록한다.
 
 
 .. _log_deny:
@@ -135,9 +135,9 @@ Deny로그는 전역설정(server.xml)에 설정한다. ::
    :ref:`access-control-serviceaccess` 에 의해 접근차단된 IP를 기록한다. ::
 
       #Fields: date time c-ip deny
-      2012.11.15 07:06:10 1.1.1.1 AP
-      2012.11.15 07:06:26 2.2.2.2 GIN
-      2012.11.15 07:06:30 3.3.3.3 3.3.3.1-255
+      2017.11.15 07:06:10 1.1.1.1 AP
+      2017.11.15 07:06:26 2.2.2.2 GIN
+      2017.11.15 07:06:30 3.3.3.3 3.3.3.1-255
 
    모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
@@ -164,13 +164,13 @@ OriginError로그는 전역설정(server.xml)에 설정한다. ::
    장애는 접속장애와 전송장애를 의미하며 원본서버 배제/복구 결과가 기록된다. ::
 
       #Fields: date time vhostname level s-domain s-ip cs-method cs-uri time-taken sc-error sc-resinfo
-      2012.11.15 07:06:10 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/ProductImage/stock/1716439_SM.jpg 20110 Connect-Timeout -
-      2012.11.15 07:06:26 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/ProductImage/stock/1716439_SM.jpg 20110 Connect-Timeout -
-      2012.11.15 07:06:30 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/ProductImage/stock/1716439_SM.jpg 20110 Connect-Timeout -
-      #2012.11.15 07:06:30 [example.com] 192.168.0.13 excluded from service
-      #2012.11.15 07:06:31 [example.com] Origin server list: 192.168.0.14
-      #2012.11.15 07:11:11 [example.com] 192.168.0.13 recovered back in service
-      #2012.11.15 07:11:12 [example.com] Origin server list: 192.168.0.13
+      2017.11.15 07:06:10 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/trip.mp4 20110 Connect-Timeout -
+      2017.11.15 07:06:26 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/trip.mp4 20110 Connect-Timeout -
+      2017.11.15 07:06:30 [example.com] [ERROR] 192.168.0.13 192.168.0.13 GET /Upload/trip.mp4 20110 Connect-Timeout -
+      #2017.11.15 07:06:30 [example.com] 192.168.0.13 excluded from service
+      #2017.11.15 07:06:31 [example.com] Origin server list: 192.168.0.14
+      #2017.11.15 07:11:11 [example.com] 192.168.0.13 recovered back in service
+      #2017.11.15 07:11:12 [example.com] Origin server list: 192.168.0.13
 
    모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
@@ -188,8 +188,8 @@ OriginError로그는 전역설정(server.xml)에 설정한다. ::
 
    ``Warning`` 속성이 ``ON`` 이라면 다음 예제처럼 잘못된 HTTP통신이 발생한 경우에 기록한다. ::
 
-      2012.11.15 07:09:03 [example.com] [WARNING] 10.10.10.10 121.189.63.219 GET /716439_SM.jpg 20110 PartialResponseOnNormalRequest Res=206,Len=2635
-      2012.11.15 07:09:03 [example.com] [WARNING] 10.10.10.10 121.189.63.219 GET /716439_SM.jpg 20110 ClosedWithoutResponse -
+      2017.11.15 07:09:03 [example.com] [WARNING] 10.10.10.10 121.189.63.219 GET /trip.mp4 20110 PartialResponseOnNormalRequest Res=206,Len=2635
+      2017.11.15 07:09:03 [example.com] [WARNING] 10.10.10.10 121.189.63.219 GET /trip.mp4 20110 ClosedWithoutResponse -
 
    잘못된 HTTP통신의 경우는 다음과 같다.
 
@@ -241,9 +241,9 @@ SysLog 전송
 위 설정으로 기록된 sys로그 예제는 다음과 같다.
 syslog의 tag는 STON/{로그명}으로 기록된다. ::
 
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:20 [ERROR] [example.com] - 192.168.0.14 GET /1.gifd 1996 Connect-Timeout -
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:22 [ERROR] [example.com] - 192.168.0.14 GET /favicon.ico 1995 Connect-Timeout -
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:24 [ERROR] [example.com] - 192.168.0.14 GET /1.gifd22 2020 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:20 [ERROR] [example.com] - 192.168.0.14 GET /trip.mp4 1996 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:22 [ERROR] [example.com] - 192.168.0.14 GET /trip2.mp4 1995 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:24 [ERROR] [example.com] - 192.168.0.14 GET /sample.mp4 2020 Connect-Timeout -
     Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2013 .03.12 14:09:24 [example.com] 192.168.0.14:102 excluded from service
     Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2013 .03.12 14:09:24 [example.com] Origin server list:
 
@@ -283,15 +283,15 @@ DNS 로그
 ::
 
    #Fields: date time domain ttl ip-list ip-count time-taken result
-   2014-07-30 12:10:33 example.com 157 173.194.127.15,173.194.127.23,173.194.127.24,173.194.127.31 4 5007 success
-   2014-07-30 12:10:38 example.com 152 173.194.127.23,173.194.127.24,173.194.127.31,173.194.127.15 4 9 success
-   2014-07-30 12:11:03 example.com 127 173.194.127.31,173.194.127.15,173.194.127.23,173.194.127.24 4 15007 success
-   2014-07-30 12:12:53 example.com 17 173.194.127.15,173.194.127.23,173.194.127.24,173.194.127.31 4 6 success
-   2014-07-30 12:23:16 test.com 0 - 0 10008 fail
-   2014-07-30 12:23:21 test.com 0 - 0 5007 fail
-   2014-07-30 12:23:26 test.com 0 - 0 5011 fail
-   2014-07-30 12:24:38 example.com 152 173.194.127.23,173.194.127.24,173.194.127.31,173.194.127.15 4 9 success
-   2014-07-30 12:25:03 example.com 127 173.194.127.31,173.194.127.15,173.194.127.23,173.194.127.24 4 15007 success
+   2017-07-30 12:10:33 example.com 157 173.194.127.15,173.194.127.23,173.194.127.24,173.194.127.31 4 5007 success
+   2017-07-30 12:10:38 example.com 152 173.194.127.23,173.194.127.24,173.194.127.31,173.194.127.15 4 9 success
+   2017-07-30 12:11:03 example.com 127 173.194.127.31,173.194.127.15,173.194.127.23,173.194.127.24 4 15007 success
+   2017-07-30 12:12:53 example.com 17 173.194.127.15,173.194.127.23,173.194.127.24,173.194.127.31 4 6 success
+   2017-07-30 12:23:16 test.com 0 - 0 10008 fail
+   2017-07-30 12:23:21 test.com 0 - 0 5007 fail
+   2017-07-30 12:23:26 test.com 0 - 0 5011 fail
+   2017-07-30 12:24:38 example.com 152 173.194.127.23,173.194.127.24,173.194.127.31,173.194.127.15 4 9 success
+   2017-07-30 12:25:03 example.com 127 173.194.127.31,173.194.127.15,173.194.127.23,173.194.127.24 4 15007 success
 
 모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
@@ -359,9 +359,9 @@ HTTP 트랜잭션은 클라이언트에게 응답을 완료하거나 전송이 �
 ::
 
     #Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) sc-status sc-bytes time-taken cs-referer sc-resinfo cs-range sc-cachehit cs-acceptencoding session-id sc-content-length
-    2017-03-08 16:52:24 220.134.10.5 GET /web/h.gif - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 98141 5 - Bypass+gzip+SSL3 - TCP_HIT gzip+deflate 7 1273735
-    2017-03-08 16:52:26 220.134.10.5 GET /favicon.ico - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 949 2 - - - TCP_HIT gzip+deflate 35 14875
-    2017-03-08 17:00:06 220.168.0.13 GET /setup.Eexe - 80 - 61.168.0.102  Mozilla/5.0+(Windows+NT+6.1;+WOW64)+AppleWebKit/536.11+(KHTML,+like+Gecko)+Chrome/20.0.1132.57+Safari/536.11 206 20971800 7008 - - 398458880-419430399 TCP_HIT - 41 89764358
+    2017-03-08 16:52:24 220.134.10.5 GET /trip.mp4 - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 98141 5 - Bypass+gzip+SSL3 - TCP_HIT gzip+deflate 7 1273735
+    2017-03-08 16:52:26 220.134.10.5 GET /voice.mp3 - 80 - 61.50.7.9 Chrome/19.0.1084.56 200 949 2 - - - TCP_HIT gzip+deflate 35 14875
+    2017-03-08 17:00:06 220.168.0.13 GET /video/clips.mp4 - 80 - 61.168.0.102  Mozilla/5.0+(Windows+NT+6.1;+WOW64)+AppleWebKit/536.11+(KHTML,+like+Gecko)+Chrome/20.0.1132.57+Safari/536.11 206 20971800 7008 - - 398458880-419430399 TCP_HIT - 41 89764358
 
 모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 
@@ -392,9 +392,9 @@ HTTP 트랜잭션은 클라이언트에게 응답을 완료하거나 전송이 �
 
 HTTP Access로그는 전송 성공/실패 여부에 상관없이 모든 HTTP 트랜잭션을 기록한다.
 HTTP 트랜잭션은 HTTP 클라이언트가 요청(Request)을 보낼 때 시작된다.
-STON 미디어서버가 클라이언트에게 응답을 보내기 전에 HTTP연결이 종료된다면 HTTP 트랜잭션도 중단된다.
+STON 미디어 서버가 클라이언트에게 응답을 보내기 전에 HTTP연결이 종료된다면 HTTP 트랜잭션도 중단된다.
 이 때 로그에는 ``sc-status`` 와 ``sc-bytes`` 가 0으로 기록된다.
-STON 미디어서버가 원본서버로부터 응답을 받기 전에 클라이언트가 연결을 종료하는 경우 이런 로그가 기록된다.
+STON 미디어 서버가 원본서버로부터 응답을 받기 전에 클라이언트가 연결을 종료하는 경우 이런 로그가 기록된다.
 
 
 
@@ -419,12 +419,9 @@ HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
 
 위 예제의 경우 다음과 같이 HTTP Access로그가 기록된다. (#Fields는 기록하지 않는다.) ::
 
-    192.168.0.88 192.168.0.12 163276 id=winesoft; image.jpg example.com HTTP "STON" GET 80 "GET /ston/image.jpg?type=png HTTP/1.1" 200 2014-04-03 21:21:54 1 C 204 163276 1 2571978 TCP_MISS HTTP/1.1
-    192.168.0.88 192.168.0.12 63276 id=winesoft; vod.mp4 example.com HTTP "STON" POST 80 "GET /ston/vod.mp4?start=10 HTTP/1.1" 200 2014-04-03 21:21:54 12 C 304 363276 2 2571979 TCP_REFRESH_HIT HTTP/1.1
-    192.168.0.88 192.168.0.12 3634276 id=ston; news.html example.com HTTPS "STON" GET 443 "GET /news.html HTTP/1.1" 200 2014-04-03 21:21:54 30 X 156 2632576 1 2571980 TCP_MISS HTTP/1.1
-    192.168.0.88 192.168.0.12 6332476 id=winesoft; style.css example.com HTTP "STON" HEAD 80 "GET /style.css HTTP/1.1" 200 2014-04-03 21:21:54 10 X 234 653276 2 2571981 TCP_REFRESH_HIT HTTP/1.1
-    192.168.0.88 192.168.0.12 6276 id=ston; ui.js example.com HTTP "STON" GET 80 "GET /ui.js HTTP/1.1" 200 2014-04-03 21:21:54 1 X 233 63276 1 2571982 TCP_MISS HTTP/1.1
-    192.168.0.88 192.168.0.12 626 id=winesoft; hls.m4u8 example.com HTTP "STON" GET 80 "GET /hls.m4u8 HTTP/1.1" 200 2014-04-03 21:21:54 2 X 124 6312333276 2 2571983 TCP_REFRESH_HIT HTTP/1.1
+    192.168.0.88 192.168.0.12 163276 id=winesoft; trip.mp4 example.com HTTP "STON" GET 80 "GET /ston/trip.mp4 HTTP/1.1" 200 2017-04-03 21:21:54 1 C 204 163276 1 2571978 TCP_MISS HTTP/1.1
+    192.168.0.88 192.168.0.12 63276 id=winesoft; vod.mp4 example.com HTTP "STON" POST 80 "GET /ston/vod.mp4?start=10 HTTP/1.1" 200 2017-04-03 21:21:54 12 C 304 363276 2 2571979 TCP_REFRESH_HIT HTTP/1.1
+    192.168.0.88 192.168.0.12 626 id=winesoft; hls.m4u8 example.com HTTP "STON" GET 80 "GET /hls.m4u8 HTTP/1.1" 200 2017-04-03 21:21:54 2 X 124 6312333276 2 2571983 TCP_REFRESH_HIT HTTP/1.1
 
 `Apache로그 형식 <https://httpd.apache.org/docs/2.2/ko/mod/mod_log_config.html>`_ 을
 기반으로 개발되었으며 일부 확장필드가 있다.
@@ -481,19 +478,19 @@ HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
 
 -  ``%...r`` 요청의 첫번째 줄(Request Line) ::
 
-      GET /img.jpg HTTP/1.1
+      GET /trip.mp4 HTTP/1.1
 
 -  ``%...s`` 응답코드 ::
 
       200
 
--  ``%...t`` STON 기본 시간형식	::
+-  ``%...t`` STON 미디어 서버 기본 시간형식 ::
 
-      2014-01-01 15:27:02
+      2017-01-01 15:27:02
 
 -  ``%...{format}t`` Format에 정의된 날짜 형식 ::
 
-      %{%Y-%m-%d %H:%M:%S}T 로 입력하면 2014-08-07 06:12:23으로 기록.
+      %{%Y-%m-%d %H:%M:%S}T 로 입력하면 2017-08-07 06:12:23으로 기록.
 
 -  ``%...T`` TimeTaken(초단위) ::
 
@@ -501,11 +498,11 @@ HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
 
 -  ``%...U`` ShortURI ::
 
-      /img/img.jpg
+      /video/trip.mp4
 
 -  ``%...u`` FullURI ::
 
-      /img/img.jpg?session=1232&id=37
+      /video/trip.mp4?session=1232&id=37
 
 -  ``%...X`` 트랜잭션이 완료되었을 때의 상태
 
@@ -646,7 +643,7 @@ RTMP 트랜잭션은 Payload와 상관이 없다.
 Origin 로그
 ====================================
 
-STON 미디어서버와 원본서버가 진행한 트랜잭션을 로그로 기록한다.  ::
+STON 미디어 서버와 원본서버가 진행한 트랜잭션을 로그로 기록한다.  ::
 
    # server.xml - <Server><VHostDefault><Log>
    # vhosts.xml - <Vhosts><Vhost><Log>
@@ -674,14 +671,11 @@ HTTP 원본서버와 진행된 모든 HTTP 트랜잭션을 기록한다.
 ::
 
     #Fields: date time cs-sid cs-tcount c-ip cs-method s-domain cs-uri s-ip sc-status cs-range sc-sock-error sc-http-error sc-content-length cs-requestsize sc-responsesize sc-bytes time-taken time-dns time-connect time-firstbyte time-complete cs-reqinfo cs-acceptencoding sc-cachecontrol s-port sc-contentencoding session-id session-type
-    2012.06.27 17:40:00 357 899 192.168.0.13 GET i.example.com /t/2.gif 115.71.9.136 200 - - - 3874 197 271 3874 20 0 0 17 3 - gzip+deflate - 80 gzip 7 cache
-    2012.06.27 17:40:00 357 900 192.168.0.13 GET i.example.com /ex1.gif 115.71.9.136 200 - - - 5673 223 272 5673 24 0 0 21 3 - - - 80 - 8 cache
-    2012.06.27 17:40:00 357 901 192.168.0.13 GET i.example.com /exB.jpg 115.71.9.136 200 - - - 8150 189 273 8150 13 0 0 9  4 Bypass - - 80 - 7 cache
-    #[ERROR:01] 2012.06.27 17:40:01 220.73.216.5 220.73.216.5 GET /web/nmb/img/main/v1/h1.gif 1824 Connect-Timeout - 11 cache
-    2012.06.27 17:40:00 357 901 192.168.0.13 GET i.example.com /exB1.jpg 115.71.9.136 200 - - - 8150 189 273 8150 13 0 0 9 4 - max-age=3600 80 - 12 cache
-    2012.06.27 17:40:00 357 901 192.168.0.13 GET i.example.com /exB2.jpg 115.71.9.136 200 - - - 8150 189 273 8150 13 0 0 9 4 - no-cache 80 - 35 cache
-    2012.06.27 17:40:00 357 901 192.168.0.13 GET i.example.com /exB3.jpg 115.71.9.136 200 - - - 8150 189 273 8150 13 0 0 9 4 - - 80 - 35 cache
-
+    2017.06.27 17:40:00 357 899 192.168.0.13 GET i.example.com /trip.mp4 115.71.9.136 200 - - - 3874 197 271 3874 20 0 0 17 3 - gzip+deflate - 80 gzip 7 cache
+    2017.06.27 17:40:00 357 900 192.168.0.13 GET i.example.com /video/sample.mp4 115.71.9.136 200 - - - 5673 223 272 5673 24 0 0 21 3 - - - 80 - 8 cache
+    #[ERROR:01] 2017.06.27 17:40:01 220.73.216.5 220.73.216.5 GET /web/logo.mp4 1824 Connect-Timeout - 11 cache
+    2017.06.27 17:40:00 357 901 192.168.0.13 GET i.example.com /clips.mp3 115.71.9.136 200 - - - 8150 189 273 8150 13 0 0 9 4 - max-age=3600 80 - 12 cache
+    
 원본서버에 장애가 발생했다면 #[ERROR:xx]로 시작하는 에러 로그가 기록된다.
 모든 필드는 공백으로 구분되며 각 필드의 의미는 다음과 같다.
 

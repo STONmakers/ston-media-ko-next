@@ -1,9 +1,9 @@
 ﻿.. _multi_protocol:
 
-5장. 클라이언트 요청/응답
+5장. 멀티 프로토콜
 ******************
 
-이 장에서는 클라이언트 연결과 요청을 세밀하게 처리하는 방법에 대해 설명한다. ::
+이 장에서는 프로토콜 별 URL표현과 클라이언트 연결/요청을 세밀하게 처리하는 방법에 대해 설명한다. ::
 
     # vhosts.xml
 
@@ -25,12 +25,58 @@
    :maxdepth: 2
 
 
-.. _multi_protocol_rtmp_session:
 
-RTMP 클라이언트
+.. _env-vhost-adobe_rtmp:
+
+Adobe RTMP
 ====================================
 
-RTMP 클라이언트에 대해 설정한다. ::
+STON 미디어 서버는 VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
+Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
+RTMP URL 형식은 다음과 같다. ::
+
+   rtmp://{virtual-host}/{stream-name}
+   rtmp://{ston-ip-address}/{virtual-host}/{stream-name}
+
+-  ``{virtual-host}`` 가상호스트 ``Name``
+-  ``{stream-name}`` Prefix("mp4:", 생략가능)가 붙은 재생할 스트림
+-  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
+
+NetConnection.connect 에서 사용해야 하는 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+
+===================== ================================
+<Vhost Name="...">    NetConnection.connect
+===================== ================================
+www.example.com/bar   rtmp://www.example.com/bar
+www.example.com       rtmp://www.example.com
+/foo                  rtmp://{ston-ip-address}/foo
+===================== ================================
+
+원본서버 URL이 /mov/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+
+   mp4:mov/trip.mp4
+
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
+
+   mp4:http/mov/trip.mp4
+
+
+.. note::
+
+   NetConnection 연결에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+
+     rtmp://www.example.com/bar/_definst_
+     rtmp://www.example.com/_definst_
+     rtmp://{ston-ip-address}/foo/_definst_
+
+
+
+.. _multi_protocol_rtmp_session:
+
+세션
+------------------------------------
+
+RTMP 클라이언트 세션에 대해 설정한다. ::
 
    # server.xml - <Server><VHostDefault><Options><Rtmp>
    # vhosts.xml - <Vhosts><Vhost><Options><Rtmp>
@@ -48,10 +94,63 @@ RTMP 클라이언트에 대해 설정한다. ::
 
 
 
+.. _env-vhost-find:
+
+HTTP Pseudo-Streaming
+====================================
+
+STON 미디어 서버는 VOD 콘텐츠를 HTTP Pseudo-Streaming으로 전송할 수 있다.
+서비스 효율을 높이는 다양한 기능이 제공된다.
+
+-   VOD 콘텐츠를 분석하여 가장 경제적인 대역폭으로 전송
+-   VOD 콘텐츠의 헤더가 뒤에 있어도 전송 단계에서 앞으로 재배치
+-   요청 즉시 캐싱/전송되는 빠른 반응성과 성능
+
+HTTP Pseudo-Streaming의 URL형식은 다음과 같다. ::
+
+    http://{virtual-host}/{stream-name}
+    http://{ston-ip-address}/{virtual-host}/{stream-name}
+
+-  ``{virtual-host}`` 가상호스트 ``Name``
+-  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+-  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
+
+URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
+
+===================== ==============================================================
+<Vhost Name="...">    URL
+===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4
+www.example.com       http://www.example.com/mp4:mov/trip.mp4
+/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4
+===================== ==============================================================
+
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
+
+================================== ====================================================
+<Vhost Name="..." Prefix="http/">  URL
+================================== ====================================================
+www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4
+www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
+/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4
+================================== ====================================================
+
+.. note::
+
+   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+
+      http://www.example.com/bar/_definst_/mp4:mov/trip.mp4
+      http://www.example.com/_definst_/mp4:mov/trip.mp4
+      http://{ston-ip-address}/foo/_definst_/mp4:mov/trip.mp4
+
+
+
+
 .. _multi_protocol_http_session:
 
-HTTP 클라이언트
-====================================
+세션
+------------------------------------
 
 HTTP 클라이언트가 요청을 보내고 응답이 완료되기 까지를 HTTP 트랜잭션이라고 부른다.
 HTTP 클라이언트는 하나의 연결을 통해 여러 번의 HTTP 트랜잭션을 진행한다. ::
@@ -80,7 +179,7 @@ HTTP 클라이언트는 하나의 연결을 통해 여러 번의 HTTP 트랜잭�
 .. _multi_protocol_http_session_lifecyle:
 
 연결 유지정책
----------------------
+------------------------------------
 
 HTTP 연결 유지정책은 Apache의 정책을 따른다.
 HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
@@ -194,7 +293,7 @@ HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
 .. _multi_protocol_http_session_upfrontheader:
 
 MP4 헤더위치 변경
----------------------
+------------------------------------
 
 MP4파일의 헤더가 뒤에 있다면 플레이어에 따라 HTTP Pseudo-Streaming이 원활하지 않을 수 있다.
 전송 단계에서 헤더 위치를 앞으로 배치하면 이런 문제를 해결할 수 있다. ::
@@ -223,7 +322,7 @@ MP4파일의 헤더가 뒤에 있다면 플레이어에 따라 HTTP Pseudo-Strea
 .. _multi_protocol_http_session_bt:
 
 Bandwidth Throttling
---------------------------
+------------------------------------
 
 Bandwidth Throttling(이하 쓰로틀링)이란 (각 연결마다) 대역폭을 최적화하여 전송하는 기능이다.
 일반적인 미디어 파일의 내부는 다음과 같이 헤더, V(Video), A(Audio)로 구성되어 있다.
@@ -358,20 +457,20 @@ QueryString을 사용하므로 자칫 :ref:`caching-policy-applyquerystring` 과
 모두 인식되지만 ``BoostParam`` , ``BandwidthParam`` , ``RatioParam`` 은 제외된다. ::
 
    GET /bar/mp4:trip.mp4?mybandwidth=2000&myratio=130&myboost=10
-   GET /bar/mp4:trip.mp4?tag=3277&myboost=10&date=20130726
+   GET /bar/mp4:trip.mp4?tag=3277&myboost=10&date=20170331
 
 예를 들어 위와 같은 입력은 쓰로틀링 정책을 결정하는데 쓰일 뿐 Caching-Key를 생성하거나 HTTP 원본서버로 요청을 보낼 때는 제거된다.
 즉 각각 다음과 같이 인식된다. ::
 
     GET /trip.mp4
-    GET /trip.mp4?tag=3277&date=20130726
+    GET /trip.mp4?tag=3277&date=20170331
 
 
 
 .. _multi_protocol_http_session_headermodify:
 
 요청/응답 헤더변경
----------------------
+------------------------------------
 
 HTTP 클라이언트 요청과 응답을 특정 조건에 따라 변경한다. ::
 
@@ -476,7 +575,7 @@ Value가 입력되지 않은 경우 빈 값("")이 입력된다.
 .. _multi_protocol_http_session_acceptencoding:
 
 Accept-Encoding 헤더
----------------------
+------------------------------------
 
 같은 URL에 대한 HTTP요청이라도 Accept-Encoding헤더의 존재 유무에 따라 다른 콘텐츠가 캐싱될 수 있다.
 원본서버에 요청을 보내는 시점에 압축여부를 알 수 없다.
@@ -508,7 +607,7 @@ Accept-Encoding 헤더
 .. _multi_protocol_http_session_server:
 
 Server 헤더
----------------------
+------------------------------------
 
 HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부를 설정한다. ::
 
@@ -528,7 +627,7 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 .. _multi_protocol_http_session_originalheader:
 
 원본 비표준 헤더
----------------------
+------------------------------------
 
 성능과 보안상의 이유로 원본서버가 보내는 헤더 중 표준헤더만을 선택적으로 인식한다. ::
 
@@ -547,27 +646,72 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 
 
 
-.. _multi_protocol_hls_session:
 
-HLS 클라이언트
+Apple HLS
 ====================================
 
-미디어 파일을 HLS(HTTP Live Streaming)로 서비스한다.
-원본서버는 더 이상 HLS 서비스를 위해 파일을 분할/저장할 필요가 없다.
-기존 방식의 HTTP Pseudo-Streaming과 HLS를 위해 다음과 같이 원본파일과 분할된 파일이 각각 존재해야 한다.
-이 방식의 단점은 분할 파일로 인한 저장공간 점유와 관리의 어려움이다.
+STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)로 전송할 수 있다.
+HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 정확히 말하면 스트리밍이 아닌 HTTP 기반의 Chunk전송방식이다.
 
 .. figure:: img/sms_hls_flow1.png
    :align: center
 
-STON 미디어 서버는 단일 원본파일로부터 HLS 서비스를 위한 인덱스(.m3u8)와 Chunk(.ts)를 동적으로 생성한다.
+Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
+QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상)에서 폭넓게 지원된다.
+
+.. note::
+
+   Apple HLS는 Android에서도 지원되지만 일부 구버전 호환성 문제가 있다.
+   JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
+
+STON 미디어 서버는 약속된 주소를 이용해 VOD 콘텐츠로부터 인덱스/메타 파일과 MPEG2-TS Chunk를 만들어낸다.
+HLS의 URL 형식은 다음과 같다. ::
+
+   http://{virtual-host}/{stream-name}/playlist.m3u8
+   http://{ston-ip-address}/{virtual-host}/{stream-name}/playlist.m3u8
+
+-  ``{virtual-host}`` 가상호스트 ``Name``
+-  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+-  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
+
+URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
+예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
+
+===================== ==============================================================
+<Vhost Name="...">    URL
+===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
+/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
+===================== ==============================================================
+
+``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
+
+================================== ==============================================================
+<Vhost Name="..." Prefix="http/">  URL
+================================== ==============================================================
+www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
+www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
+================================== ==============================================================
+
 모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
 서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
 
+.. note::
+
+   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+
+      http://www.example.com/bar/_definst_/mp4:mov/trip.mp4/playlist.m3u8
+      http://www.example.com/_definst_/mp4:mov/trip.mp4/playlist.m3u8
+      http://{ston-ip-address}/foo/_definst_/mp4:mov/trip.mp4/playlist.m3u8
+
+
+
 .. _multi_protocol_hls_session_clientkeepalivesec:
 
-연결 유지시간
----------------------
+세션
+------------------------------------
 ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
@@ -582,9 +726,9 @@ STON 미디어 서버는 단일 원본파일로부터 HLS 서비스를 위한 �
 
 .. _multi_protocol_hls_session_mp4:
 
-MP4 분할
----------------------
-MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+MP4 Segmentation
+------------------------------------
+MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
@@ -672,7 +816,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구
 .. _multi_protocol_hls_session_segmentation:
 
 키 프레임과 <Duration>
----------------------
+------------------------------------
 
 분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
 
@@ -701,7 +845,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구
 
 .. note::
 
-   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2TS 임에 주의하자.)
+   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2-TS 임에 주의하자.)
    영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
 
       /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
@@ -717,8 +861,8 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 변환하고 인덱스 파일을 구
 
 .. _multi_protocol_hls_session_mp3:
 
-MP3 분할
----------------------
+MP3 Segmentation
+------------------------------------
 
 MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 

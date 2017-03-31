@@ -36,7 +36,7 @@ Physical RAM  System Free    Contents        Caching Count Sockets
 메모리 조절
 ====================================
 
-`메모리 구조`_ 는 구동될 때 물리 메모리 크기에 기반하여 계산된다. ::
+STON 미디어 서버는 구동될 때 물리 메모리 크기에 기반하여 캐싱 메모리 사용량을 결정한다. ::
 
    # server.xml - <Server><Cache>
 
@@ -55,8 +55,8 @@ Physical RAM  System Free    Contents        Caching Count Sockets
 
 -  ``<ContentMemoryRatio> (기본: 50)`` STON이 사용하는 전체 메모리 중 서비스 데이터 메모리 적재비율을 설정한다.
 
-예를 들어 게임 포탈처럼 파일개수는 적지만 컨텐츠 크기가 클 경우엔 이 수치를 늘리면 파일 I/O가 감소된다.
-반대로 아주 작은 파일이 많은 경우는 반대로 줄이는 설정이 유용할 수 있다.
+예를 들어 4K UHD 영상처럼 파일개수는 적지만 컨텐츠 크기가 클 경우엔 이 수치를 늘리면 파일 I/O가 감소된다.
+반대로 아주 작은 샘플 영상만 많은 경우는 반대로 줄이는 설정이 유용할 수 있다.
 
 
 .. _adv_topics_sys_free_mem:
@@ -65,8 +65,8 @@ Physical RAM  System Free    Contents        Caching Count Sockets
 ====================================
 
 OS(Operating System)가 느리면 어떠한 프로그램도 제 성능을 내지 못한다.
-STON은 OS를 위해 일부 메모리를 사용하지 않는다.
-OS의 성능을 극대화하기 위해서며 이를 시스템 Free메모리라 부른다.
+STON 미디어 서버는 OS를 위해 일부 메모리를 사용하지 않는다.
+OS의 성능을 극대화하기 위해서이며 이를 시스템 Free메모리라 부른다.
 
 .. note::
 
@@ -185,7 +185,7 @@ HLS/MPEG-DASH등 HTTP기반 프로토콜은 HTTP 클라이언트 세션 설정�
        <TopUp>3000</TopUp>
     </RtmpClientSession>
 
--  ``<Init>`` STON 시작시 미리 생성해놓는 소켓 수
+-  ``<Init>`` STON 미디어 서버 시작시 미리 생성해놓는 소켓 수
 
 -  ``<TopUp>`` 생성해놓은 소켓 수를 초과했을 때 추가로 생성할 소켓 수
 

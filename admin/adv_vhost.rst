@@ -26,7 +26,7 @@ Facade 가상호스트
 .. figure:: img/sms_adv_vhost_facade1.png
    :align: center
 
-   facade는 통계와 로그만 수집한다.
+   Facade는 통계와 로그만 수집한다.
 
 ::
 
@@ -83,13 +83,13 @@ Sub-Path 지정
       값은 경로 또는 패턴만 가능하다. ::
 
          <Path Vhost="baseball.com">baseball<Path>
-         <Path Vhost="photo.com">*.jpg<Path>
+         <Path Vhost="photo.com">*.mp3<Path>
 
-      위와 같이 입력해도 각각 /baseball/과 /*.jpg로 인식된다.
+      위와 같이 입력해도 각각 /baseball/과 /*.mp3로 인식된다.
 
 예를 들어 클라이언트가 다음과 같이 요청했다면 해당 요청은 가상호스트 football.com이 처리한다. ::
 
-   GET /football/rank.html HTTP/1.1
+   GET /football/top10.mp4 HTTP/1.1
    Host: sports.com
 
 

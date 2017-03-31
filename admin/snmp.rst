@@ -80,7 +80,7 @@
 SNMP에서는 동적으로 값이 바뀔 수 있는 항목에 대하여 Table구조를 사용한다. 
 예를 들어 "디스크 전체크기"는 디스크의 개수에 따라 제공하는 데이터 개수가 
 달라지기 때문에 Table구조를 사용하여 표현해야 한다. 
-STON은 모든 가상호스트에 대하여 "분"단위 통계를 제공한다. 
+STON 미디어 서버는 모든 가상호스트에 대하여 "분"단위 통계를 제공한다. 
 그러므로 ``[vhostMin]`` . ``[vhostIndex]`` 라는 다소 난해한 표현을 제공한다. 
 
 이 표현은 가상호스트별로 원하는 "분" 단위의 통계를 볼 수 있다는 장점을 가지고 있지만 
@@ -252,11 +252,11 @@ OID                  Name    Type    Description
 .1. ``[confIndex]``  ID      Integer 설정 ID
 .2. ``[confIndex]``  Time    Integer 설정시간 (Unix 시간)
 .3. ``[confIndex]``  Type    Integer 설정형태
-                                     (0: Unknown, 1: STON 구동, 2: reload, 3: upload, 4: restore)
+                                     (0: Unknown, 1: 구동, 2: reload, 3: upload, 4: restore)
 .4. ``[confIndex]``  Size    Integer 설정파일 크기
 .5. ``[confIndex]``  Hash    String  설정파일 Hash문자열
 .6. ``[confIndex]``  Path    String  설정파일 저장경로
-.7. ``[confIndex]``  Ver     String  설정할 때의 STON 버전
+.7. ``[confIndex]``  Ver     String  설정할 때의 STON 미디어 서버 버전
 ==================== ======= ======= ==============================================================
 
 
@@ -270,7 +270,7 @@ system
 
    OID = 1.3.6.1.4.1.40002.1.2
 
-STON이 동작하는 시스템 정보를 제공한다.
+STON 미디어 서버가 동작하는 시스템 정보를 제공한다.
 ``[sysMin]`` 변수는 0~60분까지의 값을 가지며 실시간 또는 원하는 시간만큼의 평균 값을 제공한다. 
 SNMPWalk에서  ``[sysMin]`` 은 0으로 설정되며 현재 정보를 제공한다.
 
@@ -288,18 +288,18 @@ OID                 Name                                      Type    Descriptio
 .9                  memTotal                                  Integer 시스템 전체 메모리 (KB)
 .10. ``[sysMin]``   memUse                                    Integer 시스템 사용 메모리 (KB)
 .11. ``[sysMin]``   memFree                                   Integer 시스템 여유 메모리 (KB)
-.12. ``[sysMin]``   memSTON                                   Integer STON 사용 메모리 (KB)
+.12. ``[sysMin]``   memSTON                                   Integer STON 미디어 서버 사용 메모리 (KB)
 .13. ``[sysMin]``   memUseRatio                               Integer 시스템 메모리 사용률 (100%)
 .14. ``[sysMin]``                                                     시스템 메모리 사용률 (10000%)
-.15. ``[sysMin]``   memSTONRatio                              Integer STON 메모리 사용률 (100%)
-.16. ``[sysMin]``                                                     STON 메모리 사용률 (10000%)
+.15. ``[sysMin]``   memSTONRatio                              Integer STON 미디어 서버 메모리 사용률 (100%)
+.16. ``[sysMin]``                                                     STON 미디어 서버 메모리 사용률 (10000%)
 .17                 diskCount                                 Integer disk개수
 .18.1               diskInfo                                  OID     diskInfo확장
 .19.1               diskPerf                                  OID     diskPerf확장
-.20. ``[sysMin]``   cpuProcKernel                             Integer STON이 사용하는 CPU(Kernel) 사용률 (100%)
-.21. ``[sysMin]``                                                     STON이 사용하는 CPU(Kernel) 사용률 (10000%)
-.22. ``[sysMin]``   cpuProcUser                               Integer STON이 사용하는 CPU(User) 사용률 (100%)
-.23. ``[sysMin]``                                                     STON이 사용하는 CPU(User) 사용률 (10000%)
+.20. ``[sysMin]``   cpuProcKernel                             Integer STON 미디어 서버가 사용하는 CPU(Kernel) 사용률 (100%)
+.21. ``[sysMin]``                                                     STON 미디어 서버가 사용하는 CPU(Kernel) 사용률 (10000%)
+.22. ``[sysMin]``   cpuProcUser                               Integer STON 미디어 서버가 사용하는 CPU(User) 사용률 (100%)
+.23. ``[sysMin]``                                                     STON 미디어 서버가 사용하는 CPU(User) 사용률 (10000%)
 .24. ``[sysMin]``   sysLoadAverage                            Integer Load Average 1분 평균 (0.01)
 .25. ``[sysMin]``                                                     Load Average 5분 평균 (0.01)
 .26. ``[sysMin]``                                                     Load Average 15분 평균 (0.01)
@@ -385,7 +385,7 @@ global
 
    OID = 1.3.6.1.4.1.40002.1.3
 
-STON의 모든 모듈이 공통적으로 사용하는 자원정보(소켓, 이벤트 등)를 제공한다. 
+STON 미디어 서버의 모든 모듈이 공통적으로 사용하는 자원정보(소켓, 이벤트 등)를 제공한다. 
 
 -  **ServerSocket**
    
@@ -456,7 +456,7 @@ OID   Name      Type        Description
 ===== ========= =========== =========================
 .2    name      String      호스트 이름
 .3    status    String      "Healthy" 또는 "Inactive"
-.4    uptime    Integer     STON 실행시간 (초)
+.4    uptime    Integer     STON 미디어 서버 실행시간 (초)
 .10   contents  OID         컨텐츠 정보 (확장)
 .11   traffic   OID         통계 (확장)
 ===== ========= =========== =========================
