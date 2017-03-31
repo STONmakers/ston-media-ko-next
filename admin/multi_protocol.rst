@@ -653,7 +653,7 @@ Apple HLS
 STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)로 전송할 수 있다.
 HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 정확히 말하면 스트리밍이 아닌 HTTP 기반의 Chunk전송방식이다.
 
-.. figure:: img/sms_hls_flow1.png
+.. figure:: img/sms_hls_flow2.png
    :align: center
 
 Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
