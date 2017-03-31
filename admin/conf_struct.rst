@@ -1,4 +1,4 @@
-﻿.. _env:
+﻿.. _conf-struct:
 
 3장. 설정
 ******************
@@ -8,6 +8,8 @@
 구조를 정확히 이해해야 빠르고 정확하게 서버를 배치할 수 있을뿐만 아니라 장애상황을 유연하게 극복할 수 있다.
 
 
+
+.. _conf-struct-expression:
 
 구조와 표현
 ====================================
@@ -47,6 +49,8 @@ STON 미디어 서버는 XML표현을 사용한다.
    라이센스(license.xml)는 설정이 아니다.
 
 
+.. _conf-struct-server-xml:
+
 server.xml 전역설정
 ====================================
 
@@ -68,7 +72,7 @@ XML형식의 텍스트파일이다. ::
    :maxdepth: 2
 
 
-.. _env-host:
+.. _conf-struct-admin:
 
 관리자 설정
 ------------------------------------
@@ -121,7 +125,7 @@ XML형식의 텍스트파일이다. ::
     - ``UploadMultipartName`` :ref:`api-conf-upload` 의 변수명을 설정한다.
 
 
-.. _env-cache-storage:
+.. _conf-struct-storage:
 
 Storage 구성
 ------------------------------------
@@ -161,7 +165,7 @@ Caching된 콘텐츠를 저장할 Storage를 구성한다. ::
 
 
 
-.. _env-cache-resource:
+.. _conf-struct-memorylimit:
 
 메모리 제한
 ------------------------------------
@@ -199,6 +203,8 @@ Caching된 콘텐츠를 저장할 Storage를 구성한다. ::
          ContentMemoryRatio를 높이면 I/O가 감소한다.
 
 
+
+.. _conf-struct-cachedetail:
 
 기타 Caching 설정
 ------------------------------------
@@ -252,6 +258,8 @@ Caching된 콘텐츠를 저장할 Storage를 구성한다. ::
     설정파일 저장의 날짜제한은 없다.
 
 
+.. _conf-struct-api-cleanup:
+
 강제 Cleanup
 ------------------------------------
 
@@ -264,7 +272,7 @@ API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. 
 ``<Age>`` 파라미터가 0보다 크다면 해당 "일"동안 한번도 접근되지 않은 콘텐츠를 삭제한다.
 
 
-.. _env-vhostdefault:
+.. _conf-struct-vhostdefault:
 
 가상호스트 기본설정
 ------------------------------------
@@ -297,8 +305,7 @@ API호출로 Cleanup한다. ``<Age>`` 를 파라미터로 입력할 수 있다. 
 
 
 
-
-.. _api_conf:
+.. _conf-struct-apiset:
 
 설정 API
 ====================================
@@ -308,7 +315,7 @@ STON 미디어 서버는 설정과 관련된 많은 API를 제공한다. ::
    http://127.0.0.1:20040/conf/{명령어}
 
 
-.. _api-conf-reload:
+.. _conf-struct-apiset-reload:
 
 적용
 ------------------------------------
@@ -321,7 +328,7 @@ STON 미디어 서버는 설정과 관련된 많은 API를 제공한다. ::
 설정이 변경될 때마다 :ref:`admin-log-info` 에 변경사항이 기록된다.
 
 
-.. _api-conf-show:
+.. _conf-struct-apiset-view:
 
 열람
 ------------------------------------
@@ -337,7 +344,8 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
     http://127.0.0.1:20040/conf/http_throttling.txt?vhost=www.example.com
 
 
-.. _api-conf-history:
+
+.. _conf-struct-apiset-history:
 
 히스토리
 ------------------------------------
@@ -386,7 +394,8 @@ txt파일들은 가상호스트(vhost)를 명확하게 지정해주어야 한다
 -  ``hash`` 설정파일을 SHA-1으로 hash한 값
 
 
-.. _api-conf-restore:
+
+.. _conf-struct-apiset-restore:
 
 복구
 ------------------------------------
@@ -399,7 +408,8 @@ hash와 id가 모두 명시된 경우 hash값이 우선한다.
     http://127.0.0.1:20040/conf/restore?id=...
 
 
-.. _api-conf-download:
+
+.. _conf-struct-apiset-download:
 
 다운로드
 ------------------------------------
@@ -412,7 +422,10 @@ hash와 id가 모두 명시된 경우 hash값이 우선하며, 해당 시점의 
     http://127.0.0.1:20040/conf/download?hash=...
     http://127.0.0.1:20040/conf/download?id=...
 
-.. _api-conf-upload:
+
+
+
+.. _conf-struct-apiset-upload:
 
 업로드
 ------------------------------------

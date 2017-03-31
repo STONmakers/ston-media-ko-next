@@ -1,4 +1,4 @@
-﻿.. _multi_protocol:
+﻿.. _multi-protocol:
 
 5장. 멀티 프로토콜
 ******************
@@ -26,7 +26,7 @@
 
 
 
-.. _env-vhost-adobe_rtmp:
+.. _multi-protocol-adobe-rtmp:
 
 Adobe RTMP
 ====================================
@@ -71,7 +71,7 @@ www.example.com       rtmp://www.example.com
 
 
 
-.. _multi_protocol_rtmp_session:
+.. _multi-protocol-adobe-rtmp-session:
 
 세션
 ------------------------------------
@@ -94,7 +94,7 @@ RTMP 클라이언트 세션에 대해 설정한다. ::
 
 
 
-.. _env-vhost-find:
+.. _multi-protocol-http-ps:
 
 HTTP Pseudo-Streaming
 ====================================
@@ -147,7 +147,7 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
 
 
 
-.. _multi_protocol_http_session:
+.. _multi-protocol-http-ps-session:
 
 세션
 ------------------------------------
@@ -176,7 +176,7 @@ HTTP 클라이언트는 하나의 연결을 통해 여러 번의 HTTP 트랜잭�
    - ``OFF`` HTTP응답에 Keep-Alive헤더를 생략한다.
 
 
-.. _multi_protocol_http_session_lifecyle:
+.. _multi-protocol-http-ps-connection:
 
 연결 유지정책
 ------------------------------------
@@ -290,7 +290,7 @@ HTTP 헤더 값에 따른 변수가 많아 다소 복잡하다.
 
 
 
-.. _multi_protocol_http_session_upfrontheader:
+.. _multi-protocol-http-ps-upfrontmp4header:
 
 MP4 헤더위치 변경
 ------------------------------------
@@ -319,7 +319,7 @@ MP4파일의 헤더가 뒤에 있다면 플레이어에 따라 HTTP Pseudo-Strea
 
 
 
-.. _multi_protocol_http_session_bt:
+.. _multi-protocol-http-ps-throttling:
 
 Bandwidth Throttling
 ------------------------------------
@@ -467,7 +467,7 @@ QueryString을 사용하므로 자칫 :ref:`caching-policy-applyquerystring` 과
 
 
 
-.. _multi_protocol_http_session_headermodify:
+.. _multi-protocol-http-ps-modifyheader:
 
 요청/응답 헤더변경
 ------------------------------------
@@ -572,7 +572,8 @@ Value가 입력되지 않은 경우 빈 값("")이 입력된다.
 
 
 
-.. _multi_protocol_http_session_acceptencoding:
+
+.. _multi-protocol-http-ps-acceptencoding:
 
 Accept-Encoding 헤더
 ------------------------------------
@@ -604,7 +605,8 @@ Accept-Encoding 헤더
 원본서버에서 압축을 지원하지 않거나, 압축이 필요없는 대용량 파일의 경우 ``OFF`` 로 설정하는 것이 바람직하다.
 
 
-.. _multi_protocol_http_session_server:
+
+.. _multi-protocol-http-ps-serverheader:
 
 Server 헤더
 ------------------------------------
@@ -624,7 +626,7 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 
 
 
-.. _multi_protocol_http_session_originalheader:
+.. _multi-protocol-http-ps-originalheader:
 
 원본 비표준 헤더
 ------------------------------------
@@ -645,7 +647,7 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 
 
 
-
+.. _multi-protocol-apple-hls:
 
 Apple HLS
 ====================================
@@ -708,7 +710,7 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 
 
 
-.. _multi_protocol_hls_session_clientkeepalivesec:
+.. _multi-protocol-apple-hls-session:
 
 세션
 ------------------------------------
@@ -724,7 +726,7 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 
 
 
-.. _multi_protocol_hls_session_mp4:
+.. _multi-protocol-apple-hls-mp4segmentation:
 
 MP4 Segmentation
 ------------------------------------
@@ -813,7 +815,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구
 
 
 
-.. _multi_protocol_hls_session_segmentation:
+.. _multi-protocol-apple-hls-keyframe-duration:
 
 키 프레임과 <Duration>
 ------------------------------------
@@ -859,7 +861,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구
 
 
 
-.. _multi_protocol_hls_session_mp3:
+.. _multi-protocol-apple-hls-mp3segmentation:
 
 MP3 Segmentation
 ------------------------------------

@@ -1,4 +1,4 @@
-.. _content_transform:
+.. _content-transform:
 
 13장. 미디어 가공
 ******************
@@ -14,7 +14,7 @@
 
 
 
-.. _content_transform_trimming:
+.. _content-transform-trimming:
 
 Trimming
 ====================================
@@ -91,7 +91,7 @@ Trimming은 전송단계에서만 발생할 뿐 원본의 형태를 변경하지
    GET /bar/mp4:trip.mp4?tag=3277&date=20130726
 
 
-.. _content_transform_trimming:
+.. _content-transform-trimming:
 
 Multi-Trimming
 ====================================

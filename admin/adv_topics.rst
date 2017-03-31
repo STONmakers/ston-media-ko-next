@@ -1,4 +1,4 @@
-﻿.. _adv_topics:
+﻿.. _adv-topics:
 
 15장. 최적화와 그 밖의 것들
 ****************************
@@ -31,7 +31,7 @@ Physical RAM  System Free    Contents        Caching Count Sockets
    :maxdepth: 2
 
 
-.. _adv_topics_mem_control:
+.. _adv-topics-mem-control:
 
 메모리 조절
 ====================================
@@ -59,7 +59,7 @@ STON 미디어 서버는 구동될 때 물리 메모리 크기에 기반하여 �
 반대로 아주 작은 샘플 영상만 많은 경우는 반대로 줄이는 설정이 유용할 수 있다.
 
 
-.. _adv_topics_sys_free_mem:
+.. _adv-topics-sys-free-mem:
 
 시스템 Free 메모리
 ====================================
@@ -96,7 +96,7 @@ Physical RAM   System Free
 
 
 
-.. _adv_topics_tso:
+.. _adv-topics-tso:
 
 TCP Segmentation Offload
 ====================================
@@ -180,7 +180,7 @@ HLS/MPEG-DASH등 HTTP기반 프로토콜은 HTTP 클라이언트 세션 설정�
        <Init>10000</Init>
        <TopUp>3000</TopUp>
     </HttpClientSession>
-    
+
     <RtmpClientSession>
        <Init>10000</Init>
        <TopUp>3000</TopUp>
@@ -204,7 +204,7 @@ HLS/MPEG-DASH등 HTTP기반 프로토콜은 HTTP 클라이언트 세션 설정�
 
 
 
-.. _adv_topics_req_hit_ratio:
+.. _adv-topics-req-hit-ratio:
 
 Request hit ratio
 ====================================
@@ -317,7 +317,7 @@ second(s), sec(s), (생략)	  1 초
 재투입된 디스크의 모든 콘텐츠는 무효화된다.
 
 
-.. _adv_topics_syncstale:
+.. _adv-topics-syncstale:
 
 SyncStale
 ====================================

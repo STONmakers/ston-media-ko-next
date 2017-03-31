@@ -13,7 +13,7 @@ STON Media Server 완벽 가이드
 
    admin/intro
    admin/getting_started
-   admin/environment
+   admin/conf_struct
 
 
 2부. 멀티프로토콜 서비스
@@ -22,7 +22,7 @@ STON Media Server 완벽 가이드
 .. toctree::
    :maxdepth: 2
 
-   admin/vhost_url
+   admin/vhost
    admin/multi_protocol
    admin/http_origin
    admin/caching_policy

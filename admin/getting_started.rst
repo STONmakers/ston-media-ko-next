@@ -202,7 +202,7 @@ STON 미디어 서버는 다음 경로에 설치된다. ::
 
 
 
-.. _api-etc-help:
+.. _getting-started-apicall:
 
 API 호출
 ====================================
@@ -224,6 +224,9 @@ STON 미디어 서버 버전을 확인한다. ::
    HTTP API는 &를 QueryString의 구분자로 인식하지만 Linux 콘솔에서는 다른 의미를 가진다.
    &가 들어가는 명령어를 호출하는 경우 \&로 입려하거나 반드시 괄호(" /...&... ")로 호출하는 URL을 묶어야 한다.
 
+
+
+.. _getting-started-api-hwinfo:
 
 하드웨어 정보조회
 ====================================
@@ -284,6 +287,8 @@ STON 미디어 서버 버전을 확인한다. ::
    }
 
 
+.. _getting-started-api-restart-terminate:
+
 재시작/종료
 ====================================
 
@@ -296,7 +301,7 @@ STON 미디어 서버 버전을 확인한다. ::
    http://127.0.0.1:20040/command/terminate?key=JUSTDOIT       // 즉시 실행
 
 
-.. _getting-started-reset:
+.. _getting-started-api-reset:
 
 Caching 초기화
 ====================================

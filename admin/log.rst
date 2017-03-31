@@ -43,7 +43,7 @@
 
 
 
-.. _log_install:
+.. _log-install:
 
 Install 로그
 ====================================
@@ -104,7 +104,7 @@ Install 로그
 
 
 
-.. _log_info:
+.. _log-info:
 
 Info 로그
 ====================================
@@ -119,7 +119,7 @@ Info로그는 전역설정(server.xml)에 설정한다. ::
    STON 미디어 서버의 동작과 설정변경에 대해 기록한다.
 
 
-.. _log_deny:
+.. _log-deny:
 
 Deny 로그
 ====================================
@@ -147,7 +147,7 @@ Deny로그는 전역설정(server.xml)에 설정한다. ::
    - ``deny`` 차단조건
 
 
-.. _log_originerror:
+.. _log-originerror:
 
 OriginError 로그
 ====================================
@@ -201,7 +201,7 @@ OriginError로그는 전역설정(server.xml)에 설정한다. ::
 
 
 
-.. _log_syslog:
+.. _log-syslog:
 
 SysLog 전송
 ====================================
@@ -268,7 +268,7 @@ syslog의 tag는 STON/{로그명}으로 기록된다. ::
 
 
 
-.. _log_dns:
+.. _log-dns:
 
 DNS 로그
 ====================================
@@ -305,7 +305,7 @@ DNS 로그
 -  ``result`` success 또는 fail
 
 
-.. _log_access:
+.. _log-access:
 
 Access 로그
 ====================================
@@ -324,7 +324,7 @@ Access 로그
 
 
 
-.. _log_access_http:
+.. _log-access-http:
 
 HTTP Access 로그
 ---------------------
@@ -399,7 +399,7 @@ STON 미디어 서버가 원본서버로부터 응답을 받기 전에 클라이
 
 
 
-.. _log_access_http_custom:
+.. _log-access-http-custom:
 
 HTTP 사용자정의 Access 로그
 ---------------------
@@ -563,7 +563,7 @@ HTTP Access 로그를 사용자가 정의하도록 설정한다. ::
 
 
 
-.. _log_access_rtmp:
+.. _log-access-rtmp:
 
 RTMP Access 로그
 ---------------------
@@ -638,7 +638,7 @@ RTMP 트랜잭션은 Payload와 상관이 없다.
 
 
 
-.. _log_origin:
+.. _log-origin:
 
 Origin 로그
 ====================================
@@ -655,7 +655,7 @@ STON 미디어 서버와 원본서버가 진행한 트랜잭션을 로그로 기
 프로토콜에 따라 로그파일이 별도로 생성되며 필드와 의미가 다를 수 있다.
 
 
-.. _log_origin_http:
+.. _log-origin-http:
 
 HTTP Origin 로그
 ---------------------
@@ -719,7 +719,7 @@ HTTP 원본서버와 진행된 모든 HTTP 트랜잭션을 기록한다.
    -  ``healthcheck`` :ref:`origin-health-checker` 가 사용한 세션
 
 
-.. _log_monitoring:
+.. _log-monitoring:
 
 Monitoring 로그
 ====================================

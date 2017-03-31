@@ -1,4 +1,4 @@
-﻿.. _caching_policy:
+﻿.. _caching-policy:
 
 7장. Caching 정책
 ******************
@@ -25,7 +25,7 @@ HTTP의 여러 기능에 따라 같은 URL이라고 하더라도 콘텐츠가 �
 
 
 
-.. _caching_policy-ttl:
+.. _caching-policy-ttl:
 
 TTL (Time To Live)
 ====================================
@@ -38,6 +38,8 @@ TTL은 한번 설정되면 만료되기 전까지 바뀌지 않는다.
 새로운 TTL은 파일이 만료되었을 때 적용된다.
 관리자는 :ref:`api-cmd-purge` , :ref:`api-cmd-expire` , :ref:`api-cmd-expireafter` , :ref:`api-cmd-hardpurge` 등의 API를 사용해 TTL을 변경할 수 있다.
 
+
+.. _caching-policy-ttl-basic:
 
 기본 TTL
 ---------------------
@@ -113,7 +115,7 @@ TTL이 만료되면 원본서버로 콘텐츠 변경여부( **If-Modified-Since*
    만약 모든 요청에 대해 원본서버의 응답을 주고 싶다면 바이패스할 것을 권장한다.
 
 
-.. _caching_policy-customttl:
+.. _caching-policy-ttl-custom:
 
 Custom TTL
 ---------------------
@@ -147,6 +149,8 @@ URL마다 별도로 TTL을 설정한다.
    http://www.example.com/bar/mp4:hot/sample.mp4
 
 
+.. _caching-policy-ttl-priority:
+
 TTL 우선순위
 ---------------------
 
@@ -168,7 +172,7 @@ TTL 우선순위
 
 
 
-.. _caching_policy-casesensitive:
+.. _caching-policy-casesensitive:
 
 대소문자 구분
 ====================================
@@ -194,7 +198,8 @@ TTL 우선순위
    -  ``OFF`` URL 대소문자를 구분하지 않는다. 모두 소문자로 처리된다.
 
 
-.. _caching_policy-applyquerystring:
+
+.. _caching-policy-applyquerystring:
 
 QueryString 구분
 ====================================

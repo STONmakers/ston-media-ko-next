@@ -1,4 +1,4 @@
-﻿.. _vhost_url:
+﻿.. _vhost:
 
 4장. 가상호스트
 ******************
@@ -31,7 +31,7 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
 
 
-.. _env-vhost-create-destroy:
+.. _vhost-create-destroy:
 
 생성/파괴
 ====================================
@@ -73,7 +73,7 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 
 
 
-.. _env-vhost-find:
+.. _vhost-alias:
 
 Alias
 ====================================
@@ -103,7 +103,8 @@ Alias
 
 
 
-.. _env-vhost-defaultvhost:
+
+.. _vhost-defaultvhost:
 
 Default 가상호스트
 ====================================
@@ -126,6 +127,8 @@ Default 가상호스트
    반드시 ``<Vhost>`` 의 ``Name`` 속성과 같아야 한다.
 
 
+
+.. _vhost-serviceport:
 
 서비스 포트
 ====================================
@@ -160,6 +163,8 @@ Default 가상호스트
     </Vhost>
 
 
+
+.. _vhost-api_vhostslist:
 
 목록조회
 ====================================
