@@ -327,6 +327,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
     /graph/vhost/client_rtmp_res_detail_*.png
 
 
+.. figure:: img/sms_rtmp_graph_detail.png
 
 
 원본서버 세션 ``all`` ``http``
