@@ -66,13 +66,11 @@ Sub-Path 지정
      <Sub Status="Active">
        <Path Vhost="baseball.com">/baseball/<Path>
        <Path Vhost="football.com">/football/<Path>
-       <Path Vhost="photo.com">/*.jpg<Path>
      </Sub>
    </Vhost>
 
    <Vhost Name="baseball.com" />
    <Vhost Name="football.com" />
-   <Vhost Name="photo.com" />
 
 -  ``<Sub>`` 경로나 패턴이 일치하면 해당 요청을 다른 가상호스트로 보낸다.
    일치하지 않는 경우만 현재 가상호스트가 처리한다.
@@ -81,11 +79,6 @@ Sub-Path 지정
 
    -  ``<Path>`` 클라이언트가 요청한 URI와 경로가 일치하면 ``Vhost`` 로 해당 요청을 보낸다.
       값은 경로 또는 패턴만 가능하다. ::
-
-         <Path Vhost="baseball.com">baseball<Path>
-         <Path Vhost="photo.com">*.mp3<Path>
-
-      위와 같이 입력해도 각각 /baseball/과 /*.mp3로 인식된다.
 
 예를 들어 클라이언트가 다음과 같이 요청했다면 해당 요청은 가상호스트 football.com이 처리한다. ::
 

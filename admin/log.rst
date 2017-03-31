@@ -241,11 +241,11 @@ SysLog 전송
 위 설정으로 기록된 sys로그 예제는 다음과 같다.
 syslog의 tag는 STON/{로그명}으로 기록된다. ::
 
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:20 [ERROR] [example.com] - 192.168.0.14 GET /trip.mp4 1996 Connect-Timeout -
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:22 [ERROR] [example.com] - 192.168.0.14 GET /trip2.mp4 1995 Connect-Timeout -
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2013-03-12 14:09:24 [ERROR] [example.com] - 192.168.0.14 GET /sample.mp4 2020 Connect-Timeout -
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2013 .03.12 14:09:24 [example.com] 192.168.0.14:102 excluded from service
-    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2013 .03.12 14:09:24 [example.com] Origin server list:
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2017-03-12 14:09:20 [ERROR] [example.com] - 192.168.0.14 GET /trip.mp4 1996 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2017-03-12 14:09:22 [ERROR] [example.com] - 192.168.0.14 GET /trip2.mp4 1995 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: 2017-03-12 14:09:24 [ERROR] [example.com] - 192.168.0.14 GET /sample.mp4 2020 Connect-Timeout -
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2017 .03.12 14:09:24 [example.com] 192.168.0.14:102 excluded from service
+    Mar 12 11:24:24 192.168.0.1 STON/ORIGINERROR: #2017 .03.12 14:09:24 [example.com] Origin server list:
 
 
 
