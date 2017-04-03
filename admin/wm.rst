@@ -4,17 +4,17 @@
 ******************
 
 이 장에서는 Web Management(이하 WM)를 소개한다.
-WM은 API를 기반으로 동작하는 Web 관리 툴이다.
-WM을 통하여 직관적으로 서비스를 구성할 수 있을 뿐만 아니라 클러스터를 구성하여 많은 수의 STON 미디어 서버를 통합관리 할 수 있다.
+WM은 Web Interface로 동작하는 STON 미디어 서버 관리 도구이다.
+사용자는 WM을 통하여 직관적으로 서비스를 구성할 수 있을 뿐만 아니라 클러스터를 구성하여 많은 수의 STON 미디어 서버를 통합관리 할 수 있다.
 
 STON 미디어 서버를 설치하면 /usr/local/ston/wm 경로에 WM이 설치된다.
 WM은 Apache 2.2.24 + PHP 5.3.24으로 구현되었다.
-Apache를 사용하므로 /usr/local/ston/wm/conf/httpd.conf 파일을 편집하여 원하는
-구성(예를 들어 HTTPS)으로 변경이 가능하다.
-WM과 STON 미디어 서버는 밀접한 연관을 가지지 않는다.
+Apache를 사용하므로 /usr/local/ston/wm/conf/httpd.conf 파일을 편집하여 원하는 구성(예를 들어 HTTPS)으로 변경이 가능하다.
+
+하지만 WM과 STON 미디어 서버는 느슨하게 결합되어 있다.
 다음 그림처럼 WM은 STON 미디어 서버의 설정파일과 API만을 사용하여 STON 미디어 서버의 동작을 구성한다.
 
-.. figure:: img/wm_compose.jpg
+.. figure:: img_wm/sms_wm_basic.jpg
    :align: center
 
    WM은 STON 미디어 서버의 설정파일과 API를 사용한다.
@@ -29,11 +29,11 @@ WM과 STON 미디어 서버는 밀접한 연관을 가지지 않는다.
 접속
 ====================================
 
-WM은 기본적으로 8500번 포트를 사용한다. 설치된 STON 미디어 서버의 IP가 192.168.0.100이라면
-WM접근 주소는 http://192.168.0.100:8500이 된다.
-앞서 언급한 대로 httpd.conf 파일을 변경하면 고객사에 맞추어 커스터마이징이 가능하다.
+WM은 9500번 포트를 사용한다. 설치된 STON 미디어 서버의 IP가 192.168.0.100이라면
+WM접근 주소는 http://192.168.0.100:9500이 된다.
+앞서 언급한 대로 httpd.conf 파일을 변경하면 다른 포트로 변경할 수 있다.
 
-.. figure:: img/wm_login.jpg
+.. figure:: img_wm/sms_wm_login.jpg
    :align: center
 
    WM 접속초기화면
@@ -45,10 +45,11 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 기본 계정은 [아이디: **admin** , 비밀번호: **ston** ] 이다.
 로그인에 성공하면 STON 미디어 서버의 전반적인 상태를 확인할 수 있는 대쉬보드 페이지가 나타난다.
 
-.. figure:: img/wm_main.jpg
+.. figure:: img_wm/wm_main.jpg
    :align: center
 
    WM 대쉬보드
+
 
 
 .. _wm-update:
@@ -58,7 +59,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 
 최신버전이 릴리스되면 다음과 같이 "새로운 업데이트가 있습니다" 메시지가 표시된다.
 
-.. figure:: img/wm_update_info.png
+.. figure:: img_wm/sms_wm_update_full.png
    :align: center
 
    새로운 업데이트가 있습니다.
@@ -66,7 +67,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 메시지를 클릭하시면 최신버전으로 업데이트할 수 있는 페이지가 표시된다.
 현재 서비스 상태에 따라 업데이트 안전도 여부가 표시된다.
 
-.. figure:: img/wm_update_page_alert.png
+.. figure:: img_wm/wm_update_page_alert.png
    :align: center
 
    WM 업데이트하면 위험합니다.
@@ -80,7 +81,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 
 메뉴는 Mouse-Click에 따라 확장/축소가 되는 Drop Down메뉴로 구성된다.
 
-.. figure:: img/wm_menu.jpg
+.. figure:: img_wm/wm_menu.jpg
    :align: center
 
    WM 메뉴
@@ -115,7 +116,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 
 전역설정(server.xml)에서 가상호스트 기본설정을 제외한 모든 기능을 설정한다.
 
-.. figure:: img/wm_conf_global1.png
+.. figure:: img_wm/wm_conf_global1.png
    :align: center
 
    WM 전역설정 - 일반
@@ -141,7 +142,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 원본서버 주소만 설정하면 곧바로 서비스 투입이 가능하다.
 8가지의 하위 설정이 있으며 **펼쳐보기** 버튼을 눌러 상세 설정으로 확장할 수 있다.
 
-.. figure:: img/wm_vhost_new1.png
+.. figure:: img_wm/wm_vhost_new1.png
    :align: center
 
    WM 가상호스트 관리 - 신규
@@ -155,7 +156,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 클러스터가 설정되어 있다면 모든 서버의 가상호스트를 동시에 제어할 수 있다.
 또한 기본가상호스트를 선택할 수 있다.
 
-.. figure:: img/wm_vhost_list.png
+.. figure:: img_wm/wm_vhost_list.png
    :align: center
 
    WM 가상호스트 관리 - 목록
@@ -169,7 +170,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 **"Default 가상호스트"** 는 모든 가상호스트가 상속받는 기본 설정이다.
 그러므로 별도로 재정의하지 않은 설정의 경우 "Default 가상호스트"를 변경하면 변경된 설정이 반영된다.
 
-.. figure:: img/wm_vhost_conf1.png
+.. figure:: img_wm/wm_vhost_conf1.png
    :align: center
 
    WM 가상호스트 설정 - 상단메뉴
@@ -178,7 +179,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 각 메뉴 클릭시 아래 그림처럼 상세설정 페이지가 제공된다.
 모든 설정은 "적용" 또는 "Cluster전체적용" 버튼을 눌러야 반영된다.
 
-.. figure:: img/wm_vhost_conf_sub1.png
+.. figure:: img_wm/wm_vhost_conf_sub1.png
    :align: center
 
    WM 가상호스트 설정 - 원본서버
@@ -187,7 +188,7 @@ WM접근 주소는 http://192.168.0.100:8500이 된다.
 예를 들어 기본 가상호스트의 TTL값이 60으로 설정된 경우 모든 가상호스트는 이 값을 상속받는다.
 하지만 명확하게 이 값을 재정의 하는 경우 해당 가상호스트에 한하여 재정의된 값을 사용하게 된다.
 
-.. figure:: img/wm_vhost_conf_sub_ttl.png
+.. figure:: img_wm/wm_vhost_conf_sub_ttl.png
    :align: center
 
 다음과 같이 3가지 경우가 존재할 수 있다.
@@ -230,13 +231,13 @@ WM에서는 색으로 재정의를 구분한다.
 클러스터 추가에는 WM계정의 인증절차가 필요하다.
 만약 같은 계정(아이디와 비밀번호)으로 WM이 구성되어 있다면 인증절차는 생략된다.
 
-.. figure:: img/wm_cluseter1.png
+.. figure:: img_wm/wm_cluseter1.png
    :align: center
 
    신규 클러스터 생성
 
 
-.. figure:: img/wm_cluseter2.png
+.. figure:: img_wm/wm_cluseter2.png
    :align: center
 
    클러스터 목록
@@ -265,7 +266,7 @@ WM에서는 색으로 재정의를 구분한다.
 
 (기본 설치라면) /usr/local/ston/wm/conf/httpd.conf 파일을 열어 다음과 같이 포트를 추가한다.
 
-.. figure:: img/wm_cluster_multiport.png
+.. figure:: img_wm/wm_cluster_multiport.png
    :align: center
 
 저장 후 반영을 위해 Apache서버를 재시작한다.
@@ -275,7 +276,7 @@ WM에서는 색으로 재정의를 구분한다.
 
 정상적으로 멀티포트 구성이 되었다면 다음과 같이 "클러스터 포트 분리" 버튼이 생성된다.
 
-.. figure:: img/wm_cluster_multiport1.png
+.. figure:: img_wm/wm_cluster_multiport1.png
    :align: center
 
 버튼을 클릭한다.
@@ -285,7 +286,7 @@ WM에서는 색으로 재정의를 구분한다.
 
 분리할 수 있는 포트 목록을 보여준다. 포트를 선택해 구성한다.
 
-.. figure:: img/wm_cluster_multiport2.png
+.. figure:: img_wm/wm_cluster_multiport2.png
    :align: center
 
 클러스터링에 포함되는 모든 서버는 반드시 같은 포트를 사용해야 한다.
@@ -298,7 +299,7 @@ WM에서는 색으로 재정의를 구분한다.
 클러스터에 소속된 모든 STON 미디어 서버의 상태와 서비스 현황을 확인할 수 있다.
 서버 목록을 구성하는 각 항목을 클릭하면 보다 상세한 정보를 확인할 수 있다.
 
-.. figure:: img/wm_cluseter3_2.png
+.. figure:: img_wm/wm_cluseter3_2.png
    :align: center
 
    서버별 상태
@@ -311,7 +312,7 @@ WM에서는 색으로 재정의를 구분한다.
 클러스터의 모든 가상호스트를 동시에 시작/중지할 수 있다.
 가상호스트 목록을 구성하는 각 항목을 클릭하면 보다 상세한 정보를 확인할 수 있다.
 
-.. figure:: img/wm_cluseter4.png
+.. figure:: img_wm/wm_cluseter4.png
    :align: center
 
    가상호스트 서비스별 상태
@@ -323,13 +324,13 @@ WM에서는 색으로 재정의를 구분한다.
 서비스 중인 컨텐츠를 열람/제어하거나 클린업을 수행할 수 있다.
 클러스터 구성이 되어있다면 모든 STON 미디어 서버의 컨텐츠를 동시에 열람하거나 제어할 수 있다.
 
-.. figure:: img/wm_ctrl2.png
+.. figure:: img_wm/wm_ctrl2.png
    :align: center
 
    Caching상태 확인
 
 
-.. figure:: img/wm_ctrl3.png
+.. figure:: img_wm/wm_ctrl3.png
    :align: center
 
    Purge등 API호출
@@ -341,7 +342,7 @@ WM에서는 색으로 재정의를 구분한다.
 가동 중인 서버의 시스템 정보를 조회한다.
 
 
-.. figure:: img/wm_gstat1.png
+.. figure:: img_wm/wm_gstat1.png
    :align: center
 
 
@@ -351,7 +352,7 @@ WM에서는 색으로 재정의를 구분한다.
 
 가상호스트별로 서비스 상태를 모니터링 한다.
 
-.. figure:: img/wm_vstat3.png
+.. figure:: img_wm/wm_vstat3.png
    :align: center
 
    가상호스트 서비스상태
