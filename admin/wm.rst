@@ -14,7 +14,7 @@ Apache를 사용하므로 /usr/local/ston/wm/conf/httpd.conf 파일을 편집하
 하지만 WM과 STON 미디어 서버는 느슨하게 결합되어 있다.
 다음 그림처럼 WM은 STON 미디어 서버의 설정파일과 API만을 사용하여 STON 미디어 서버의 동작을 구성한다.
 
-.. figure:: img_wm/sms_wm_basic.jpg
+.. figure:: img_wm/sms_wm_basic.png
    :align: center
 
    WM은 STON 미디어 서버의 설정파일과 API를 사용한다.
@@ -33,7 +33,7 @@ WM은 9500번 포트를 사용한다. 설치된 STON 미디어 서버의 IP가 1
 WM접근 주소는 http://192.168.0.100:9500이 된다.
 앞서 언급한 대로 httpd.conf 파일을 변경하면 다른 포트로 변경할 수 있다.
 
-.. figure:: img_wm/sms_wm_login.jpg
+.. figure:: img_wm/sms_wm_login.png
    :align: center
 
    WM 접속초기화면
@@ -45,7 +45,7 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 기본 계정은 [아이디: **admin** , 비밀번호: **ston** ] 이다.
 로그인에 성공하면 STON 미디어 서버의 전반적인 상태를 확인할 수 있는 대쉬보드 페이지가 나타난다.
 
-.. figure:: img_wm/wm_main.jpg
+.. figure:: img_wm/wm_main.png
    :align: center
 
    WM 대쉬보드
