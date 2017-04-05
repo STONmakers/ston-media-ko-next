@@ -282,7 +282,7 @@ System 통계
 
 .. _monitoring-stats-vhost:
     
-가상호스트 통계
+가상호스트 - 종합통계
 ====================================
 
 가상호스트별로 통계가 제공된다. 
@@ -296,11 +296,19 @@ System 통계
        "AllOriginSession":33,                      AllOriginInbound="0"                                    
        "AllOriginActiveSession":20,                AllOriginOutbound="0"                                   
        "AllOriginInbound":688177,                  HttpOriginSession="0"                                   
-       "AllOriginOutbound":14184,                  HttpOriginActiveSession="0"                             
+       "AllOriginOutbound":14184,                  HttpOriginActiveSession="0"
        "HttpOriginSession":62,                     HttpOriginInbound="0"                                   
        "HttpOriginActiveSession":62,               HttpOriginOutbound="0"                                  
-       "HttpOriginInbound":2375,                   AllClientSession="0"                                    
-       "HttpOriginOutbound":2509,                  AllClientActiveSession="0"                              
+       "HttpOriginInbound":2375,                   HlsOriginSession="0"
+       "HttpOriginOutbound":2509,                  HlsOriginActiveSession="0"
+       "HlsOriginSession":62,                      HlsOriginInbound="0"                                     
+       "HlsOriginActiveSession":62,                HlsOriginOutbound="0"                                 
+       "HlsOriginInbound":2375,                    MpegDashOriginSession="0"                                  
+       "HlsOriginOutbound":2509,                   MpegDashOriginActiveSession="0"                            
+       "MpegDashOriginSession":62,                 MpegDashOriginInbound="0"                                   
+       "MpegDashOriginActiveSession":62,           MpegDashOriginOutbound="0"                                 
+       "MpegDashOriginInbound":2375,               AllClientSession="0"                                    
+       "MpegDashOriginOutbound":2509,              AllClientActiveSession="0"                              
        "AllClientSession":54,                      AllClientInbound="0"                                    
        "AllClientActiveSession":2327,              AllClientOutbound="0"                                   
        "AllClientInbound":2481,                    HttpClientSession="0"                                   
@@ -311,8 +319,12 @@ System 통계
        "HttpClientOutbound":8,                     HlsClientActiveSession="0"                              
        "HlsClientSession":54,                      HlsClientInbound="0"                                    
        "HlsClientActiveSession":2327,              HlsClientOutbound="0"                                   
-       "HlsClientInbound":2481,                    RtmpClientSession="0"                                   
-       "HlsClientOutbound":8,                      RtmpClientActiveSession="0"                             
+       "HlsClientInbound":2481,                    MpegDashClientSession="0"                                   
+       "HlsClientOutbound":8,                      MpegDashClientActiveSession="0"                             
+       "MpegDashClientSession":54,                 MpegDashClientInbound="0"                                    
+       "MpegDashClientActiveSession":2327,         MpegDashClientOutbound="0"                                   
+       "MpegDashClientInbound":2481,               RtmpClientSession="0"                                   
+       "MpegDashClientOutbound":8,                 RtmpClientActiveSession="0"                             
        "RtmpClientSession":54,                     RtmpClientInbound="0"                                   
        "RtmpClientActiveSession":2327,             RtmpClientOutbound="0"                                  
        "RtmpClientInbound":2481,                   RequestHitRatio="0"                                     
@@ -430,19 +442,26 @@ System 통계
 
 
 .. _monitoring-stats-vhost-origin:
-
-원본 통계
-------------------------------
+    
+가상호스트 - 원본 상세통계
+====================================
 
 STON 미디어 서버와 원본서버 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
 
    "OriginTraffics":                             <OriginTraffics>
    {                                               <Http> ... </Http>
-     "Http": { ... }                             </OriginTraffics>    ...
+     "Http": { ... }                               <Hls> ... </Hls>
+     "Hls": { ... }                                <MpegDash> ... </MpegDash>
+     "MpegDash": { ... }                         </OriginTraffics>
    }
                                                  
 
-HTTP 세부항목은 다음과 같다. ::
+.. _monitoring-stats-vhost-origin-http:
+
+HTTP 상세통계
+------------------------------
+
+HTTP 세부통계는 다음과 같다. ::
 
    "Http":                                       <Http>                                             
    {                                               <ReqCount Sum="600">2</ReqCount>       
@@ -551,21 +570,57 @@ HTTP 세부항목은 다음과 같다. ::
    
 
 
-.. _monitoring-stats-vhost-client:
+.. _monitoring-stats-vhost-origin-hls:
 
-클라이언트 통계
+HLS 상세통계
 ------------------------------
 
-클라이언트 통계는 HTTP, HLS, RTMP로 구분되어 제공된다. ::
+HLS는 HTTP기반 프로토콜이므로 세부통계가 HTTP 상세통계와 모두 동일하다. ::
+
+   "Hls":                                       <Hls>                                             
+   {                                               ...
+     ...                                        </Hls>
+   }                            
+
+
+
+.. _monitoring-stats-vhost-origin-mpegdash:
+
+MPEG-DASH 상세통계
+------------------------------
+
+MPEG-DASH는 HTTP기반 프로토콜이므로 세부통계가 HTTP 상세통계와 모두 동일하다. ::
+
+   "MpegDash":                                  <MpegDash>                                             
+   {                                               ...
+     ...                                        </MpegDash>
+   }                            
+
+
+
+
+.. _monitoring-stats-vhost-client:
+
+가상호스트 - 클라이언트 상세통계
+====================================
+
+STON 미디어 서버와 클라이언트 사이에 발생하는 트래픽을 프토콜별로 제공한다. ::
 
    "ClientTraffics":                             <ClientTraffics>
    {                                               <Http> ... </Http>
      "Http": { ... },                              <Hls> ... </Hls>
-     "Hls": { ... },                               <Rtmp> ... </Rtmp>
+     "Hls": { ... },                               <MpegDash> ... </MpegDash>
+     "MpegDash": { ... },                          <Rtmp> ... </Rtmp>
      "Rtmp": { ... },                            </ClientTraffics>
    }
 
-HTTP 클라이언트 통계는 다음과 같다. ::
+
+.. _monitoring-stats-vhost-client-http:
+
+HTTP 상세통계
+------------------------------
+
+HTTP 클라이언트 상세통계는 다음과 같다. ::
 
    "Http":                                       <Http RequestHitRatio="9998">
    {                                               <ReqCount Sum="0">0</ReqCount>
@@ -679,10 +734,38 @@ HTTP 클라이언트 통계는 다음과 같다. ::
    -  ``RequestHitSum`` 캐시 HIT 결과
 
 
-HLS 클라이언트 통계는 HTTP 클라이언트 통계와 모든 필드/의미가 동일하다. ::
 
-   "Hls": { ... }                                <Hls RequestHitRatio="0"> ... </Hls>
+.. _monitoring-stats-vhost-client-hls:
 
+HLS 상세통계
+------------------------------
+
+HLS는 HTTP기반 프로토콜이므로 세부통계가 HTTP 상세통계와 모두 동일하다. ::
+
+   "Hls":                                       <Hls>                                             
+   {                                               ...
+     ...                                        </Hls>
+   }                            
+
+
+
+.. _monitoring-stats-vhost-client-mpegdash:
+
+MPEG-DASH 상세통계
+------------------------------
+
+MPEG-DASH는 HTTP기반 프로토콜이므로 세부통계가 HTTP 상세통계와 모두 동일하다. ::
+
+   "MpegDash":                                  <MpegDash>                                             
+   {                                               ...
+     ...                                        </MpegDash>
+   }                            
+
+
+.. _monitoring-stats-vhost-client-rtmp:
+
+RTMP 상세통계
+------------------------------
 
 RTMP 통계는 다음과 같다. ::
 
