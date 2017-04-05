@@ -349,8 +349,8 @@ System 통계
 -  ``SecuredMemory (단위: Bytes)`` 메모리에서 삭제한 컨텐츠 양
 -  ``Disk`` 디스크 정보
 -  ``CacheFileEvent`` 캐싱파일 이벤트
--  ``OriginTraffics`` 원본서버 트래픽 통계
--  ``ClientTraffics`` 클라이언트 트래픽 통계
+-  ``OriginTraffics`` 원본 상세통계
+-  ``ClientTraffics`` 클라이언트 상세통계
 
 
 .. _monitoring-stats-vhost-disk:

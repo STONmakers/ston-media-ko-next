@@ -561,7 +561,8 @@ OID                        Name                                Type       Descri
 .4. ``[vhostMin]``         activeSessionAverage                Integer    전체 원본서버 세션수 중 전송 중인 평균 세션수
 .10                        http                                OID        HTTP 트래픽 (확장)
 .11                        hls                                 OID        HLS 트래픽 (확장)
-.12                        rtmp                                OID        RTMP 트래픽 (확장)
+.12                        mpegdash                            OID        MPEG-DASH 트래픽 (확장)
+.20                        rtmp                                OID        RTMP 트래픽 (확장)
 ========================== =================================== ========== ===================================================================
 
 
@@ -644,7 +645,131 @@ cache.host.traffic.origin.hls
    
     OID = 1.3.6.1.4.1.40002.1.4.1.11.10.11
 
-(지원예정) HLS 원본서버 트래픽 통계를 제공한다.
+HLS 원본서버 트래픽 통계를 제공한다. 
+
+========================== =================================== ========== ===================================================================
+OID                        Name                                Type       Description
+========================== =================================== ========== ===================================================================
+.1. ``[vhostMin]``         inbound                             Integer    원본서버로부터 받는 평균 HLS 트래픽(Bytes)
+.2. ``[vhostMin]``         outbound                            Integer    원본서버로 보내는 평균 HLS 트래픽(Bytes)
+.3. ``[vhostMin]``         allSessionAverage                   Integer    원본서버 평균 HLS세션 수
+.4. ``[vhostMin]``         activeSessionAverage                Integer    원본서버 평균 HLS세션 중 전송 중인 평균 세션수
+.10. ``[vhostMin]``        reqHeaderSize                       Integer    원본서버로 보내는 평균 HLS Header 트래픽(Bytes)
+.11. ``[vhostMin]``        reqBodySize                         Integer    원본서버로 보내는 평균 HLS Body 트래픽(Bytes)
+.12. ``[vhostMin]``        resHeaderSize                       Integer    원본서버로부터 받는 평균 HLS Header트래픽(Bytes)
+.13. ``[vhostMin]``        resBodySize                         Integer    원본서버로부터 받는 평균 HLS Body트래픽(Bytes)
+.14. ``[vhostMin]``        reqAverage                          Integer    원본서버로 보낸 평균 HLS요청 개수
+.15. ``[vhostMin]``        reqCount                            Integer    원본서버로 보낸 HLS요청 개수
+.20. ``[vhostMin]``        res2xxAverage                       Integer    원본서버가 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]``        res2xxCompleteAverage               Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
+.22. ``[vhostMin]``        res2xxTimeRes                       Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.23. ``[vhostMin]``        res2xxTimeComplete                  Integer    원본서버로부터 2xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]``        res2xxCount                         Integer    원본서버가 보낸 2xx응답 개수
+.25. ``[vhostMin]``        res2xxCompleteCount                 Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
+.30. ``[vhostMin]``        res3xxAverage                       Integer    원본서버가 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]``        res3xxCompleteAverage               Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
+.32. ``[vhostMin]``        res3xxTimeRes                       Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.33. ``[vhostMin]``        res3xxTimeComplete                  Integer    원본서버로부터 3xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]``        res3xxCount                         Integer    원본서버가 보낸 3xx응답 개수
+.35. ``[vhostMin]``        res3xxCompleteCount                 Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
+.40. ``[vhostMin]``        res4xxAverage                       Integer    원본서버가 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]``        res4xxCompleteAverage               Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
+.42. ``[vhostMin]``        res4xxTimeRes                       Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.43. ``[vhostMin]``        res4xxTimeComplete                  Integer    원본서버로부터 4xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]``        res4xxCount                         Integer    원본서버가 보낸 4xx응답 개수
+.45. ``[vhostMin]``        res4xxCompleteCount                 Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
+.50. ``[vhostMin]``        res5xxAverage                       Integer    원본서버가 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]``        res5xxCompleteAverage               Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
+.52. ``[vhostMin]``        res5xxTimeRes                       Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.53. ``[vhostMin]``        res5xxTimeComplete                  Integer    원본서버로부터 5xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]``        res5xxCount                         Integer    원본서버가 보낸 5xx응답 개수
+.55. ``[vhostMin]``        res5xxCompleteCount                 Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
+.80. ``[vhostMin]``        resTotalAverage                     Integer    원본서버가 보낸 전체 평균 HLS응답 개수
+.81. ``[vhostMin]``        resTotalCompleteAverage             Integer    원본서버로부터 성공한 평균 HLS트랜잭션 개수
+.82. ``[vhostMin]``        resTotalTimeRes                     Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.83. ``[vhostMin]``        resTotalTimeComplete                Integer    원본서버로부터 응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]``        resTotalCount                       Integer    원본서버가 보낸 전체 HLS응답 개수
+.85. ``[vhostMin]``        resTotalCompleteCount               Integer    원본서버로부터 성공한 HLS트랜잭션 개수
+.90. ``[vhostMin]``        connectTimeoutAverage               Integer    평균 원본서버 접속실패 횟수
+.91. ``[vhostMin]``        receiveTimeoutAverage               Integer    평균 원본서버 전송실패 횟수
+.92. ``[vhostMin]``        connectAverage                      Integer    평균 원본서버 접속성공 횟수
+.93. ``[vhostMin]``        dnsQueryTime                        Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
+.94. ``[vhostMin]``        connectTime                         Integer    원본서버 평균 접속 소요시간(0.01ms)
+.95. ``[vhostMin]``        connectTimeoutCount                 Integer    원본서버 접속실패 횟수
+.96. ``[vhostMin]``        receiveTimeoutCount                 Integer    원본서버 전송실패 횟수
+.97. ``[vhostMin]``        connectCount                        Integer    원본서버 접속성공 횟수
+.98. ``[vhostMin]``        closeAverage                        Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
+.99. ``[vhostMin]``        closeCount                          Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
+========================== =================================== ========== ===================================================================
+
+
+
+.. _snmp-cache-host-traffic-origin-mpegdash:
+
+cache.host.traffic.origin.mpegdash
+---------------------
+
+::
+   
+    OID = 1.3.6.1.4.1.40002.1.4.1.11.10.12
+
+MPEG-DASH 원본서버 트래픽 통계를 제공한다. 
+
+========================== =================================== ========== ===================================================================
+OID                        Name                                Type       Description
+========================== =================================== ========== ===================================================================
+.1. ``[vhostMin]``         inbound                             Integer    원본서버로부터 받는 평균 MPEG-DASH 트래픽(Bytes)
+.2. ``[vhostMin]``         outbound                            Integer    원본서버로 보내는 평균 MPEG-DASH 트래픽(Bytes)
+.3. ``[vhostMin]``         allSessionAverage                   Integer    원본서버 평균 MPEG-DASH세션 수
+.4. ``[vhostMin]``         activeSessionAverage                Integer    원본서버 평균 MPEG-DASH세션 중 전송 중인 평균 세션수
+.10. ``[vhostMin]``        reqHeaderSize                       Integer    원본서버로 보내는 평균 MPEG-DASH Header 트래픽(Bytes)
+.11. ``[vhostMin]``        reqBodySize                         Integer    원본서버로 보내는 평균 MPEG-DASH Body 트래픽(Bytes)
+.12. ``[vhostMin]``        resHeaderSize                       Integer    원본서버로부터 받는 평균 MPEG-DASH Header트래픽(Bytes)
+.13. ``[vhostMin]``        resBodySize                         Integer    원본서버로부터 받는 평균 MPEG-DASH Body트래픽(Bytes)
+.14. ``[vhostMin]``        reqAverage                          Integer    원본서버로 보낸 평균 MPEG-DASH요청 개수
+.15. ``[vhostMin]``        reqCount                            Integer    원본서버로 보낸 MPEG-DASH요청 개수
+.20. ``[vhostMin]``        res2xxAverage                       Integer    원본서버가 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]``        res2xxCompleteAverage               Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
+.22. ``[vhostMin]``        res2xxTimeRes                       Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.23. ``[vhostMin]``        res2xxTimeComplete                  Integer    원본서버로부터 2xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]``        res2xxCount                         Integer    원본서버가 보낸 2xx응답 개수
+.25. ``[vhostMin]``        res2xxCompleteCount                 Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
+.30. ``[vhostMin]``        res3xxAverage                       Integer    원본서버가 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]``        res3xxCompleteAverage               Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
+.32. ``[vhostMin]``        res3xxTimeRes                       Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.33. ``[vhostMin]``        res3xxTimeComplete                  Integer    원본서버로부터 3xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]``        res3xxCount                         Integer    원본서버가 보낸 3xx응답 개수
+.35. ``[vhostMin]``        res3xxCompleteCount                 Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
+.40. ``[vhostMin]``        res4xxAverage                       Integer    원본서버가 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]``        res4xxCompleteAverage               Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
+.42. ``[vhostMin]``        res4xxTimeRes                       Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.43. ``[vhostMin]``        res4xxTimeComplete                  Integer    원본서버로부터 4xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]``        res4xxCount                         Integer    원본서버가 보낸 4xx응답 개수
+.45. ``[vhostMin]``        res4xxCompleteCount                 Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
+.50. ``[vhostMin]``        res5xxAverage                       Integer    원본서버가 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]``        res5xxCompleteAverage               Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
+.52. ``[vhostMin]``        res5xxTimeRes                       Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.53. ``[vhostMin]``        res5xxTimeComplete                  Integer    원본서버로부터 5xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]``        res5xxCount                         Integer    원본서버가 보낸 5xx응답 개수
+.55. ``[vhostMin]``        res5xxCompleteCount                 Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
+.80. ``[vhostMin]``        resTotalAverage                     Integer    원본서버가 보낸 전체 평균 MPEG-DASH응답 개수
+.81. ``[vhostMin]``        resTotalCompleteAverage             Integer    원본서버로부터 성공한 평균 MPEG-DASH트랜잭션 개수
+.82. ``[vhostMin]``        resTotalTimeRes                     Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.83. ``[vhostMin]``        resTotalTimeComplete                Integer    원본서버로부터 응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]``        resTotalCount                       Integer    원본서버가 보낸 전체 MPEG-DASH응답 개수
+.85. ``[vhostMin]``        resTotalCompleteCount               Integer    원본서버로부터 성공한 MPEG-DASH트랜잭션 개수
+.90. ``[vhostMin]``        connectTimeoutAverage               Integer    평균 원본서버 접속실패 횟수
+.91. ``[vhostMin]``        receiveTimeoutAverage               Integer    평균 원본서버 전송실패 횟수
+.92. ``[vhostMin]``        connectAverage                      Integer    평균 원본서버 접속성공 횟수
+.93. ``[vhostMin]``        dnsQueryTime                        Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
+.94. ``[vhostMin]``        connectTime                         Integer    원본서버 평균 접속 소요시간(0.01ms)
+.95. ``[vhostMin]``        connectTimeoutCount                 Integer    원본서버 접속실패 횟수
+.96. ``[vhostMin]``        receiveTimeoutCount                 Integer    원본서버 전송실패 횟수
+.97. ``[vhostMin]``        connectCount                        Integer    원본서버 접속성공 횟수
+.98. ``[vhostMin]``        closeAverage                        Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
+.99. ``[vhostMin]``        closeCount                          Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
+========================== =================================== ========== ===================================================================
+
 
 
 
@@ -655,7 +780,7 @@ cache.host.traffic.origin.rtmp
 
 ::
    
-    OID = 1.3.6.1.4.1.40002.1.4.1.11.10.12
+    OID = 1.3.6.1.4.1.40002.1.4.1.11.10.20
 
 (지원예정) RTMP 원본서버 트래픽 통계를 제공한다.
                            
@@ -705,8 +830,11 @@ OID                        Name                                       Type      
 .6.11. ``[vhostMin]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
 .10                        http                                       OID        HTTP 트래픽 (확장)
 .11                        hls                                        OID        HLS 트래픽 (확장)
-.12                        rtmp                                       OID        RTMP 트래픽 (확장)
+.12                        mpegdash                                   OID        MPEG-DASH 트래픽 (확장)
+.20                        rtmp                                       OID        RTMP 트래픽 (확장)
 ========================== ========================================== ========== =============================================================
+
+
 
 
 .. _snmp-cache-host-traffic-client-http:                                                                                                           
@@ -803,6 +931,91 @@ cache.host.traffic.client.hls
    OID = 1.3.6.1.4.1.40002.1.4.1.11.11.11
                                                                                                                                               
 HLS 클라이언트 트래픽 통계를 제공한다. 
+
+========================== ========================================== ========== =============================================================
+OID                        Name                                       Type       Description                                                  
+========================== ========================================== ========== =============================================================
+.1. ``[vhostMin]``         inbound                                    Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
+.2. ``[vhostMin]``         outbound                                   Integer    클라이언트로 보내는 평균 트래픽(Bytes)
+.3. ``[vhostMin]``         allSessionAverage                          Integer    클라이언트 평균 세션수
+.4. ``[vhostMin]``         activeSessionAverage                       Integer    클라이언트 중 전송 중인 평균 세션수
+.5. ``[vhostMin]``         requestHitRatio                            Integer    Request Hit Ratio(100%)
+.6. ``[vhostMin]``                                                               Request Hit Ratio(10000%)
+.7                         requestHitAverage                          OID        평균 캐시 HIT결과
+.7.1. ``[vhostMin]``       requestHitAverage.TCP_HIT                  Integer    TCP_HIT
+.7.2. ``[vhostMin]``       requestHitAverage.TCP_IMS_HIT              Integer    TCP_IMS_HIT
+.7.3. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_HIT          Integer    TCP_REFRESH_HIT
+.7.4. ``[vhostMin]``       requestHitAverage.TCP_REF_FAIL_HIT         Integer    TCP_REF_FAIL_HIT
+.7.5. ``[vhostMin]``       requestHitAverage.TCP_NEGATIVE_HIT         Integer    TCP_NEGATIVE_HIT
+.7.6. ``[vhostMin]``       requestHitAverage.TCP_MISS                 Integer    TCP_MISS
+.7.7. ``[vhostMin]``       requestHitAverage.TCP_REFRESH_MISS         Integer    TCP_REFRESH_MISS
+.7.8. ``[vhostMin]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS  Integer    TCP_CLIENT_REFRESH_MISS
+.7.9. ``[vhostMin]``       requestHitAverage.TCP_DENIED               Integer    TCP_DENIED
+.7.10. ``[vhostMin]``      requestHitAverage.TCP_ERROR                Integer    TCP_ERROR
+.7.11. ``[vhostMin]``      requestHitAverage.TCP_REDIRECT_HIT         Integer    TCP_REDIRECT_HIT
+.8                         requestHitCount                            OID        캐시 HIT결과 개수
+.8.1. ``[vhostMin]``       requestHitCount.TCP_HIT                    Integer    TCP_HIT
+.8.2. ``[vhostMin]``       requestHitCount.TCP_IMS_HIT                Integer    TCP_IMS_HIT
+.8.3. ``[vhostMin]``       requestHitCount.TCP_REFRESH_HIT            Integer    TCP_REFRESH_HIT
+.8.4. ``[vhostMin]``       requestHitCount.TCP_REF_FAIL_HIT           Integer    TCP_REF_FAIL_HIT
+.8.5. ``[vhostMin]``       requestHitCount.TCP_NEGATIVE_HIT           Integer    TCP_NEGATIVE_HIT
+.8.6. ``[vhostMin]``       requestHitCount.TCP_MISS                   Integer    TCP_MISS
+.8.7. ``[vhostMin]``       requestHitCount.TCP_REFRESH_MISS           Integer    TCP_REFRESH_MISS
+.8.8. ``[vhostMin]``       requestHitCount.TCP_CLIENT_REFRESH_MISS    Integer    TCP_CLIENT_REFRESH_MISS
+.8.9. ``[vhostMin]``       requestHitCount.TCP_DENIED                 Integer    TCP_DENIED
+.8.10. ``[vhostMin]``      requestHitCount.TCP_ERROR                  Integer    TCP_ERROR
+.8.11. ``[vhostMin]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
+.10. ``[vhostMin]``        reqHeaderSize                              Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
+.11. ``[vhostMin]``        reqBodySize                                Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
+.12. ``[vhostMin]``        resHeaderSize                              Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
+.13. ``[vhostMin]``        resBodySize                                Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
+.14. ``[vhostMin]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
+.15. ``[vhostMin]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
+.20. ``[vhostMin]``        res2xxAverage                              Integer    클라이언트로 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]``        res2xxCompleteAverage                      Integer    클라이언트가 완료한 평균 2xx트랜잭션 개수
+.22. ``[vhostMin]``        res2xxTimeRes                              Integer    클라이언트 2xx응답 평균 소요시간(0.01ms)
+.23. ``[vhostMin]``        res2xxTimeComplete                         Integer    클라이언트 2xx응답 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]``        res2xxCount                                Integer    클라이언트로 보낸 2xx응답 개수
+.25. ``[vhostMin]``        res2xxCompleteCount                        Integer    클라이언트가 완료한 2xx트랜잭션 개수
+.30. ``[vhostMin]``        res3xxAverage                              Integer    클라이언트로 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]``        res3xxCompleteAverage                      Integer    클라이언트가 완료한 평균 3xx트랜잭션 개수
+.32. ``[vhostMin]``        res3xxTimeRes                              Integer    클라이언트 3xx응답 평균 소요시간(0.01ms)
+.33. ``[vhostMin]``        res3xxTimeComplete                         Integer    클라이언트 3xx응답 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]``        res3xxCount                                Integer    클라이언트로 보낸 3xx응답 개수
+.35. ``[vhostMin]``        res3xxCompleteCount                        Integer    클라이언트가 완료한 3xx트랜잭션 개수
+.40. ``[vhostMin]``        res4xxAverage                              Integer    클라이언트로 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]``        res4xxCompleteAverage                      Integer    클라이언트가 완료한 평균 4xx트랜잭션 개수
+.42. ``[vhostMin]``        res4xxTimeRes                              Integer    클라이언트 4xx응답 평균 소요시간(0.01ms)
+.43. ``[vhostMin]``        res4xxTimeComplete                         Integer    클라이언트 4xx응답 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]``        res4xxCount                                Integer    클라이언트로 보낸 4xx응답 개수
+.45. ``[vhostMin]``        res4xxCompleteCount                        Integer    클라이언트가 완료한 4xx트랜잭션 개수
+.50. ``[vhostMin]``        res5xxAverage                              Integer    클라이언트로 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]``        res5xxCompleteAverage                      Integer    클라이언트가 완료한 평균 5xx트랜잭션 개수
+.52. ``[vhostMin]``        res5xxTimeRes                              Integer    클라이언트 5xx응답 평균 소요시간(0.01ms)
+.53. ``[vhostMin]``        res5xxTimeComplete                         Integer    클라이언트 5xx응답 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]``        res5xxCount                                Integer    클라이언트로 보낸 5xx응답 개수
+.55. ``[vhostMin]``        res5xxCompleteCount                        Integer    클라이언트가 완료한 5xx트랜잭션 개수
+.80. ``[vhostMin]``        resTotalAverage                            Integer    클라이언트로 보낸 평균 전체응답 개수
+.81. ``[vhostMin]``        resTotalCompleteAverage                    Integer    클라이언트가 완료한 평균 트랜잭션 개수
+.82. ``[vhostMin]``        resTotalTimeRes                            Integer    클라이언트 응답 평균 소요시간(0.01ms)
+.83. ``[vhostMin]``        resTotalTimeComplete                       Integer    클라이언트 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]``        resTotalCount                              Integer    클라이언트로 보낸 전체응답 개수
+.85. ``[vhostMin]``        resTotalCompleteCount                      Integer    클라이언트가 완료한 트랜잭션 개수
+========================== ========================================== ========== =============================================================
+
+
+
+
+.. _snmp-cache-host-traffic-client-mpegdash:                                                                                                           
+                                                                                                                                              
+cache.host.traffic.client.mpegdash                                                                                                     
+---------------------                                                                                                                         
+                                                                                                                                              
+::                                                                                                                                            
+                                                                                                                                              
+   OID = 1.3.6.1.4.1.40002.1.4.1.11.11.12
+                                                                                                                                              
+MPEG-DASH 클라이언트 트래픽 통계를 제공한다. 
 
 ========================== ========================================== ========== =============================================================
 OID                        Name                                       Type       Description                                                  
@@ -1092,7 +1305,8 @@ OID                                           Name                              
 .4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                  Integer    전체 원본서버 세션수 중 전송 중인 평균 세션수
 .10                                           http                                  OID        HTTP 트래픽 (cache.vhost.traffic.origin.http)
 .11                                           hls                                   OID        HLS 트래픽 (cache.vhost.traffic.origin.hls)
-.12                                           rtmp                                  OID        RTMP 트래픽 (cache.vhost.traffic.origin.rtmp)
+.12                                           mpegdash                              OID        MPEG-DASH 트래픽 (cache.vhost.traffic.origin.mpegdash)
+.20                                           rtmp                                  OID        RTMP 트래픽 (cache.vhost.traffic.origin.rtmp)
 ============================================= ===================================== ========== =================================================================
 
 
@@ -1164,7 +1378,7 @@ OID                                           Name                              
 
 
 
-                           
+
 .. _snmp-cache-vhost-traffic-origin-hls:
 
 cache.vhost.traffic.origin.hls
@@ -1174,7 +1388,133 @@ cache.vhost.traffic.origin.hls
    
     OID = 1.3.6.1.4.1.40002.1.4.3.1.11.10.11
 
-(지원예정) HLS 원본서버 트래픽 통계를 제공한다.
+HLS 원본서버 트래픽 통계를 제공한다.
+
+============================================= ===================================== ========== =================================================================
+OID                                           Name                                  Type       Description
+============================================= ===================================== ========== =================================================================
+.1. ``[vhostMin]`` . ``[vhostIndex]``         inbound                               Integer    원본서버로부터 받는 평균 HLS 트래픽(Bytes)
+.2. ``[vhostMin]`` . ``[vhostIndex]``         outbound                              Integer    원본서버로 보내는 평균 HLS 트래픽(Bytes)
+.3. ``[vhostMin]`` . ``[vhostIndex]``         allSessionAverage                     Integer    원본서버 평균 HLS세션 수
+.4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                  Integer    원본서버 평균 HLS세션 중 전송 중인 평균 세션수
+.10. ``[vhostMin]`` . ``[vhostIndex]``        reqHeaderSize                         Integer    원본서버로 보내는 평균 HLS Header 트래픽(Bytes)
+.11. ``[vhostMin]`` . ``[vhostIndex]``        reqBodySize                           Integer    원본서버로 보내는 평균 HLS Body 트래픽(Bytes)
+.12. ``[vhostMin]`` . ``[vhostIndex]``        resHeaderSize                         Integer    원본서버로부터 받는 평균 HLS Header트래픽(Bytes)
+.13. ``[vhostMin]`` . ``[vhostIndex]``        resBodySize                           Integer    원본서버로부터 받는 평균 HLS Body트래픽(Bytes)
+.14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                            Integer    원본서버로 보낸 평균 HLS요청 개수
+.15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                              Integer    원본서버로 보낸 HLS요청 개수
+.20. ``[vhostMin]`` . ``[vhostIndex]``        res2xxAverage                         Integer    원본서버가 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
+.22. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeRes                         Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.23. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeComplete                    Integer    원본서버로부터 2xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCount                           Integer    원본서버가 보낸 2xx응답 개수
+.25. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteCount                   Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
+.30. ``[vhostMin]`` . ``[vhostIndex]``        res3xxAverage                         Integer    원본서버가 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
+.32. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeRes                         Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.33. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeComplete                    Integer    원본서버로부터 3xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCount                           Integer    원본서버가 보낸 3xx응답 개수
+.35. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteCount                   Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
+.40. ``[vhostMin]`` . ``[vhostIndex]``        res4xxAverage                         Integer    원본서버가 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
+.42. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeRes                         Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.43. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeComplete                    Integer    원본서버로부터 4xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCount                           Integer    원본서버가 보낸 4xx응답 개수
+.45. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteCount                   Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
+.50. ``[vhostMin]`` . ``[vhostIndex]``        res5xxAverage                         Integer    원본서버가 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
+.52. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeRes                         Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.53. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeComplete                    Integer    원본서버로부터 5xx응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCount                           Integer    원본서버가 보낸 5xx응답 개수
+.55. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteCount                   Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
+.80. ``[vhostMin]`` . ``[vhostIndex]``        resTotalAverage                       Integer    원본서버가 보낸 전체 평균 HLS응답 개수
+.81. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteAverage               Integer    원본서버로부터 성공한 평균 HLS트랜잭션 개수
+.82. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeRes                       Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.83. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeComplete                  Integer    원본서버로부터 응답 HLS 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCount                         Integer    원본서버가 보낸 전체 HLS응답 개수
+.85. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteCount                 Integer    원본서버로부터 성공한 HLS트랜잭션 개수
+.90. ``[vhostMin]`` . ``[vhostIndex]``        connectTimeoutAverage                 Integer    평균 원본서버 접속실패 횟수
+.91. ``[vhostMin]`` . ``[vhostIndex]``        receiveTimeoutAverage                 Integer    평균 원본서버 전송실패 횟수
+.92. ``[vhostMin]`` . ``[vhostIndex]``        connectAverage                        Integer    평균 원본서버 접속성공 횟수
+.93. ``[vhostMin]`` . ``[vhostIndex]``        dnsQueryTime                          Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
+.94. ``[vhostMin]`` . ``[vhostIndex]``        connectTime                           Integer    원본서버 평균 접속 소요시간(0.01ms)
+.95. ``[vhostMin]`` . ``[vhostIndex]``        connectTimeoutCount                   Integer    원본서버 접속실패 횟수
+.96. ``[vhostMin]`` . ``[vhostIndex]``        receiveTimeoutCount                   Integer    원본서버 전송실패 횟수
+.97. ``[vhostMin]`` . ``[vhostIndex]``        connectCount                          Integer    원본서버 접속성공 횟수
+.98. ``[vhostMin]`` . ``[vhostIndex]``        closeAverage                          Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
+.99. ``[vhostMin]`` . ``[vhostIndex]``        closeCount                            Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
+============================================= ===================================== ========== =================================================================
+
+
+
+
+.. _snmp-cache-vhost-traffic-origin-mpegdash:
+
+cache.vhost.traffic.origin.mpegdash
+---------------------
+
+::
+   
+    OID = 1.3.6.1.4.1.40002.1.4.3.1.11.10.12
+
+MPEG-DASH 원본서버 트래픽 통계를 제공한다.
+
+============================================= ===================================== ========== =================================================================
+OID                                           Name                                  Type       Description
+============================================= ===================================== ========== =================================================================
+.1. ``[vhostMin]`` . ``[vhostIndex]``         inbound                               Integer    원본서버로부터 받는 평균 MPEG-DASH 트래픽(Bytes)
+.2. ``[vhostMin]`` . ``[vhostIndex]``         outbound                              Integer    원본서버로 보내는 평균 MPEG-DASH 트래픽(Bytes)
+.3. ``[vhostMin]`` . ``[vhostIndex]``         allSessionAverage                     Integer    원본서버 평균 MPEG-DASH세션 수
+.4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                  Integer    원본서버 평균 MPEG-DASH세션 중 전송 중인 평균 세션수
+.10. ``[vhostMin]`` . ``[vhostIndex]``        reqHeaderSize                         Integer    원본서버로 보내는 평균 MPEG-DASH Header 트래픽(Bytes)
+.11. ``[vhostMin]`` . ``[vhostIndex]``        reqBodySize                           Integer    원본서버로 보내는 평균 MPEG-DASH Body 트래픽(Bytes)
+.12. ``[vhostMin]`` . ``[vhostIndex]``        resHeaderSize                         Integer    원본서버로부터 받는 평균 MPEG-DASH Header트래픽(Bytes)
+.13. ``[vhostMin]`` . ``[vhostIndex]``        resBodySize                           Integer    원본서버로부터 받는 평균 MPEG-DASH Body트래픽(Bytes)
+.14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                            Integer    원본서버로 보낸 평균 MPEG-DASH요청 개수
+.15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                              Integer    원본서버로 보낸 MPEG-DASH요청 개수
+.20. ``[vhostMin]`` . ``[vhostIndex]``        res2xxAverage                         Integer    원본서버가 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 2xx 트랜잭션 개수
+.22. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeRes                         Integer    원본서버로부터 2xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.23. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeComplete                    Integer    원본서버로부터 2xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCount                           Integer    원본서버가 보낸 2xx응답 개수
+.25. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteCount                   Integer    원본서버로부터 성공한 2xx 트랜잭션 개수
+.30. ``[vhostMin]`` . ``[vhostIndex]``        res3xxAverage                         Integer    원본서버가 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 3xx 트랜잭션 개수
+.32. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeRes                         Integer    원본서버로부터 3xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.33. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeComplete                    Integer    원본서버로부터 3xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCount                           Integer    원본서버가 보낸 3xx응답 개수
+.35. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteCount                   Integer    원본서버로부터 성공한 3xx 트랜잭션 개수
+.40. ``[vhostMin]`` . ``[vhostIndex]``        res4xxAverage                         Integer    원본서버가 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 4xx 트랜잭션 개수
+.42. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeRes                         Integer    원본서버로부터 4xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.43. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeComplete                    Integer    원본서버로부터 4xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCount                           Integer    원본서버가 보낸 4xx응답 개수
+.45. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteCount                   Integer    원본서버로부터 성공한 4xx 트랜잭션 개수
+.50. ``[vhostMin]`` . ``[vhostIndex]``        res5xxAverage                         Integer    원본서버가 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteAverage                 Integer    원본서버로부터 성공한 평균 5xx 트랜잭션 개수
+.52. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeRes                         Integer    원본서버로부터 5xx응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.53. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeComplete                    Integer    원본서버로부터 5xx응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCount                           Integer    원본서버가 보낸 5xx응답 개수
+.55. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteCount                   Integer    원본서버로부터 성공한 5xx 트랜잭션 개수
+.80. ``[vhostMin]`` . ``[vhostIndex]``        resTotalAverage                       Integer    원본서버가 보낸 전체 평균 MPEG-DASH응답 개수
+.81. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteAverage               Integer    원본서버로부터 성공한 평균 MPEG-DASH트랜잭션 개수
+.82. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeRes                       Integer    원본서버로부터 응답 헤더를 받을때까지 평균 소요시간(0.01ms)
+.83. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeComplete                  Integer    원본서버로부터 응답 MPEG-DASH 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCount                         Integer    원본서버가 보낸 전체 MPEG-DASH응답 개수
+.85. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteCount                 Integer    원본서버로부터 성공한 MPEG-DASH트랜잭션 개수
+.90. ``[vhostMin]`` . ``[vhostIndex]``        connectTimeoutAverage                 Integer    평균 원본서버 접속실패 횟수
+.91. ``[vhostMin]`` . ``[vhostIndex]``        receiveTimeoutAverage                 Integer    평균 원본서버 전송실패 횟수
+.92. ``[vhostMin]`` . ``[vhostIndex]``        connectAverage                        Integer    평균 원본서버 접속성공 횟수
+.93. ``[vhostMin]`` . ``[vhostIndex]``        dnsQueryTime                          Integer    원본서버 접속 시 평균 DNS쿼리 소요시간
+.94. ``[vhostMin]`` . ``[vhostIndex]``        connectTime                           Integer    원본서버 평균 접속 소요시간(0.01ms)
+.95. ``[vhostMin]`` . ``[vhostIndex]``        connectTimeoutCount                   Integer    원본서버 접속실패 횟수
+.96. ``[vhostMin]`` . ``[vhostIndex]``        receiveTimeoutCount                   Integer    원본서버 전송실패 횟수
+.97. ``[vhostMin]`` . ``[vhostIndex]``        connectCount                          Integer    원본서버 접속성공 횟수
+.98. ``[vhostMin]`` . ``[vhostIndex]``        closeAverage                          Integer    전송 중 원본서버에서 먼저 소켓을 종료한 평균 횟수
+.99. ``[vhostMin]`` . ``[vhostIndex]``        closeCount                            Integer    전송 중 원본서버에서 먼저 소켓을 종료한 횟수
+============================================= ===================================== ========== =================================================================
+
+
 
 
 
@@ -1185,7 +1525,7 @@ cache.vhost.traffic.origin.rtmp
 
 ::
    
-    OID = 1.3.6.1.4.1.40002.1.4.3.1.11.10.12
+    OID = 1.3.6.1.4.1.40002.1.4.3.1.11.10.20
 
 (지원예정) RTMP 원본서버 트래픽 통계를 제공한다.
                            
@@ -1236,7 +1576,8 @@ OID                                           Name                              
 .6.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
 .10                                           http                                       OID        HTTP 트래픽 (cache.vhost.traffic.client.http)
 .11                                           hls                                        OID        HLS 트래픽 (cache.vhost.traffic.client.hls)
-.12                                           rtmp                                       OID        RTMP 트래픽 (cache.vhost.traffic.client.rtmp)
+.12                                           mpegdash                                   OID        MPEG-DASH 트래픽 (cache.vhost.traffic.client.mpegdash)
+.20                                           rtmp                                       OID        RTMP 트래픽 (cache.vhost.traffic.client.rtmp)
 ============================================= ========================================== ========== ==============================================================
 
 
@@ -1411,6 +1752,91 @@ OID                                           Name                              
 
 
 
+.. _snmp-cache-vhost-traffic-client-mpegdash:
+
+cache.vhost.traffic.client.mpegdash
+---------------------
+
+::
+
+   OID = 1.3.6.1.4.1.40002.1.4.3.1.11.11.12
+
+MPEG-DASH 클라이언트 트래픽 통계를 제공한다.                                                                                                                      
+                                                                                                                                              
+============================================= ========================================== ========== ==============================================================
+OID                                           Name                                       Type       Description                                                  
+============================================= ========================================== ========== ==============================================================
+.1. ``[vhostMin]`` . ``[vhostIndex]``         inbound                                    Integer    클라이언트로부터 받는 평균 트래픽(Bytes)
+.2. ``[vhostMin]`` . ``[vhostIndex]``         outbound                                   Integer    클라이언트로 보내는 평균 트래픽(Bytes)
+.3. ``[vhostMin]`` . ``[vhostIndex]``         allSessionAverage                          Integer    클라이언트 평균 세션수
+.4. ``[vhostMin]`` . ``[vhostIndex]``         activeSessionAverage                       Integer    클라이언트 중 전송 중인 평균 세션수
+.5. ``[vhostMin]`` . ``[vhostIndex]``         requestHitRatio                            Integer    Request Hit Ratio(100%)
+.6. ``[vhostMin]`` . ``[vhostIndex]``                                                               Request Hit Ratio(10000%)
+.7                                            requestHitAverage                          OID        평균 캐시 HIT결과
+.7.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_HIT                  Integer    TCP_HIT
+.7.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_IMS_HIT              Integer    TCP_IMS_HIT
+.7.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_HIT          Integer    TCP_REFRESH_HIT
+.7.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REF_FAIL_HIT         Integer    TCP_REF_FAIL_HIT
+.7.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_NEGATIVE_HIT         Integer    TCP_NEGATIVE_HIT
+.7.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_MISS                 Integer    TCP_MISS
+.7.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_REFRESH_MISS         Integer    TCP_REFRESH_MISS
+.7.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_CLIENT_REFRESH_MISS  Integer    TCP_CLIENT_REFRESH_MISS
+.7.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitAverage.TCP_DENIED               Integer    TCP_DENIED
+.7.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_ERROR                Integer    TCP_ERROR
+.7.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitAverage.TCP_REDIRECT_HIT         Integer    TCP_REDIRECT_HIT
+.8                                            requestHitCount                            OID        캐시 HIT결과 개수
+.8.1. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_HIT                    Integer    TCP_HIT
+.8.2. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_IMS_HIT                Integer    TCP_IMS_HIT
+.8.3. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_HIT            Integer    TCP_REFRESH_HIT
+.8.4. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REF_FAIL_HIT           Integer    TCP_REF_FAIL_HIT
+.8.5. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_NEGATIVE_HIT           Integer    TCP_NEGATIVE_HIT
+.8.6. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_MISS                   Integer    TCP_MISS
+.8.7. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_REFRESH_MISS           Integer    TCP_REFRESH_MISS
+.8.8. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_CLIENT_REFRESH_MISS    Integer    TCP_CLIENT_REFRESH_MISS
+.8.9. ``[vhostMin]`` . ``[vhostIndex]``       requestHitCount.TCP_DENIED                 Integer    TCP_DENIED
+.8.10. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_ERROR                  Integer    TCP_ERROR
+.8.11. ``[vhostMin]`` . ``[vhostIndex]``      requestHitCount.TCP_REDIRECT_HIT           Integer    TCP_REDIRECT_HIT
+.10. ``[vhostMin]`` . ``[vhostIndex]``        reqHeaderSize                              Integer    클라이언트로부터 받는 평균 Header 트래픽(Bytes)
+.11. ``[vhostMin]`` . ``[vhostIndex]``        reqBodySize                                Integer    클라이언트로부터 받는 평균 Body 트래픽(Bytes)
+.12. ``[vhostMin]`` . ``[vhostIndex]``        resHeaderSize                              Integer    클라이언트로 보내는 평균 Header트래픽(Bytes)
+.13. ``[vhostMin]`` . ``[vhostIndex]``        resBodySize                                Integer    클라이언트로 보내는 평균 Body트래픽(Bytes)
+.14. ``[vhostMin]`` . ``[vhostIndex]``        reqAverage                                 Integer    클라이언트로부터 받은 평균요청 개수
+.15. ``[vhostMin]`` . ``[vhostIndex]``        reqCount                                   Integer    클라이언트로부터 받은 누적요청 개수
+.20. ``[vhostMin]`` . ``[vhostIndex]``        res2xxAverage                              Integer    클라이언트로 보낸 평균 2xx응답 개수
+.21. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteAverage                      Integer    클라이언트가 완료한 평균 2xx트랜잭션 개수
+.22. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeRes                              Integer    클라이언트 2xx응답 평균 소요시간(0.01ms)
+.23. ``[vhostMin]`` . ``[vhostIndex]``        res2xxTimeComplete                         Integer    클라이언트 2xx응답 트랜잭션 평균 완료시간(0.01ms)
+.24. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCount                                Integer    클라이언트로 보낸 2xx응답 개수
+.25. ``[vhostMin]`` . ``[vhostIndex]``        res2xxCompleteCount                        Integer    클라이언트가 완료한 2xx트랜잭션 개수
+.30. ``[vhostMin]`` . ``[vhostIndex]``        res3xxAverage                              Integer    클라이언트로 보낸 평균 3xx응답 개수
+.31. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteAverage                      Integer    클라이언트가 완료한 평균 3xx트랜잭션 개수
+.32. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeRes                              Integer    클라이언트 3xx응답 평균 소요시간(0.01ms)
+.33. ``[vhostMin]`` . ``[vhostIndex]``        res3xxTimeComplete                         Integer    클라이언트 3xx응답 트랜잭션 평균 완료시간(0.01ms)
+.34. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCount                                Integer    클라이언트로 보낸 3xx응답 개수
+.35. ``[vhostMin]`` . ``[vhostIndex]``        res3xxCompleteCount                        Integer    클라이언트가 완료한 3xx트랜잭션 개수
+.40. ``[vhostMin]`` . ``[vhostIndex]``        res4xxAverage                              Integer    클라이언트로 보낸 평균 4xx응답 개수
+.41. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteAverage                      Integer    클라이언트가 완료한 평균 4xx트랜잭션 개수
+.42. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeRes                              Integer    클라이언트 4xx응답 평균 소요시간(0.01ms)
+.43. ``[vhostMin]`` . ``[vhostIndex]``        res4xxTimeComplete                         Integer    클라이언트 4xx응답 트랜잭션 평균 완료시간(0.01ms)
+.44. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCount                                Integer    클라이언트로 보낸 4xx응답 개수
+.45. ``[vhostMin]`` . ``[vhostIndex]``        res4xxCompleteCount                        Integer    클라이언트가 완료한 4xx트랜잭션 개수
+.50. ``[vhostMin]`` . ``[vhostIndex]``        res5xxAverage                              Integer    클라이언트로 보낸 평균 5xx응답 개수
+.51. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteAverage                      Integer    클라이언트가 완료한 평균 5xx트랜잭션 개수
+.52. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeRes                              Integer    클라이언트 5xx응답 평균 소요시간(0.01ms)
+.53. ``[vhostMin]`` . ``[vhostIndex]``        res5xxTimeComplete                         Integer    클라이언트 5xx응답 트랜잭션 평균 완료시간(0.01ms)
+.54. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCount                                Integer    클라이언트로 보낸 5xx응답 개수
+.55. ``[vhostMin]`` . ``[vhostIndex]``        res5xxCompleteCount                        Integer    클라이언트가 완료한 5xx트랜잭션 개수
+.80. ``[vhostMin]`` . ``[vhostIndex]``        resTotalAverage                            Integer    클라이언트로 보낸 평균 전체응답 개수
+.81. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteAverage                    Integer    클라이언트가 완료한 평균 트랜잭션 개수
+.82. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeRes                            Integer    클라이언트 응답 평균 소요시간(0.01ms)
+.83. ``[vhostMin]`` . ``[vhostIndex]``        resTotalTimeComplete                       Integer    클라이언트 트랜잭션 평균 완료시간(0.01ms)
+.84. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCount                              Integer    클라이언트로 보낸 전체응답 개수
+.85. ``[vhostMin]`` . ``[vhostIndex]``        resTotalCompleteCount                      Integer    클라이언트가 완료한 트랜잭션 개수
+============================================= ========================================== ========== ==============================================================
+
+
+
+
 .. _snmp-cache-vhost-traffic-client-rtmp:
                                                                                                                                               
 cache.vhost.traffic.client.rtmp
@@ -1418,7 +1844,7 @@ cache.vhost.traffic.client.rtmp
                                                                                                                                               
 ::                                                                                                                                            
                                                                                                                                               
-   OID = 1.3.6.1.4.1.40002.1.4.3.1.11.11.12
+   OID = 1.3.6.1.4.1.40002.1.4.3.1.11.11.20
                                                                                                                                               
 RTMP 클라이언트 트래픽 통계를 제공한다. 
 
