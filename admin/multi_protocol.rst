@@ -728,14 +728,14 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 
 .. _multi-protocol-apple-hls-mp4segmentation:
 
-MP4 Segmentation
+MP4 Packetizing
 ------------------------------------
-MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <MP4 Status="Active">
+   <MP4 Packetizing="ON">
       <Index Ver="3" Alternates="ON">index.m3u8</Index>
       <Sequence>0</Sequence>
       <Duration>10</Duration>
@@ -744,7 +744,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구
 
 -  ``<MP4>``
 
-   - ``Status (기본: Active)`` 값이 ``Inactive`` 라면 비활성화된다.
+   - ``Packetizing (기본: ON)`` 값이 ``OFF`` 라면 원본서버의 HLS 파일들을 릴레이한다.
 
 -  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
 
@@ -863,15 +863,15 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 분할하고 인덱스 파일을 구
 
 .. _multi-protocol-apple-hls-mp3segmentation:
 
-MP3 Segmentation
+MP3 Packetizing
 ------------------------------------
 
-MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+MP3 파일을 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <MP3 Status="Active" SegmentType="TS">
+   <MP3 Packetizing="ON" SegmentType="TS">
        <Index Ver="3" Alternates="ON">index.m3u8</Index>
        <Sequence>0</Sequence>
        <Duration>10</Duration>
@@ -884,3 +884,14 @@ MP3 파일을 분할하고 인덱스 파일을 구성하는 정책을 설정한�
 
 그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
 
+
+
+
+
+.. _multi-protocol-mpeg-dash:
+
+MPEG-DASH
+====================================
+
+현재는 캐싱기반의 릴레이 전송만 지원하며 향후 Packetizing과 전용 설정을 제공할 계획이다. 
+MPEG-DASH에서 사용하는 확장자(.mpd, mp4v, mp4a, m4s)와 관련된 전송은 별도의 MPEG-DASH 통계로 수집된다.
