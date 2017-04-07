@@ -200,7 +200,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
     http://127.0.0.1:20040/graph/vhost/client_traffic_*.png?vhost=www.example.com&protocol=all
 
-``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` 중 선택할 수 있다.
+``protocol`` 의 값은 ``all (기본)`` , ``rtmp`` , ``http`` , ``hls`` ,  ``mpegdash`` 중 선택할 수 있다.
 프로토콜별 그래프를 지원하는 경우 소제목 옆에 지원 프로토콜을 을 명시한다.
 
 아래 목록에서 *는 타입(dash, day, week, month, year) 중 한 가지를 의미한다.
@@ -226,7 +226,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-히트율 ``all`` ``rtmp`` ``http`` ``hls``
+히트율 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -238,7 +238,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 세션 ``all`` ``rtmp`` ``http`` ``hls``
+클라이언트 세션 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -249,7 +249,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 트래픽 ``all`` ``rtmp`` ``http`` ``hls``
+클라이언트 트래픽 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -260,7 +260,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 응답 ``all`` ``rtmp`` ``http`` ``hls``
+클라이언트 응답 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -271,7 +271,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 트랜잭션 ``http`` ``hls``
+클라이언트 트랜잭션 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -282,7 +282,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 응답시간 ``all`` ``rtmp`` ``http`` ``hls``
+클라이언트 응답시간 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -292,7 +292,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 완료시간 ``http`` ``hls``
+클라이언트 완료시간 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -302,7 +302,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 캐싱응답 ``all`` ``rtmp`` ``http`` ``hls``
+클라이언트 캐싱응답 ``all`` ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -313,12 +313,13 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-클라이언트 상세응답
+클라이언트 상세응답 ``rtmp`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
     /graph/vhost/client_http_res_detail_*.png
     /graph/vhost/client_hls_res_detail_*.png
+    /graph/vhost/client_mpegdash_res_detail_*.png
 
 .. figure:: img/graph_rescode_detail.png
 
@@ -330,7 +331,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 .. figure:: img/sms_rtmp_graph_detail.png
 
 
-원본서버 세션 ``all`` ``http``
+원본서버 세션 ``all`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -341,7 +342,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 트래픽 ``all`` ``http``
+원본서버 트래픽 ``all`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -352,7 +353,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 응답 ``all`` ``http``
+원본서버 응답 ``all`` ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -363,7 +364,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 트랜잭션 ``http``
+원본서버 트랜잭션 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -374,7 +375,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 응답시간 ``http``
+원본서버 응답시간 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -384,7 +385,7 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 완료시간 ``http``
+원본서버 완료시간 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
@@ -394,10 +395,12 @@ vhost파라미터를 이용하여 특정 가상호스트를 지정할 수 있으
 
 
 
-원본서버 상세응답
+원본서버 상세응답 ``http`` ``hls`` ``mpegdash``
 ---------------------
 ::
 
     /graph/vhost/origin_http_res_detail_*.png
+    /graph/vhost/origin_hls_res_detail_*.png
+    /graph/vhost/origin_mpegdash_res_detail_*.png
 
 .. figure:: img/graph_rescode_detail.png
