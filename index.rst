@@ -60,3 +60,4 @@ STON Media Server 완벽 가이드
 
    admin/graph
    admin/releasenote.rst
+   admin/references.rst
