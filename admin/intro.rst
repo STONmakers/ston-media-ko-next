@@ -137,14 +137,17 @@ Work Flow
 STON 미디어 서버를 이용하면 서비스 Work flow를 보다 간결하고 확장가능하도록 구축할 수 있다.
 실시간 미디어 분석과 Packetizing은 STON 캐싱엔진을 통해 재활용되어 성능이 극대화된다.
 
+
    .. figure:: img/sms_intro_workflow1.png
       :align: center
+
       단 1번만 Packetizing된다.
 
 가상호스트를 통해 VOD와 LIVE 서비스를 통합하여 운영/모니터링할 수 있다.
 
    .. figure:: img/sms_intro_workflow2.png
       :align: center
+
       캐싱을 통해 전송능력이 극대화된다.
 
 
