@@ -196,12 +196,12 @@ WM에서는 색으로 재정의를 구분한다.
 
 
 
-서비스 그래프
+서비스 상태
 ====================================
 
 모든 서비스 상태에 대해서는 RRD 그래프가 제공된다. ( :ref:`api-graph` 참조 )
 
-.. figure:: img_wm/sms_wm_service_stats1.png
+.. figure:: img_wm/sms_wm_service_stats2.png
    :align: center
 
 모든 그래프는 일, 주, 월, 년 단위로 그래프가 제공된다.
