@@ -7,11 +7,16 @@
 WM은 Web Interface로 동작하는 STON 미디어 서버 관리 도구이다.
 사용자는 WM을 통하여 직관적으로 서비스를 구성할 수 있을 뿐만 아니라 클러스터를 구성하여 많은 수의 STON 미디어 서버를 통합관리 할 수 있다.
 
-STON 미디어 서버를 설치하면 /usr/local/StonMediaServer/wm 경로에 WM이 설치된다.
-WM은 Apache 2.2.24 + PHP 5.3.24으로 구현되었다.
-Apache를 사용하므로 /usr/local/StonMediaServer/wm/conf/httpd.conf 파일을 편집하여 원하는 구성(예를 들어 HTTPS)으로 변경이 가능하다.
+STON 미디어 서버를 설치하면 다음 경로에 WM이 설치된다. ::
 
-하지만 WM과 STON 미디어 서버는 느슨하게 결합되어 있다.
+    /usr/local/StonMediaServer/wm
+
+WM은 Apache 2.2.24 + PHP 5.3.24으로 구현되었다.
+Apache를 사용하므로 httpd.conf 파일을 편집하여 원하는 구성(예를 들어 HTTPS)으로 변경이 가능하다. ::
+
+   /usr/local/StonMediaServer/wm/conf/httpd.conf
+
+WM과 STON 미디어 서버는 느슨하게 결합되어 있다.
 다음 그림처럼 WM은 STON 미디어 서버의 설정파일과 API만을 사용하여 STON 미디어 서버의 동작을 구성한다.
 
 .. figure:: img_wm/sms_wm_basic.png
@@ -57,12 +62,10 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 최신버전 업데이트
 ====================================
 
-최신버전이 릴리스되면 다음과 같이 "새로운 업데이트가 있습니다" 메시지가 표시된다.
+최신버전이 릴리스되면 탑 메뉴 우측에 "새로운 업데이트가 있습니다" 메시지가 표시된다.
 
 .. figure:: img_wm/sms_wm_update_full.png
    :align: center
-
-   새로운 업데이트가 있습니다.
 
 메시지를 클릭하시면 최신버전으로 업데이트할 수 있는 페이지가 표시된다.
 현재 서비스 상태에 따라 업데이트 안전도 여부가 표시된다.
@@ -128,8 +131,6 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 
 가상호스트를 추가/삭제/수정할 수 있다. 
 모든 가상호스트는 따로 명시적으로 설정을 변경하지 않는 이상 :ref:`vhost-defaultvhost` 의 설정을 사용한다.
-이는 객체지향의 상속(Inheritance)과 같은 개념이다.
-서비스 가상호스트는 대부분의 항목을 재정의(Overriding)할 수 있다.
 
 
 신규
@@ -137,7 +138,8 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 
 새롭게 서비스할 가상호스트를 생성한다.
 클러스터가 설정되어 있는 경우 모든 서버에 가상호스트를 동시생성 할 수 있다.
-모든 가상호스트는 기본 가상호스트(VHostDefault)를 상속받으므로 가상호스트명과 원본서버 주소만 설정하면 곧바로 서비스 투입이 가능하다.
+
+모든 가상호스트는 :ref:`vhost-defaultvhost` 를 상속받으므로 가상호스트명과 원본서버 주소만 설정하면 곧바로 서비스 투입이 가능하다.
 여러 개의 하위 설정이 있으며 **펼쳐보기** 버튼을 눌러 상세 설정으로 확장할 수 있다.
 
 .. figure:: img_wm/sms_wm_vhost_new.png
@@ -165,10 +167,10 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 
 기본 가상호스트(VHostDefault)와 개별 가상호스트에 대해 설정한다.
 좌측상단의 콤보박스를 선택하여 가상호스트를 선택할 수 있다.
-** :ref:`vhost-defaultvhost` ** 는 모든 가상호스트가 상속받는 기본 설정이다.
+:ref:`vhost-defaultvhost` 는 모든 가상호스트가 상속받는 기본 설정이다.
 그러므로 별도로 재정의(Overriding)하지 않은 설정의 경우 :ref:`vhost-defaultvhost`를 변경하면 변경된 설정이 반영된다.
 
-.. figure:: img/sms_wm_vhost_menu.png
+.. figure:: img_wm/sms_wm_vhost_menu.png
    :align: center
 
    WM 가상호스트 설정 - 상단메뉴
@@ -177,19 +179,34 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 각 메뉴 클릭시 아래 그림처럼 상세설정 페이지가 제공된다.
 모든 설정은 "적용" 또는 "Cluster전체적용" 버튼을 눌러야 반영된다.
 
-.. figure:: img/wm_vhost_conf_sub1.png
+.. figure:: img_wm/wm_vhost_conf_sub1.png
    :align: center
 
    WM 가상호스트 설정 - 원본서버
 
 여기서 설정하는 거의 모든 항목은 재정의될 수 있는 설정이므로 이에 대한 명확한 이해가 필요하다.
-( :ref:`conf-struct-vhostdefault` 의 예제 참조)
+( :ref:`conf-struct-vhostdefault` 예제 참조)
 
 WM에서는 색으로 재정의를 구분한다.
 기본 가상호스트의 설정을 그대로 사용하는 경우 ``흰색`` 배경으로 표시된다.
 재정의된 값은 ``살구색`` 으로 표시되어 기본값과 구분된다.
-모든 재정의 설정의 우측에는 ``X버튼`` 이 제공된다.
+모든 재정의 설정의 우측에는 ``X`` 버튼이 제공된다.
 이 버튼을 클릭하여 재정의를 해지한다.
+
+
+
+
+
+서비스 그래프
+====================================
+
+서비스 상태에 대해 
+
+.. figure:: img/wm_vstat3.png
+   :align: center
+
+   가상호스트 서비스상태
+
 
 
 
@@ -208,7 +225,7 @@ WM에서는 색으로 재정의를 구분한다.
 클러스터 추가에는 WM계정의 인증절차가 필요하다.
 만약 같은 계정(아이디와 비밀번호)으로 WM이 구성되어 있다면 인증절차는 생략된다.
 
-.. figure:: img_wm/wm_clussms_wm_cluster_port1.png
+.. figure:: img_wm/sms_wm_cluster_port1.png
    :align: center
 
    신규 클러스터 생성
@@ -289,7 +306,7 @@ WM에서는 색으로 재정의를 구분한다.
 클러스터의 모든 가상호스트를 동시에 시작/중지할 수 있다.
 가상호스트 목록을 구성하는 각 항목을 클릭하면 보다 상세한 정보를 확인할 수 있다.
 
-.. figure:: img_wm/wm_cluseter4.png
+.. figure:: img/wm_cluseter4.png
    :align: center
 
    가상호스트 서비스별 상태
@@ -319,17 +336,6 @@ WM에서는 색으로 재정의를 구분한다.
 가동 중인 서버의 시스템 정보를 조회한다.
 
 
-.. figure:: img_wm/wm_gstat1.png
+.. figure:: img_wm/sms_wm_hwinfo1.png
    :align: center
 
-
-
-서비스 상태
-====================================
-
-가상호스트별로 서비스 상태를 모니터링 한다.
-
-.. figure:: img/wm_vstat3.png
-   :align: center
-
-   가상호스트 서비스상태
