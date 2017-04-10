@@ -168,18 +168,17 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 기본 가상호스트(VHostDefault)와 개별 가상호스트에 대해 설정한다.
 좌측상단의 콤보박스를 선택하여 가상호스트를 선택할 수 있다.
 :ref:`vhost-defaultvhost` 는 모든 가상호스트가 상속받는 기본 설정이다.
-그러므로 별도로 재정의(Overriding)하지 않은 설정의 경우 :ref:`vhost-defaultvhost`를 변경하면 변경된 설정이 반영된다.
+그러므로 별도로 재정의(Overriding)하지 않은 설정의 경우 :ref:`vhost-defaultvhost` 를 의 설정이 반영된다.
 
 .. figure:: img_wm/sms_wm_vhost_menu.png
    :align: center
 
    WM 가상호스트 설정 - 상단메뉴
 
-위 그림처럼 많은 하위메뉴가 제공되며 현재 선택된 하위메뉴가 붉은 색으로 표시된다.
-각 메뉴 클릭시 아래 그림처럼 상세설정 페이지가 제공된다.
+위 그림처럼 가상호스트에서 설정할 수 있는 세부메뉴가 제공되며 현재 선택된 세부메뉴가 붉은 색으로 표시된다.
 모든 설정은 "적용" 또는 "Cluster전체적용" 버튼을 눌러야 반영된다.
 
-.. figure:: img_wm/wm_vhost_conf_sub1.png
+.. figure:: img_wm/sms_wm_vhost_conf_origin.png
    :align: center
 
    WM 가상호스트 설정 - 원본서버
@@ -200,13 +199,15 @@ WM에서는 색으로 재정의를 구분한다.
 서비스 그래프
 ====================================
 
-서비스 상태에 대해 
+모든 서비스 상태에 대해서는 RRD 그래프가 제공된다. ( :ref:`api-graph` 참조 )
+
+.. figure:: img_wm/sms_wm_service_stats1.png
+   :align: center
+
+모든 그래프는 일, 주, 월, 년 단위로 그래프가 제공된다.
 
 .. figure:: img/wm_vstat3.png
    :align: center
-
-   가상호스트 서비스상태
-
 
 
 
