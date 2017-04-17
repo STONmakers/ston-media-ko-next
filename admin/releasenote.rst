@@ -18,7 +18,7 @@ v1.0.x
    - 원본 통계 추가
 - :ref:`multi-protocol-mpeg-dash` - 클라이언트/원본 통계 추가
 - :ref:`wm`
-   - 예제 URL에 :ref:`multi-protocol-adobe-rtmp` 형식 추가
+   - :ref:`multi-protocol-adobe-rtmp` - 예제 URL 추가
    - :ref:`multi-protocol-apple-hls` - 원본 통계 추가
    - :ref:`multi-protocol-mpeg-dash` - 클라이언트/원본 통계 추가
 
