@@ -133,7 +133,7 @@ www.example.com:8080/account/dir   www.example.com:8080
    클라이언트가 /mp4:trip.mp4를 요청하면 최종 주소는 example.com/account/dir/trip.mp4가 된다.
 
 
-.. _env-vhost-standbyorigin:
+.. _vhost-origin-addr-standby:
 
 보조 주소
 ------------------------------------------------
