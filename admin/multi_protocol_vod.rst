@@ -60,57 +60,186 @@ RTMP 클라이언트 세션에 대해 설정한다. ::
 
 
 
+.. _multi-protocol-vod-apple-hls:
+
+Apple HLS
+====================================
+
+원본서버에서 HTTP로 다운로드한 영상을 HLS(HTTP Live Streaming)으로 전송한다.
+
+.. figure:: img/vod_workflow_hls.png
+   :align: center
+
+모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
+서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
+
+
+.. _multi-protocol-vod-apple-hls-session:
+
+세션
+------------------------------------
+::
+
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+   
+   <ClientKeepAliveSec>30</ClientKeepAliveSec>
+
+-  ``<ClientKeepAliveSec> (기본: 30초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
+
+
+
+.. _multi-protocol-vod-apple-hls-mp4segmentation:
+
+Packetizing
+------------------------------------
+MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+
+   <Packetizing Status="Active">
+      <Index Ver="3" Alternates="ON">index.m3u8</Index>
+      <Sequence>0</Sequence>
+      <Duration>10</Duration>
+      <AlternatesName>playlist.m3u8</AlternatesName>
+      <MP3SegmentType>TS</MP3SegmentType>
+.. _multi-protocol-vod-apple-hls-mp3segmentation:
+
+-  ``<Packetizing>``
+
+   - ``Status (기본: Active)`` 값이 ``Inactive`` 라면 Packetizing하지 않고 원본서버의 HLS 파일들을 릴레이한다.
+
+-  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
+
+   - ``Ver (기본 3)`` 인덱스 파일 버전.
+     3인 경우 ``#EXT-X-VERSION:3`` 헤더가 명시되며 ``#EXTINF`` 의 시간 값이 소수점 3째 자리까지 표시된다.
+     1인 경우 ``#EXT-X-VERSION`` 헤더가 없으며, ``#EXTINF`` 의 시간 값이 정수(반올림)로 표시된다.
+
+   - ``Alternates (기본: ON)`` Stream Alternates 사용여부.
+
+     .. figure:: img/hls_alternates_on.png
+        :align: center
+
+        ON. ``<AlternatesName>`` 에서 TS목록을 서비스한다.
+
+     .. figure:: img/hls_alternates_off.png
+        :align: center
+
+        OFF. ``<Index>`` 에서 TS목록을 서비스한다.
+
+-  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
+
+-  ``<Duration> (기본: 10초)`` 콘텐츠를 분할(Segmentation)하는 기준 시간(초).
+   분할의 기준은 Video/Audio의 KeyFrame이다.
+   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않을 수 있다.
+   만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
+
+-  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
+
+      http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8
+
+-  ``<MP3SegmentType> (기본: TS)`` MP3라면 Chunk포맷을 설정한다. (TS 또는 MP3)
+
+
+다음 URL이 호출되면 HTTP 원본서버의 /trip.mp4로부터 인덱스 파일을 생성한다. ::
+
+   http://www.example.com/bar/mp4:trip.mp4/index.m3u8
+
+``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
+
+   #EXTM3U
+   #EXT-X-VERSION:3
+   #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
+   /bar/mp4:trip.mp4/playlist.m3u8
+
+``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
+
+
+최종적으로 생성된 .ts 목록(버전 3)은 다음과 같다. ::
+
+   #EXTM3U
+   #EXT-X-TARGETDURATION:10
+   #EXT-X-VERSION:3
+   #EXT-X-MEDIA-SEQUENCE:0
+   #EXTINF:11.637,
+   /bar/mp4:trip.mp4/0.ts
+   #EXTINF:10.092,
+   /bar/mp4:trip.mp4/1.ts
+   #EXTINF:10.112,
+   /bar/mp4:trip.mp4/2.ts
+
+   ... (중략)...
+
+   #EXTINF:10.847,
+   /bar/mp4:trip.mp4/161.ts
+   #EXTINF:9.078,
+   /bar/mp4:trip.mp4/162.ts
+   #EXT-X-ENDLIST
+
+
+
+.. _multi-protocol-vod-apple-hls-keyframe-duration:
+
+키 프레임과 <Duration>
+------------------------------------
+
+분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
+
+-  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
+   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
+
+-  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
+   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
+
+-  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
+   KeyFrame단위로 분할된다.
+
+다음 클라이언트 요청에 대해 STON 미디어 서버가 어떻게 동작하는지 이해해보자. ::
+
+   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
+   Range: bytes=0-512000
+   Host: www.example.com
+
+1.	**STON Media Server** : 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
+#.	**HTTP/HLS Client** : HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
+#.	**STON Media Server** : /trip.mp4 파일 캐싱객체 생성
+#.	**STON Media Server** : /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
+#.	**STON Media Server** : 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
+#.	**STON Media Server** : 100번째(99.ts)파일 생성 후 Range 서비스
+#.	**STON Media Server** : 서비스가 완료되면 99.ts파일 파괴
+
+.. note::
+
+   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2-TS 임에 주의하자.)
+   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
+
+      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
+
+   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
+   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
+
+      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
+      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
+
+
+
 .. _multi-protocol-vod-http-ps:
 
 HTTP Pseudo-Streaming
 ====================================
 
-STON 미디어 서버는 VOD 콘텐츠를 HTTP Pseudo-Streaming으로 전송할 수 있다.
+원본서버에서 HTTP로 다운로드한 영상을 HTTP Pseudo-Streaming으로 전송한다.
+
+.. figure:: img/vod_workflow_httpps.png
+   :align: center
+
 서비스 효율을 높이는 다양한 기능이 제공된다.
 
--   VOD 콘텐츠를 분석하여 가장 경제적인 대역폭으로 전송
--   VOD 콘텐츠의 헤더가 뒤에 있어도 전송 단계에서 앞으로 재배치
+-   콘텐츠를 분석, 가장 경제적인 대역폭으로 전송
+-   헤더가 뒤에 있어도 전송 단계에서 앞으로 재배치
 -   요청 즉시 캐싱/전송되는 빠른 반응성과 성능
-
-HTTP Pseudo-Streaming의 URL형식은 다음과 같다. ::
-
-    http://{virtual-host}/{stream-name}
-    http://{ston-ip-address}/{virtual-host}/{stream-name}
-
--  ``{virtual-host}`` 가상호스트 ``Name``
--  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
--  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
-
-URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
-예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
-
-===================== ==============================================================
-<Vhost Name="...">    URL
-===================== ==============================================================
-www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4
-www.example.com       http://www.example.com/mp4:mov/trip.mp4
-/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4
-===================== ==============================================================
-
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
-
-================================== ====================================================
-<Vhost Name="..." Prefix="http/">  URL
-================================== ====================================================
-www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4
-www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
-/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4
-================================== ====================================================
-
-.. note::
-
-   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
-
-      http://www.example.com/bar/_definst_/mp4:mov/trip.mp4
-      http://www.example.com/_definst_/mp4:mov/trip.mp4
-      http://{ston-ip-address}/foo/_definst_/mp4:mov/trip.mp4
-
-
 
 
 .. _multi-protocol-vod-http-ps-session:
@@ -613,251 +742,3 @@ HTTP 클라이언트에게 보내는 HTTP 응답에 Server 헤더 명시여부�
 
 
 
-.. _multi-protocol-vod-apple-hls:
-
-Apple HLS
-====================================
-
-STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)로 전송할 수 있다.
-HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 정확히 말하면 스트리밍이 아닌 HTTP 기반의 Chunk전송방식이다.
-
-.. figure:: img/sms_hls_flow2.png
-   :align: center
-
-Apple이 제공하는 iOS 기반의 디바이스(iPhone, iPad, iPod touch iOS version 3.0 이상),
-QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상)에서 폭넓게 지원된다.
-
-.. note::
-
-   Apple HLS는 Android에서도 지원되지만 일부 구버전 호환성 문제가 있다.
-   JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
-
-STON 미디어 서버는 약속된 주소를 이용해 VOD 콘텐츠로부터 인덱스/메타 파일과 MPEG2-TS Chunk를 만들어낸다.
-HLS의 URL 형식은 다음과 같다. ::
-
-   http://{virtual-host}/{stream-name}/playlist.m3u8
-   http://{ston-ip-address}/{virtual-host}/{stream-name}/playlist.m3u8
-
--  ``{virtual-host}`` 가상호스트 ``Name``
--  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
--  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
-
-URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
-예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
-
-===================== ==============================================================
-<Vhost Name="...">    URL
-===================== ==============================================================
-www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
-www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
-/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
-===================== ==============================================================
-
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
-
-================================== ==============================================================
-<Vhost Name="..." Prefix="http/">  URL
-================================== ==============================================================
-www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
-www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
-/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
-================================== ==============================================================
-
-모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
-서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
-
-.. note::
-
-   URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
-
-      http://www.example.com/bar/_definst_/mp4:mov/trip.mp4/playlist.m3u8
-      http://www.example.com/_definst_/mp4:mov/trip.mp4/playlist.m3u8
-      http://{ston-ip-address}/foo/_definst_/mp4:mov/trip.mp4/playlist.m3u8
-
-
-
-.. _multi-protocol-vod-apple-hls-session:
-
-세션
-------------------------------------
-::
-
-   # server.xml - <Server><VHostDefault><Options><Hls>
-   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
-   
-   <ClientKeepAliveSec>30</ClientKeepAliveSec>
-
--  ``<ClientKeepAliveSec> (기본: 30초)``
-   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
-
-
-
-.. _multi-protocol-vod-apple-hls-mp4segmentation:
-
-MP4 Packetizing
-------------------------------------
-MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
-
-   # server.xml - <Server><VHostDefault><Options><Hls>
-   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
-
-   <MP4 Packetizing="ON">
-      <Index Ver="3" Alternates="ON">index.m3u8</Index>
-      <Sequence>0</Sequence>
-      <Duration>10</Duration>
-      <AlternatesName>playlist.m3u8</AlternatesName>
-   </MP4>
-
--  ``<MP4>``
-
-   - ``Packetizing (기본: ON)`` 값이 ``OFF`` 라면 원본서버의 HLS 파일들을 릴레이한다.
-
--  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
-
-   - ``Ver (기본 3)`` 인덱스 파일 버전.
-     3인 경우 ``#EXT-X-VERSION:3`` 헤더가 명시되며 ``#EXTINF`` 의 시간 값이 소수점 3째 자리까지 표시된다.
-     1인 경우 ``#EXT-X-VERSION`` 헤더가 없으며, ``#EXTINF`` 의 시간 값이 정수(반올림)로 표시된다.
-
-   - ``Alternates (기본: ON)`` Stream Alternates 사용여부.
-
-     .. figure:: img/hls_alternates_on.png
-        :align: center
-
-        ON. ``<AlternatesName>`` 에서 TS목록을 서비스한다.
-
-     .. figure:: img/hls_alternates_off.png
-        :align: center
-
-        OFF. ``<Index>`` 에서 TS목록을 서비스한다.
-
--  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
-
--  ``<Duration> (기본: 10초)`` MP4를 분할(Segmentation)하는 기준 시간(초).
-   분할의 기준은 Video/Audio의 KeyFrame이다.
-   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않을 수 있다.
-   만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
-
--  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
-
-      http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8
-
-
-다음 URL이 호출되면 HTTP 원본서버의 /trip.mp4로부터 인덱스 파일을 생성한다. ::
-
-   http://www.example.com/bar/mp4:trip.mp4/index.m3u8
-
-``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
-
-   #EXTM3U
-   #EXT-X-VERSION:3
-   #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
-   /bar/mp4:trip.mp4/playlist.m3u8
-
-``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
-
-
-최종적으로 생성된 .ts 목록(버전 3)은 다음과 같다. ::
-
-   #EXTM3U
-   #EXT-X-TARGETDURATION:10
-   #EXT-X-VERSION:3
-   #EXT-X-MEDIA-SEQUENCE:0
-   #EXTINF:11.637,
-   /bar/mp4:trip.mp4/0.ts
-   #EXTINF:10.092,
-   /bar/mp4:trip.mp4/1.ts
-   #EXTINF:10.112,
-   /bar/mp4:trip.mp4/2.ts
-
-   ... (중략)...
-
-   #EXTINF:10.847,
-   /bar/mp4:trip.mp4/161.ts
-   #EXTINF:9.078,
-   /bar/mp4:trip.mp4/162.ts
-   #EXT-X-ENDLIST
-
-
-
-
-
-.. _multi-protocol-vod-apple-hls-keyframe-duration:
-
-키 프레임과 <Duration>
-------------------------------------
-
-분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
-
--  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
-   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
-
--  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
-   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
-
--  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
-   KeyFrame단위로 분할된다.
-
-다음 클라이언트 요청에 대해 STON 미디어 서버가 어떻게 동작하는지 이해해보자. ::
-
-   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
-   Range: bytes=0-512000
-   Host: www.example.com
-
-1.	**STON Media Server** : 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
-#.	**HTTP/HLS Client** : HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
-#.	**STON Media Server** : /trip.mp4 파일 캐싱객체 생성
-#.	**STON Media Server** : /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
-#.	**STON Media Server** : 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
-#.	**STON Media Server** : 100번째(99.ts)파일 생성 후 Range 서비스
-#.	**STON Media Server** : 서비스가 완료되면 99.ts파일 파괴
-
-.. note::
-
-   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2-TS 임에 주의하자.)
-   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
-
-      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
-
-   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
-   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
-
-      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
-      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
-
-
-
-
-.. _multi-protocol-vod-apple-hls-mp3segmentation:
-
-MP3 Packetizing
-------------------------------------
-
-MP3 파일을 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
-
-   # server.xml - <Server><VHostDefault><Options><Hls>
-   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
-
-   <MP3 Packetizing="ON" SegmentType="TS">
-       <Index Ver="3" Alternates="ON">index.m3u8</Index>
-       <Sequence>0</Sequence>
-       <Duration>10</Duration>
-       <AlternatesName>playlist.m3u8</AlternatesName>
-   </MP3>
-
--  ``<MP3>``
-
-   - ``SegmentType (기본: TS)`` 분할 포맷을 설정한다. (TS 또는 MP3)
-
-그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
-
-
-
-
-
-.. _multi-protocol-vod-mpeg-dash:
-
-MPEG-DASH
-====================================
-
-현재는 캐싱기반의 릴레이 전송만 지원하며 향후 Packetizing과 전용 설정을 제공할 계획이다. 
-MPEG-DASH에서 사용하는 확장자(.mpd, mp4v, mp4a, m4s)와 관련된 전송은 별도의 MPEG-DASH 통계로 수집된다.
