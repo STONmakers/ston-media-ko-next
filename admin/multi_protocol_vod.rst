@@ -75,7 +75,7 @@ Apple HLS
    :align: center
 
 모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
-서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
+서비스 시점에 임시적으로 생성되며 서비스가 끝나면 사라진다.
 
 
 .. _multi-protocol-vod-apple-hls-session:
@@ -109,7 +109,8 @@ MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는
       <Duration>10</Duration>
       <AlternatesName>playlist.m3u8</AlternatesName>
       <MP3SegmentType>TS</MP3SegmentType>
-.. _multi-protocol-vod-apple-hls-mp3segmentation:
+   </Packetizing>
+
 
 -  ``<Packetizing>``
 
