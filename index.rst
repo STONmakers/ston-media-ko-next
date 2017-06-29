@@ -23,7 +23,9 @@ STON Media Server 완벽 가이드
    :maxdepth: 2
 
    admin/vhost
-   admin/multi_protocol
+   admin/multi_protocol_url
+   admin/multi_protocol_vod
+   admin/multi_protocol_live
    admin/http_origin
    admin/caching_policy
    admin/caching_purge
