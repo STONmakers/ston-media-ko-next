@@ -5,11 +5,11 @@
 
 이 장에서는 STON 미디어 서버의 VOD 서비스 구성에 대해 설명한다. 
 STON 미디어 서버는 원본서버로부터 HTTP로 다운로드(=캐싱)한 콘텐츠를 동시에 멀티 프로토콜로 전송한다.
+프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다.
 
 .. figure:: img/sms_intro_workflow1.png
    :align: center
 
-프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다.
 가상호스트의 기본 서비스 Type은 ``VOD`` 이다. (기본 값이므로 특별히 설정하지 않아도 괜찮다.) ::
 
     # vhosts.xml

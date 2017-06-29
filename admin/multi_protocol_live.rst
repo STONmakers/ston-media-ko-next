@@ -5,11 +5,11 @@
 
 이 장에서는 STON 미디어 서버의 LIVE 서비스 구성에 대해 설명한다.
 STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받아 멀티 프로토콜로 전송한다.
+프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다.
 
 .. figure:: img/sms_live_workflow.png
    :align: center
 
-프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다.
 가상호스트의 ``Type`` 속성이 반드시 ``Live``로 설정되어 있어야 한다. ::
 
     # vhosts.xml
