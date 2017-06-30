@@ -150,7 +150,7 @@ RTMP 클라이언트
    클라이언트가 PLAY를 요청했을 때 "현재시점"에서 설정된 시간(초) 이전부터 전송한다.
 
       .. figure:: img/sms_live_channel_multi.png
-      :align: center
+         :align: center
       
    값이 0이라면 PLAY 요청 시 채널의 "현재시점"을 전송한다. 
 
@@ -172,7 +172,8 @@ HLS 클라이언트
 ------------------------------------
 
 HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
-:ref:`multi-protocol-vod-apple-hls-session` 설정은 동일하며 :ref:`multi-protocol-vod-apple-hls-packetizing` 설정의 다른 점에 대해서만 설명한다. ::
+:ref:`multi-protocol-vod-apple-hls-session` , :ref:`multi-protocol-vod-apple-hls-packetizing` 설정을 그대로 사용한다.
+다른 점에 대해서만 설명한다. ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
@@ -185,9 +186,9 @@ HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
       <MP3SegmentType>TS</MP3SegmentType>
    </Packetizing>
 
--  ``<Packetizing>`` LIVE가 이미 진행 중이라면 ``<Packetizing>`` 및 하위 설정의 값을 바꾸어도 적용되지 않는다.
+-  ``<Packetizing>`` 채널이 이미 생성되었다면 ``<Packetizing>`` 및 하위 설정의 값을 바꾸어도 적용되지 않는다.
 
--  ``<Duration> (기본: 10초)`` Streaming된 데이터가 Duration동안 저장되면 Chunk가 생성되고 인덱스파일(m3u8)이 갱신된다.
+-  ``<Duration> (기본: 10초)`` 스트리밍(Streaming)된 데이터가 Duration동안 저장되면 Chunk가 생성되고 인덱스파일(m3u8)이 갱신된다.
 
    - ``ChunkCount (기본 3)`` 인덱스파일(m3u8)에서 제공할 Chunk개수를 지정한다.
 
@@ -213,7 +214,10 @@ LIVE가 진행되면서 (기본 ``<Duration>`` 설정에서) 인덱스파일은 
 
    RTMP시점보다 6초 전 시점부터 시청한다.
 
+.. note::
 
+   채널이 HLS 클라이언트에 의해 생성되었다면 해당 클라이언트는 최대 ``<Duration>`` 만큼 기다려야 한다. 
+   첫번째 Chunk가 생성된 이후부터 HLS 전송이 가능하기 때문이다.
 
 
 .. _multi-protocol-live-apple-hls:
