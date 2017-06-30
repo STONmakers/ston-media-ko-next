@@ -46,7 +46,7 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 
    채널의 Life Cycle
 
-가상호스트는 여러 개의 채널을 동시에 서비스할 수 있다.
+가상호스트는 여러 채널을 동시에 서비스할 수 있다.
 
 .. figure:: img/sms_live_channel_multi.png
    :align: center
@@ -68,7 +68,7 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 생성
 ------------------------------------
 
-채널은 명확하게 원본서버와 어떤 프로토콜을 이용해 통신할 것인지 알고 있어야 한다. ::
+채널은 명확하게 원본서버와 통신할 프로토콜을 지정해주어야 한다. ::
 
     # vhosts.xml
 
@@ -89,6 +89,11 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 
 - rtmp://www.example.com/bar/mp4:mov/trip.mp4
 - http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+
+.. note::
+
+   채널이 생성되면 ``Protocol`` 을 변경해도 반영되지 않는다.
+
 
 
 .. _multi-protocol-live-channel-destroy:
