@@ -94,7 +94,7 @@ Apple HLS
 
 
 
-.. _multi-protocol-vod-apple-hls-mp4segmentation:
+.. _multi-protocol-vod-apple-hls-packetizing:
 
 Packetizing
 ------------------------------------

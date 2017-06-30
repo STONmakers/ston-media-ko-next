@@ -61,6 +61,41 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
    예를 들어 사용가능한 메모리 크기가 10GB이고 채널 하나당 10MB를 소비한다면 약 1000개의 채널이 서비스 가능하다.
    메모리 한계를 초과할 경우 채널이 생성되지 않는다.
 
+
+
+.. _multi-protocol-live-channel-create:
+
+생성
+------------------------------------
+
+채널은 명확하게 원본서버와 어떤 프로토콜을 이용해 통신할 것인지 알고 있어야 한다. ::
+
+    # vhosts.xml
+
+    <Vhosts>
+        <Vhost Name="www.example.com/bar" Type="LIVE">
+            <Origin Protocol="RTMP">
+               ...
+            </Origin>
+        </Vhost>
+    </Vhosts>
+
+-  ``<Origin>``
+
+   - ``Protocol (기본: RTMP)`` LIVE를 위해 원본서버와 통신할 프로토콜을 설정한다. (RTMP 또는 HLS)
+
+클라이언트 요청 프로토콜과 상관없이 ``<Origin Protocol="...">`` 설정으로 원본서버와 통신한다.
+예를 들어 원본서버 주소(mov/trip.mp4)가 RTMP로 게시되어 있다면 다음 주소 중 먼저 오는 요청에 의해 채널은 생성된다.
+
+- rtmp://www.example.com/bar/mp4:mov/trip.mp4
+- http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+
+
+.. _multi-protocol-live-channel-destroy:
+
+파괴
+------------------------------------
+
 채널은 마지막 클라이언트와 연결이 종료된 후(LIVE가 종료될 때가 아님) ``<ClientKeepAliveSec>`` 시간(초)만큼 채널을 유지한 뒤 파괴된다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions>
@@ -121,7 +156,7 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 
    BufferSize , 시점, 네트워크 안정성, 원활한 재생의 관계
 
-하지만 3G/공용Wi-Fi 등 네트워크이 불안정한 환경이라면 영상이 자주 끊기는 등 재생이 원활하지 않을 가능성이 높다.
+하지만 3G/공용Wi-Fi 등 불안정한 네트워크 환경이라면 영상이 자주 끊기는 등 재생이 원활하지 않을 가능성이 높다.
 클라이언트가 일정시간을 버퍼링한다면 순간적인 네트워크 지연에도 끊김없는 재생이 가능하다.
 
 
@@ -131,10 +166,48 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 HLS 클라이언트
 ------------------------------------
 
-HLS로 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
-:ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용한다. ::
+HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
+:ref:`multi-protocol-vod-apple-hls-session` 설정은 동일하며 :ref:`multi-protocol-vod-apple-hls-packetizing` 설정의 다른 점에 대해서만 설명한다. ::
 
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+
+   <Packetizing Status="Active">
+      <Index Ver="3" Alternates="ON">index.m3u8</Index>
+      <Sequence>0</Sequence>
+      <Duration ChunkCount="3">10</Duration>
+      <AlternatesName>playlist.m3u8</AlternatesName>
+      <MP3SegmentType>TS</MP3SegmentType>
+   </Packetizing>
+
+-  ``<Packetizing>`` LIVE가 이미 진행 중이라면 ``<Packetizing>`` 및 하위 설정의 값을 바꾸어도 적용되지 않는다.
+
+-  ``<Duration> (기본: 10초)`` Streaming된 데이터가 Duration동안 저장되면 Chunk가 생성되고 인덱스파일(m3u8)이 갱신된다.
+
+   - ``ChunkCount (기본 3)`` 인덱스파일(m3u8)에서 제공할 Chunk개수를 지정한다.
+
+RTMP를 HLS로 변환할 때는 Streaming되는 Audio/Video를 Chunk(MPEG2-TS)파일로 만들어야 한다. 
+LIVE가 진행되면서 (기본 ``<Duration>`` 설정에서) 인덱스파일은 아래와 같이 변한다.
+
+.. figure:: img/sms_live_workflow_rtmp_hls_duration10.png
+   :align: center
    
+   RTMP시점보다 30초 전 시점부터 시청한다.
+
+``<Duration>`` 을 아래와 같이 줄이면 시청 시점을 RTMP와 최대한 맞출 수 있다. ::
+
+   # server.xml - <Server><VHostDefault><Options><Hls>
+   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+
+   <Packetizing>
+      <Duration ChunkCount="3">2</Duration>
+   </Packetizing>
+
+.. figure:: img/sms_live_workflow_rtmp_hls_duration2.png
+   :align: center
+
+   RTMP시점보다 6초 전 시점부터 시청한다.
+
 
 
 
