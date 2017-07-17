@@ -158,11 +158,12 @@ Adobe RTMP를 이용해 인코더로부터 Live스트림을 Push받거나, 게�
 .. figure:: img/sms_live_workflow_rtmp.png
    :align: center
 
+Push/Pull 사이에 혼동을 방지하기 위해 세부주제명 앞에 동작방식을 명시한다.
 
 
 .. _multi-protocol-live-adobe-rtmp-push:
 
-Push
+[Push] Basic
 ------------------------------------
 
 Live 스트림을 인코더로부터 직접 Push받을 수 있다.
@@ -179,7 +180,7 @@ Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호�
 
 .. _multi-protocol-live-adobe-rtmp-push-fault-recovery:
 
-Push - Fault Recovery
+[Push] Fault Recovery
 ------------------------------------
 
 같은 URL로 복수의 Live 스트림이 Push되는 경우 가장 먼저 연결된 스트림이 Active가 되며, 나머지는 Standby가 된다. 
@@ -203,7 +204,7 @@ Active와 연결이 종료되면 Standby가 Active로 승격된다.
 
 .. _multi-protocol-live-adobe-rtmp-push-abr:
 
-Adaptive bitrate streaming
+[Push] Adaptive bitrate streaming
 ------------------------------------
 
 Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다.
@@ -237,7 +238,7 @@ Audio Only모드.
 
 .. _multi-protocol-live-adobe-rtmp-client:
 
-Pull - RTMP to RTMP 전송
+[Pull] RTMP to RTMP 전송
 ------------------------------------
 
 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
@@ -269,7 +270,7 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 
 .. _multi-protocol-live-apple-hls-client:
 
-Pull - RTMP to HLS 전송
+[Pull] RTMP to HLS 전송
 ------------------------------------
 
 HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
@@ -319,6 +320,8 @@ LIVE가 진행되면서 (기본 ``<Duration>`` 설정에서) 인덱스파일은 
 
    채널이 HLS 클라이언트에 의해 생성되었다면 해당 클라이언트는 최대 ``<Duration>`` 만큼 기다려야 한다. 
    첫번째 Chunk가 생성된 이후부터 HLS 전송이 가능하기 때문이다.
+
+
 
 
 .. _multi-protocol-live-apple-hls:
