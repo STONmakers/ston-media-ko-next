@@ -4,7 +4,8 @@
 ******************
 
 이 장에서는 STON 미디어 서버의 LIVE 서비스 구성에 대해 설명한다.
-STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시된 원본 LIVE 스트림을 Pull방식으로 수신할 수 있다.
+STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시된 원본 LIVE 스트림을 Pull방식으로 수신할 수 있다. 
+두 방식을 혼용하면 쉽게 확장이 가능한 LIVE 서비스를 구성할 수 있다.
 
 .. figure:: img/sms_live_workflow.png
    :align: center
@@ -18,6 +19,8 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
             ...
         </Vhost>
     </Vhosts>
+
+STON 미디어 서버는 소스를 트랜스코딩(Transcoding)하지 않는다. 
 
 프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다. 
 서로 다른 프로토콜 변환이 발생할 때(RTMP to HLS/HLS to RTMP) 기술적인 제약사항이 있을 수 있다.
@@ -163,7 +166,7 @@ Push/Pull 사이에 혼동을 방지하기 위해 세부주제명 앞에 동작�
 
 .. _multi-protocol-live-adobe-rtmp-push:
 
-[Push] Basic
+[Push] 기본동작
 ------------------------------------
 
 Live 스트림을 인코더로부터 직접 Push받을 수 있다.
@@ -180,7 +183,7 @@ Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호�
 
 .. _multi-protocol-live-adobe-rtmp-push-fault-recovery:
 
-[Push] Fault Recovery
+[Push] 장애복구
 ------------------------------------
 
 같은 URL로 복수의 Live 스트림이 Push되는 경우 가장 먼저 연결된 스트림이 Active가 되며, 나머지는 Standby가 된다. 

@@ -50,11 +50,6 @@ LIVE인 경우 원본서버 URL과 동일하며, VOD인 경우 Stream주소는 �
 
    mp4:mov/trip.mp4
 
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
-
-   mp4:http/mov/trip.mp4
-   http/myLiveStream
-
 
 .. note::
 
@@ -78,7 +73,7 @@ HTTP Pseudo-Streaming의 URL형식은 다음과 같다. ::
     http://{ston-ip-address}/{virtual-host}/{stream-name}
 
 -  ``{virtual-host}`` 가상호스트 ``Name``
--  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+-  ``{stream-name}`` Prefix("mp4:", 생략가능)가 붙은 재생할 스트림
 -  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
@@ -92,15 +87,6 @@ www.example.com       http://www.example.com/mp4:mov/trip.mp4
 /foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4
 ===================== ==============================================================
 
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
-
-================================== ====================================================
-<Vhost Name="..." Prefix="http/">  VOD URL
-================================== ====================================================
-www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4
-www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
-/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4
-================================== ====================================================
 
 .. note::
 
@@ -138,7 +124,7 @@ HLS의 URL 형식은 다음과 같다. ::
    http://{ston-ip-address}/{virtual-host}/{stream-name}/playlist.m3u8
 
 -  ``{virtual-host}`` 가상호스트 ``Name``
--  ``{stream-name}`` Prefix("MP4:", 생략가능)가 붙은 재생할 스트림
+-  ``{stream-name}`` Prefix("mp4:", 생략가능)가 붙은 재생할 스트림
 -  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
@@ -159,24 +145,6 @@ www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
 www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
 /foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
 ===================== ==============================================================
-
-``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
-
-================================== ==============================================================
-<Vhost Name="..." Prefix="http/">  LIVE URL
-================================== ==============================================================
-www.example.com/bar                http://www.example.com/bar/http/myLiveStream/playlist.m3u8
-www.example.com                    http://www.example.com/http/myLiveStream/playlist.m3u8
-/foo                               http://{ston-ip-address}/foo/http/myLiveStream/playlist.m3u8
-================================== ==============================================================
-
-================================== ==============================================================
-<Vhost Name="..." Prefix="http/">  VOD URL
-================================== ==============================================================
-www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
-www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
-/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
-================================== ==============================================================
 
 모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
 서비스 즉시 임시적으로 생성되며 서비스되지 않을 때 자동으로 없어진다.
