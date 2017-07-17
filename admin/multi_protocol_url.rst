@@ -85,7 +85,7 @@ URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
 예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
 
 ===================== ==============================================================
-<Vhost Name="...">    URL
+<Vhost Name="...">    VOD URL
 ===================== ==============================================================
 www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4
 www.example.com       http://www.example.com/mp4:mov/trip.mp4
@@ -95,7 +95,7 @@ www.example.com       http://www.example.com/mp4:mov/trip.mp4
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
 
 ================================== ====================================================
-<Vhost Name="..." Prefix="http/">  URL
+<Vhost Name="..." Prefix="http/">  VOD URL
 ================================== ====================================================
 www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4
 www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
