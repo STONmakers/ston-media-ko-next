@@ -220,7 +220,7 @@ LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 �
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
 
-간단한 네이밍 규칙을 통해 각각의 LIVE 스트림을 하나의 ABR LIVE 스트림으로 구성할 수 있다. ::
+간단한 네이밍 규칙을 통해 각각의 LIVE 스트림을 하나의 ABR 스트림으로 구성할 수 있다. ::
 
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Rtmp>
    
@@ -238,7 +238,7 @@ LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 �
       .. figure:: img/sms_live_channel_multi.png
          :align: center
 
-위와 같이 구성하면 STON 미디어 서버는 패턴(myLiveStream_*)과 일치하는 스트림을 ABR LIVE 스트림으로 구성한다.
+위와 같이 구성하면 STON 미디어 서버는 패턴(myLiveStream_*)과 일치하는 스트림을 ABR 스트림으로 구성한다.
 
 .. figure:: img/sms_live_rtmp_push_abr2.png
    :align: center
@@ -264,6 +264,11 @@ ABR을 위해 반드시 멀티 LIVE 소스가 필요한 것은 아니다.
 
    // 오디오 전용 LIVE 스트림이 추가된 ABR
    /myLiveStream_1000_abr
+
+
+.. note::
+
+   AudioOnlyStream이 제공되면 클라이언트의 대역폭에 순간적인 병목이 발생하여도 (비록 오디오만 전송되지만) 끊김없는 재생환경을 제공할 수 있다.
 
 
 
