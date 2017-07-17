@@ -145,14 +145,19 @@ URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
 예를 들어 원본서버 LIVE URL이 /myLiveStream, VOD URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
 
 ===================== ==============================================================
-<Vhost Name="...">    URL
+<Vhost Name="...">    LIVE URL
 ===================== ==============================================================
 www.example.com/bar   http://www.example.com/bar/myLiveStream/playlist.m3u8
-                      http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
 www.example.com       http://www.example.com/myLiveStream/playlist.m3u8
-                      http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
 /foo                  http://{ston-ip-address}/myLiveStream/playlist.m3u8
-                      http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
+===================== ==============================================================
+
+===================== ==============================================================
+<Vhost Name="...">    VOD URL
+===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
+/foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
 ===================== ==============================================================
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 URL은 다음과 같다.
@@ -161,11 +166,16 @@ www.example.com       http://www.example.com/myLiveStream/playlist.m3u8
 <Vhost Name="..." Prefix="http/">  URL
 ================================== ==============================================================
 www.example.com/bar                http://www.example.com/bar/myLiveStream/playlist.m3u8
-                                   http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
 www.example.com                    http://www.example.com/myLiveStream/playlist.m3u8
-                                   http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
 /foo                               http://{ston-ip-address}/foo/myLiveStream/playlist.m3u8
-                                   http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
+================================== ==============================================================
+
+================================== ==============================================================
+<Vhost Name="..." Prefix="http/">  URL
+================================== ==============================================================
+www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
+www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 
 모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
