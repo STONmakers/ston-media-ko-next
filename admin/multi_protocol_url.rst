@@ -25,7 +25,7 @@ URL은 VOD(Video On Demand)와 LIVE 공통이다. ::
 Adobe RTMP
 ====================================
 
-STON 미디어 서버는 VOD 콘텐츠를 RTMP(Real Time Messaging Protocol)로 스트리밍할 수 있다.
+STON 미디어 서버는 RTMP(Real Time Messaging Protocol)를 이용해 VOD/LIVE를 전송한다.
 Adobe Flash Player의 NetConnection 객체를 이용해 연결하고 NetStream 객체를 통해 스트리밍한다.
 RTMP URL 형식은 다음과 같다. ::
 
@@ -46,13 +46,18 @@ www.example.com       rtmp://www.example.com
 /foo                  rtmp://{ston-ip-address}/foo
 ===================== ================================
 
-원본서버 URL이 /mov/trip.mp4인 경우 Stream주소는 다음과 같다. ::
+예제 Stream주소는 아래와 같다. ::
 
+   // 원본서버 VOD URL이 /mov/trip.mp4인 경우
    mp4:mov/trip.mp4
+
+   // 원본서버 LIVE URL이 /myLiveStream인 경우
+   myLiveStream
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
 
    mp4:http/mov/trip.mp4
+   http/myLiveStream
 
 
 .. note::
