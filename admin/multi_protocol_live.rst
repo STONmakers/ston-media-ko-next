@@ -4,8 +4,7 @@
 ******************
 
 이 장에서는 STON 미디어 서버의 LIVE 서비스 구성에 대해 설명한다.
-STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받아 멀티 프로토콜로 전송한다.
-프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다.
+STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시된 원본 LIVE 스트림을 Pull방식으로 수신할 수 있다.
 
 .. figure:: img/sms_live_workflow.png
    :align: center
@@ -20,6 +19,7 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
         </Vhost>
     </Vhosts>
 
+프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다. 
 서로 다른 프로토콜 변환이 발생할 때(RTMP to HLS/HLS to RTMP) 기술적인 제약사항이 있을 수 있다.
 
 .. warning::
@@ -39,7 +39,8 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 ====================================
 
 채널(Channel)은 1개의 LIVE 서비스를 의미한다.
-채널은 클라이언트의 첫번째 요청에 의해 생성되고, 마지막 클라이언트가 종료되면 자동으로 파괴된다.
+채널은 첫번째 참가자(Participant)에 의해 생성되고, 마지막 참가자가 종료되면 자동으로 파괴된다. 
+참가자(Participant)는 LIVE를 시청하는 클라이언트 또는 LIVE 인코더(Encoder)를 의미한다.
 
 .. figure:: img/sms_live_channel_lifycycle.png
    :align: center
@@ -85,10 +86,10 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
    - ``Protocol (기본: RTMP)`` LIVE를 위해 원본서버와 통신할 프로토콜을 설정한다. (RTMP 또는 HLS)
 
 클라이언트 요청 프로토콜과 상관없이 ``<Origin Protocol="...">`` 설정으로 원본서버와 통신한다.
-예를 들어 원본서버 주소(mov/trip.mp4)가 RTMP로 게시되어 있다면 다음 주소 중 먼저 오는 요청에 의해 채널은 생성된다.
+채널이 생성되는 경우는 다음과 같다.
 
-- rtmp://www.example.com/bar/mp4:mov/trip.mp4
-- http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+- 인코더로부터 RTMP로 PUSH받는 경우
+- 클라이언트가 멀티 프로토콜(RTMP/HLS)로 요청하는 경우
 
 .. note::
 
@@ -96,12 +97,36 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 
 
 
+
+.. _multi-protocol-live-channel-scaleout:
+
+확장
+------------------------------------
+
+채널을 확장하기 위해서는 STON 미디어 서버를 2 계층으로 구성할 것을 권장한다.
+
+.. figure:: img/sms_live_channel_scaleout.png
+   :align: center
+
+   채널의 확장
+
+Parent 레이어는 Encoder로부터 Live스트림을 Push받는다. 이때 채널이 생성된다.
+Child 레이어는 클라이언트 요청이 있을 때 Live스트림을 Parent레이어로부터 Pull한다. 이때 채널이 생성된다.
+
+더 많은 사용자를 위해서는 다음과 같이 3계층도 가능하다.
+
+.. figure:: img/sms_live_channel_scaleout2.png
+   :align: center
+
+   채널의 확장
+
+
 .. _multi-protocol-live-channel-destroy:
 
 파괴
 ------------------------------------
 
-채널은 마지막 클라이언트와 연결이 종료된 후(LIVE가 종료될 때가 아님) ``<ClientKeepAliveSec>`` 시간(초)만큼 채널을 유지한 뒤 파괴된다. ::
+더 이상 채널에 연결된 참가자가 없을 경우 ``<ClientKeepAliveSec>`` 시간(초)만큼 채널을 유지한 뒤 파괴된다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions>
    # vhosts.xml - <Vhosts><Vhost><OriginOptions>
@@ -128,10 +153,70 @@ STON 미디어 서버는 원본서버로부터 RTMP/HLS 라이브를 송신받�
 Adobe RTMP
 ====================================
 
-원본서버에서 RTMP로 스트리밍(Streaming)되는 영상을 RTMP/HLS로 전송한다.
+Adobe RTMP를 이용해 인코더로부터 Live스트림을 Push받거나, 게시된 Live스트림을 RTMP로 Pull한다.
 
 .. figure:: img/sms_live_workflow_rtmp.png
    :align: center
+
+
+
+.. _multi-protocol-live-adobe-rtmp-push:
+
+Push
+------------------------------------
+
+Live 스트림을 인코더로부터 직접 Push받을 수 있다.
+가상호스트가 이미 생성되었다면 별도의 설정없이 여러 RTMP 스트림을 동시에 Push받을 수 있다.
+
+.. figure:: img/sms_live_rtmp_push_multi.png
+   :align: center
+
+Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. ::
+
+   `http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
+
+같은 URL로 복수의 Live 스트림이 Push되는 경우 가장 먼저 연결된 스트림이 Active가 되며, 나머지는 Standby가 된다. 
+
+.. figure:: img/sms_live_rtmp_push_multi.png
+   :align: center
+
+   RTMP Push - Active/Standby 구성
+
+
+.. note::
+
+   Standby는 최대 2개까지 구성이 가능하다.
+
+
+Active와 연결이 종료되면 Standby가 Active로 승격된다.
+이 때 Active와 Standby가 서로 다른 Timestamp를 사용하여도 시간 값이 승계되어 매끄러운(Seamless) 재생환경을 구성한다.
+
+
+
+
+.. _multi-protocol-live-adobe-rtmp-push-abr:
+
+Adaptive bitrate streaming
+------------------------------------
+
+Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다. 
+이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다. 
+
+예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다. ::
+
+.. figure:: img/sms_live_rtmp_push_abr1.png
+   :align: center
+
+Live 스트림의 이름 규칙을 통해 하나의 ABR LIVE 스트림을 구성할 수 있다.
+
+::
+
+   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Rtmp>
+   
+   <ABRs>
+      <Stream Name="myLiveStream">myLiveStream_*</Stream>
+   </ABRs>
+
 
 
 .. _multi-protocol-live-adobe-rtmp-client:
