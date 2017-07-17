@@ -202,7 +202,7 @@ Adaptive bitrate streaming
 Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다. 
 이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다. 
 
-예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다. ::
+예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다.
 
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
