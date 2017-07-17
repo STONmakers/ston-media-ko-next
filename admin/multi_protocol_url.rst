@@ -131,7 +131,7 @@ QuickTime 플레이어 (버전 10이상), Safari 브라우저 (버전 4.0 이상
    Apple HLS는 Android에서도 지원되지만 일부 구버전 호환성 문제가 있다.
    JWPlayer - `The Pain of Live Streaming on Android <https://www.jwplayer.com/blog/the-pain-of-live-streaming-on-android/>`_ 참고.
 
-STON 미디어 서버는 약속된 주소를 이용해 VOD 콘텐츠로부터 인덱스/메타 파일과 MPEG2-TS Chunk를 만들어낸다.
+STON 미디어 서버는 약속된 주소를 이용해 LIVE스트림/VOD파일로부터 인덱스/메타 파일과 MPEG2-TS Chunk를 만들어낸다.
 HLS의 URL 형식은 다음과 같다. ::
 
    http://{virtual-host}/{stream-name}/playlist.m3u8
