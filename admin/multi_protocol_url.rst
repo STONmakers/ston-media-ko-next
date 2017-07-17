@@ -46,13 +46,9 @@ www.example.com       rtmp://www.example.com
 /foo                  rtmp://{ston-ip-address}/foo
 ===================== ================================
 
-예제 Stream주소는 아래와 같다. ::
+LIVE인 경우 원본서버 URL과 동일하며, VOD인 경우 Stream주소는 아래와 같다. :: 
 
-   // 원본서버 VOD URL이 /mov/trip.mp4인 경우
    mp4:mov/trip.mp4
-
-   // 원본서버 LIVE URL이 /myLiveStream인 경우
-   myLiveStream
 
 ``<Vhost>`` 의 ``Prefix`` 가 "http/" 로 설정된 경우 Stream주소는 다음과 같다. ::
 
@@ -121,7 +117,7 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4
 Apple HLS
 ====================================
 
-STON 미디어 서버는 VOD 콘텐츠를 HLS(HTTP Live Streaming)로 전송할 수 있다.
+STON 미디어 서버는 LIVE/VOD를 HLS(HTTP Live Streaming)로 전송할 수 있다.
 HLS는 "Cupertino" 스트리밍이라고도 알려져 있지만 정확히 말하면 스트리밍이 아닌 HTTP 기반의 Chunk전송방식이다.
 
 .. figure:: img/sms_hls_flow2.png
@@ -146,13 +142,16 @@ HLS의 URL 형식은 다음과 같다. ::
 -  ``{ston-ip-address}`` STON 미디어 서버의 IP주소
 
 URL은 가상호스트 ``Name`` 표현에 따라 달라진다.
-예를 들어 원본서버 URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
+예를 들어 원본서버 LIVE URL이 /myLiveStream, VOD URL이 /mov/trip.mp4인 경우 URL는 다음과 같다.
 
 ===================== ==============================================================
 <Vhost Name="...">    URL
 ===================== ==============================================================
+www.example.com/bar   http://www.example.com/bar/myLiveStream/playlist.m3u8
 www.example.com/bar   http://www.example.com/bar/mp4:mov/trip.mp4/playlist.m3u8
+www.example.com       http://www.example.com/myLiveStream/playlist.m3u8
 www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
+/foo                  http://{ston-ip-address}/myLiveStream/playlist.m3u8
 /foo                  http://{ston-ip-address}/foo/mp4:mov/trip.mp4/playlist.m3u8
 ===================== ==============================================================
 
@@ -161,8 +160,11 @@ www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 <Vhost Name="..." Prefix="http/">  URL
 ================================== ==============================================================
+www.example.com/bar                http://www.example.com/bar/myLiveStream/playlist.m3u8
 www.example.com/bar                http://www.example.com/bar/mp4:http/mov/trip.mp4/playlist.m3u8
+www.example.com                    http://www.example.com/myLiveStream/playlist.m3u8
 www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/myLiveStream/playlist.m3u8
 /foo                               http://{ston-ip-address}/foo/mp4:http/mov/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 
@@ -172,7 +174,13 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 .. note::
 
    URL에서 별도의 설정없이 ``{virtual-host}`` 다음에 오는 ``_definst_`` 표현을 인식한다. ::
+      
+      // LIVE
+      http://www.example.com/bar/_definst_/myLiveStream/playlist.m3u8
+      http://www.example.com/_definst_/myLiveStream/playlist.m3u8
+      http://{ston-ip-address}/foo/_definst_/myLiveStream/playlist.m3u8
 
+      // VOD
       http://www.example.com/bar/_definst_/mp4:mov/trip.mp4/playlist.m3u8
       http://www.example.com/_definst_/mp4:mov/trip.mp4/playlist.m3u8
       http://{ston-ip-address}/foo/_definst_/mp4:mov/trip.mp4/playlist.m3u8
