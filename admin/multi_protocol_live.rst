@@ -20,7 +20,10 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
         </Vhost>
     </Vhosts>
 
-STON 미디어 서버는 소스를 트랜스코딩(Transcoding)하지 않는다. 
+
+.. note::
+
+   STON 미디어 서버는 소스를 트랜스코딩(Transcoding)하지 않는다. 
 
 프로토콜별 URL 표현은 :ref:`multi-protocol-url` 을 참고한다. 
 서로 다른 프로토콜 변환이 발생할 때(RTMP to HLS/HLS to RTMP) 기술적인 제약사항이 있을 수 있다.
