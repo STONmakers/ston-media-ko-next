@@ -165,9 +165,9 @@ www.example.com       http://www.example.com/mp4:mov/trip.mp4/playlist.m3u8
 ================================== ==============================================================
 <Vhost Name="..." Prefix="http/">  URL
 ================================== ==============================================================
-www.example.com/bar                http://www.example.com/bar/myLiveStream/playlist.m3u8
-www.example.com                    http://www.example.com/myLiveStream/playlist.m3u8
-/foo                               http://{ston-ip-address}/foo/myLiveStream/playlist.m3u8
+www.example.com/bar                http://www.example.com/bar/http/myLiveStream/playlist.m3u8
+www.example.com                    http://www.example.com/http/myLiveStream/playlist.m3u8
+/foo                               http://{ston-ip-address}/foo/http/myLiveStream/playlist.m3u8
 ================================== ==============================================================
 
 ================================== ==============================================================
