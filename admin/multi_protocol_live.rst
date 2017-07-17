@@ -207,9 +207,9 @@ Active 소스와 연결이 종료되면 연결된 순서대로 Standby 소스가
 
 
 
-.. _multi-protocol-live-adobe-rtmp-push-abr:
+.. _multi-protocol-live-adobe-rtmp-push-abr-streaming:
 
-[Push] ABR(Adaptive bitrate) 스트리밍
+[Push] ABR 스트리밍
 ------------------------------------
 
 LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 구성할 수 있다.
