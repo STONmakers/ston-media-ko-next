@@ -175,6 +175,13 @@ Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호�
 
 - http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
+
+
+.. _multi-protocol-live-adobe-rtmp-push-fault-recovery:
+
+Push - Fault Recovery
+------------------------------------
+
 같은 URL로 복수의 Live 스트림이 Push되는 경우 가장 먼저 연결된 스트림이 Active가 되며, 나머지는 Standby가 된다. 
 
 .. figure:: img/sms_live_rtmp_push_multi.png
@@ -202,7 +209,7 @@ Adaptive bitrate streaming
 Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다. 
 이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다. 
 
-예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다.
+예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다. 
 
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
