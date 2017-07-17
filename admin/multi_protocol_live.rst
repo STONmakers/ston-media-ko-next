@@ -206,7 +206,7 @@ Active와 연결이 종료되면 Standby가 Active로 승격된다.
 Adaptive bitrate streaming
 ------------------------------------
 
-Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다. 
+Live 스트림 Push를 통해 ABR(Adaptive bitrate streaming)을 구성할 수 있다.
 이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다. 
 
 예를 들어 같은 소스를 다양한 Bitrate로 송출하더라도 각기 다른 Live 스트림으로 인식된다. 
@@ -222,13 +222,22 @@ Live 스트림의 이름 규칙을 통해 하나의 ABR LIVE 스트림을 구성
    
    <ABRs>
       <Stream Name="myLiveStream">myLiveStream_*</Stream>
+      <Stream Name="myLiveStream">myLiveStream_*
+        <Channel Name=myLiveStream_480>
+            <Audio>
+            <Resolution
+        </Channel>
+      </Stream>
    </ABRs>
+
+
+Audio Only모드.
 
 
 
 .. _multi-protocol-live-adobe-rtmp-client:
 
-RTMP 클라이언트
+RTMP to RTMP 전송
 ------------------------------------
 
 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
@@ -260,7 +269,7 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 
 .. _multi-protocol-live-apple-hls-client:
 
-HLS 클라이언트
+RTMP to HLS 전송
 ------------------------------------
 
 HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
