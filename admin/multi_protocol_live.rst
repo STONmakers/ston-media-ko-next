@@ -171,9 +171,9 @@ Live 스트림을 인코더로부터 직접 Push받을 수 있다.
 .. figure:: img/sms_live_rtmp_push_multi.png
    :align: center
 
-Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. ::
+Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
 
-   `http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
+- http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
 같은 URL로 복수의 Live 스트림이 Push되는 경우 가장 먼저 연결된 스트림이 Active가 되며, 나머지는 Standby가 된다. 
 
