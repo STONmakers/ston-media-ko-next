@@ -311,9 +311,9 @@ Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가
 
 
 
-.. _multi-protocol-live-adobe-rtmp-pull-to-rtmp:
+.. _multi-protocol-live-adobe-rtmp-to-rtmp:
 
-[Pull] RTMP to RTMP 전송
+RTMP to RTMP 전송
 ------------------------------------
 
 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
@@ -343,9 +343,9 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 
 
 
-.. _multi-protocol-live-apple-hls-client:
+.. _multi-protocol-live-apple-rtmp-to-hls:
 
-[Pull] RTMP to HLS 전송
+RTMP to HLS 전송
 ------------------------------------
 
 HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
