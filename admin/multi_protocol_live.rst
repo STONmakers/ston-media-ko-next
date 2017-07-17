@@ -321,7 +321,7 @@ Apple HLS
 
 .. _multi-protocol-live-apple-hls-session:
 
-세션
+HLS 클라이언트
 ------------------------------------
 ::
 
