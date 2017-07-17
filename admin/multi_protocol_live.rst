@@ -95,8 +95,8 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 클라이언트 요청 프로토콜과 상관없이 ``<Origin Protocol="...">`` 설정으로 원본서버와 통신한다.
 채널이 생성되는 경우는 2가지 경우이다.
 
-- 인코더로부터 LIVE 스트림이 RTMP로 PUSH되는 경우
-- 클라이언트가 LIVE 스트림을 요청하는 경우 (RTMP 또는 HLS)
+- 인코더로부터 LIVE 스트림이 RTMP로 Push되는 경우
+- 클라이언트가 LIVE 스트림을 요청(Pull)하는 경우 (RTMP 또는 HLS)
 
 
 
@@ -269,20 +269,45 @@ ABR을 위해 반드시 멀티 LIVE 소스가 필요한 것은 아니다.
 
 .. _multi-protocol-live-adobe-rtmp-pull-basic:
 
-[Push] 기본동작
+[Pull] 기본동작
 ------------------------------------
 
 클라이언트가 요청할 때 LIVE 스트림을 원본서버로부터 Pull한다.
 가상호스트가 이미 생성되었다면 별도의 설정없이 여러 스트림을 동시에 Pull할 수 있다.
 
-.. figure:: img/sms_live_rtmp_push_multi.png
+.. figure:: img/sms_live_rtmp_pull_multi.png
    :align: center
 
-   Push하면 채널이 생성된다.
+   Pull하면 채널이 생성된다.
 
 Pull하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
 
 - http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
+
+
+
+.. _multi-protocol-live-adobe-rtmp-pull-multisource:
+
+[Pull] 다중화
+------------------------------------
+
+Active 소스와 연결이 성립되면 Standby 소스를 확보하기 위해 모든 원본서버 주소로 LIVE 스트림을 요청한다.
+
+.. figure:: img/sms_live_rtmp_pull_multi.png
+   :align: center
+
+   RTMP Pull - 멀티소스 구성
+
+
+.. note::
+
+   소스는 최대 3개 (1 Active, 2 Standby)까지 구성이 가능하다.
+
+
+Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가 Active 소스로 승격된다.
+이 때 각 소스간 서로 다른 Timestamp를 사용하여도 최초 Active 소스의 Timestamp가 승계되어 매끄러운(Seamless) 재생환경을 구성한다.
+
+
 
 
 
