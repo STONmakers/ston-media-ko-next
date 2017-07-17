@@ -269,7 +269,7 @@ LIVE 서비스의 특성상 방송 시점과 클라이언트 시청 시점의 �
 
 .. _multi-protocol-live-apple-hls-client:
 
-RTMP to HLS 전송
+Pull (RTMP to HLS 전송)
 ------------------------------------
 
 HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
