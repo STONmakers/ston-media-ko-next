@@ -237,7 +237,7 @@ Audio Only모드.
 
 .. _multi-protocol-live-adobe-rtmp-client:
 
-RTMP to RTMP 전송
+Pull (RTMP to RTMP 전송)
 ------------------------------------
 
 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
