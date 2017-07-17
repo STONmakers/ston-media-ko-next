@@ -223,12 +223,6 @@ Live 스트림의 이름 규칙을 통해 하나의 ABR LIVE 스트림을 구성
    
    <ABRs>
       <Stream Name="myLiveStream">myLiveStream_*</Stream>
-      <Stream Name="myLiveStream">myLiveStream_*
-        <Channel Name=myLiveStream_480>
-            <Audio>
-            <Resolution
-        </Channel>
-      </Stream>
    </ABRs>
 
 
