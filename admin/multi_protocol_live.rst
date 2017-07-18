@@ -60,7 +60,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
    1가상호스트 - 멀티 채널
 
-단, 가상호스트에 속한 모든 채널의 원본 프로토콜(RTMP 또는 HLS)은 동일해야 한다.
+단, 가상호스트에 속한 모든 채널의 원본 프로토콜(RTMP.Push 또는 RTMP.Pull 또는 HLS)은 동일해야 한다.
 
 .. note::
 
@@ -81,7 +81,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
     <Vhosts>
         <Vhost Name="www.example.com/bar" Type="LIVE">
-            <Origin Protocol="RTMP.push">
+            <Origin Protocol="RTMP.Push">
                ...
             </Origin>
         </Vhost>
@@ -89,15 +89,15 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
 -  ``<Origin>``
 
-   - ``Protocol (기본: RTMP.push)`` LIVE를 위해 원본서버와 통신할 프로토콜(RTMP.Push 또는 RTMP.Pull 또는 HLS)을 설정한다.
+   - ``Protocol (기본: RTMP.Push)`` LIVE를 위해 원본서버와 통신할 프로토콜( ``RTMP.Push`` 또는 ``RTMP.Pull`` 또는 ``HLS.Pull`` )을 설정한다.
      채널이 생성되면 ``Protocol`` 을 변경해도 반영되지 않는다.
 
 클라이언트 요청 프로토콜과 상관없이 ``<Origin Protocol="...">`` 설정으로 원본서버와 통신한다.
-채널이 생성되는 경우는 2가지 경우이다.
+채널이 생성되는 경우는 3가지 이다.
 
-- 인코더로부터 LIVE 스트림이 RTMP로 Push되는 경우
-- 클라이언트가 LIVE 스트림을 RTMP로 요청(Pull)하는 경우
-- 클라이언트가 LIVE 스트림을 HLS로 요청(Pull)하는 경우
+- ``RTMP.Push`` 인코더로부터 LIVE 스트림이 RTMP로 Push되는 경우
+- ``RTMP.Pull`` 클라이언트가 LIVE 스트림을 RTMP로 요청(Pull)하는 경우
+- ``HLS.Pull`` 클라이언트가 LIVE 스트림을 HLS로 요청(Pull)하는 경우
 
 
 
