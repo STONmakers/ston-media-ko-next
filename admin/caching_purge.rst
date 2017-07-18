@@ -321,19 +321,6 @@ Purge API가 호출될 때 컨텐츠 복구 여부를 선택한다. ::
       www.example.com/*             // www.example.com 가상호스트의 모든 콘텐츠
 
 
-.. _purge-api-http-method:
-
-HTTP Method
-====================================
-
-무효화 API를 확장 HTTP Method로 호출할 수 있다. ::
-
-    PURGE /trip.mp4 HTTP/1.1
-    host: www.example.com
-
-HTTP Method는 기본적으로 Manager포트와 서비스(80)포트에서 동작한다.
-서비스포트로 요청되는 HTTP Method의 :ref:`env-host` 에서 설정한다.
-
 
 .. _purge-api-post:
 
