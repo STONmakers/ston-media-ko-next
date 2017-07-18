@@ -215,60 +215,67 @@ Active 소스와 연결이 종료되면 연결된 순서대로 Standby 소스가
 LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 구성할 수 있다.
 이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다.
 
-같은 소스를 다양한 Bitrate로 Push 하더라도 STON 미디어 서버는 각각 다른 LIVE 스트림으로 인식한다.
+기본적으로 STON 미디어 서버는 같은 소스를 다양한 Bitrate로 Push 해도 이를 알지 못하며, 각기 다른 LIVE 스트림으로 인식한다.
 
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
 
-간단한 네이밍 규칙을 통해 각각의 LIVE 스트림을 하나의 ABR 스트림으로 구성할 수 있다. ::
+STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
 
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Rtmp>
    
    <ABRs>
-      <Stream Name="myLiveStream_abr">myLiveStream_*</Stream>
+      <Stream Name="*_abr">
+        <Pattern>*_720</Pattern>
+        <Pattern>*_480</Pattern>
+        <Pattern>*_360</Pattern>
+      </Stream>
    </ABRs>
 
 -  ``<ABRs>``
    ABR로 구성할 스트림을 등록한다.
 
 -  ``<Stream>``
-   값과 일치하는 패턴의 LIVE 스트림이 Push 되면 ABR로 구성한다.
-   ABR로 구성된 스트림들은 ``Name`` 속성으로 서비스된다.
+   하위의 멀티 ``<Pattern>`` 을 하나의 ABR 스트림으로 구성한다.
+   구성된 ABR 스트림은 ``Name`` 속성을 통해 제공된다.
+
+예를 들어 위와 같은 구성에 아래와 같이 3개의 스트림이 Push되었다고 가정해 보자. ::
+
+   /myLiveStream_720
+   /myLiveStream_480
+   /myLiveStream_360
+
+"/myLiveStream_" 은 패턴 "*_"와 일치한다. 위의 3 스트림은 아래의 ABR 스트림으로 구성된다. ::
+
+   /myLiveStream_abr
+
+조금 더 복잡한 예를 들어보자.
+아래와 같이 동시에 여러 Live 스트림이 입력되었다고 가정해 보자. 
+(패턴과 일치하는 스트림은 우측에 패턴을 별도로 명시하였다.) ::
+
+   /myLiveStream_720          (*_720)
+   /myLiveStream_480          (*_480)
+   /myLiveStream_360          (*_360)
+   /AliceLive_720             (*_720)
+   /AliceLive_360             (*_360)
+   /JamesLive_720_clips       X
+   /JamesLive_360_clips       X
+   /JohnLive_1080             X
+   /JohnLive_720              (*_720)
+   /cctv                      X
+
+ 이때 구성되는 ABR 스트림은 다음과 같다. ::
+
+   /myLiveStream_abr           -> /myLiveStream_720 + /myLiveStream_480 + /myLiveStream_360
+   /AliceLive_abr              -> /AliceLive_720 + /AliceLive_360
+   /JohnLive_abr               -> /JohnLive_720
+   
+그림으로 표현하면 아래와 같다.
 
       .. figure:: img/sms_live_channel_multi.png
          :align: center
 
-위와 같이 구성하면 STON 미디어 서버는 패턴(myLiveStream_*)과 일치하는 스트림을 ABR 스트림으로 구성한다.
-
-.. figure:: img/sms_live_rtmp_push_abr2.png
-   :align: center
-
-ABR을 위해 반드시 멀티 LIVE 소스가 필요한 것은 아니다.
-``AudioOnly`` 속성이 활성화되면 하나의 LIVE 소스로부터 오디오를 분리하여 별도의 LIVE 스트림인 것처럼 구성한다. ::
-
-   # vhosts.xml - <Vhosts><Vhost><OriginOptions><Rtmp>
-   
-   <ABRs AudioOnlyStream="OFF" />
-
--  ``AudioOnlyStream (기본: OFF)``
-   ``ON`` 이라면 LIVE 소스로부터 오디오를 분리하여 별도의 LIVE 스트림을 생성하여 ABR로 제공한다. 
-   이렇게 생성된 LIVE 스트림은 기존 스트림 이름 뒤에 Suffix로 "_audio"가 붙으며, ABR 스트림에는 "_abr"이 붙는다.
-
-예를 들어 ``<ABRs AudioOnlyStream="ON" />`` 으로 설정했다면 다음과 같이 서비스가 제공된다. ::
-
-   // 인코더가 Push한 LIVE 스트림
-   /myLiveStream_1000
-
-   // STON 미디어 서버가 생성한 오디오 전용 LIVE 스트림
-   /myLiveStream_1000_audio
-
-   // 오디오 전용 LIVE 스트림이 추가된 ABR
-   /myLiveStream_1000_abr
-
-
-.. note::
-
-   AudioOnlyStream이 제공되면 클라이언트의 대역폭이 순간적으로 저하되어도 (비록 오디오만 전송되지만) 끊김없는 재생환경을 제공할 수 있다.
+이와 같은 방식은 각 스트림 이름을 정확히 알지 못해도 패턴만으로 구성을 자동화할 수 있다는 장점이 있다.
 
 
 
