@@ -190,7 +190,7 @@ LIVE 스트림을 인코더로부터 직접 Push받을 수 있다.
 .. figure:: img/sms_live_rtmp_push_multi.png
    :align: center
 
-   Push하면 채널이 생성된다.
+   Push받을 때 채널이 생성된다.
 
 Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
 
