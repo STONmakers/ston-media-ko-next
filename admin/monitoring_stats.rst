@@ -52,8 +52,16 @@ STON 미디어 서버에서 모든 통계는 1초단위로 수집되며 최소 �
        "AllOriginOutbound":14184,                 HttpOriginActiveSession="0" 
        "HttpOriginSession":62,                    HttpOriginInbound="0" 
        "HttpOriginActiveSession":62,              HttpOriginOutbound="0" 
-       "HttpOriginInbound":2375,                  AllClientSession="0" 
-       "HttpOriginOutbound":2509,                 AllClientActiveSession="0" 
+       "HttpOriginInbound":2375,                  HlsOriginSession="0"
+       "HttpOriginOutbound":2509,                 HlsOriginActiveSession="0"
+       "HlsOriginSession":62,                     HlsOriginInbound="0"
+       "HlsOriginActiveSession":62,               HlsOriginOutbound="0"
+       "HlsOriginInbound":2375,                   MpegDashOriginSession="0"
+       "HlsOriginOutbound":2509,                  MpegDashOriginActiveSession="0"
+       "MpegDashOriginSession":62,                MpegDashOriginInbound="0"
+       "MpegDashOriginActiveSession":62,          MpegDashOriginOutbound="0"
+       "MpegDashOriginInbound":2375,              AllClientSession="0"
+       "MpegDashOriginOutbound":2509,             AllClientActiveSession="0"
        "AllClientSession":54,                     AllClientInbound="0" 
        "AllClientActiveSession":2327,             AllClientOutbound="0" 
        "AllClientInbound":2481,                   HttpClientSession="0" 
@@ -64,8 +72,12 @@ STON 미디어 서버에서 모든 통계는 1초단위로 수집되며 최소 �
        "HttpClientOutbound":8,                    HlsClientActiveSession="0" 
        "HlsClientSession":54,                     HlsClientInbound="0" 
        "HlsClientActiveSession":2327,             HlsClientOutbound="0" 
-       "HlsClientInbound":2481,                   RtmpClientSession="0" 
-       "HlsClientOutbound":8,                     RtmpClientActiveSession="0" 
+       "HlsClientInbound":2481,                   MpegDashClientSession="0"
+       "HlsClientOutbound":8,                     MpegDashClientActiveSession="0"
+       "MpegDashClientSession":54,                MpegDashClientInbound="0"
+       "MpegDashClientActiveSession":2327,        MpegDashClientOutbound="0"
+       "MpegDashClientInbound":2481,              RtmpClientSession="0"
+       "MpegDashClientOutbound":8,                RtmpClientActiveSession="0"
        "RtmpClientSession":54,                    RtmpClientInbound="0" 
        "RtmpClientActiveSession":2327,            RtmpClientOutbound="0" 
        "RtmpClientInbound":2481,                  RequestHitRatio="0" 
@@ -90,6 +102,14 @@ STON 미디어 서버에서 모든 통계는 1초단위로 수집되며 최소 �
 -  ``HttpOriginActiveSession`` 전송 중인 HTTP 원본세션 수
 -  ``HttpOriginInbound (단위: Bytes, 평균)`` HTTP를 이용해 원본서버부터 받은 양
 -  ``HttpOriginOutbound (단위: Bytes, 평균)`` HTTP를 이용해  원본서버로 보낸 양
+-  ``HlsOriginSession`` 연결된 HLS 원본세션 수
+-  ``HlsOriginActiveSession`` 전송 중인 HLS 원본세션 수
+-  ``HlsOriginInbound (단위: Bytes, 평균)`` HLS를 이용해 원본서버부터 받은 양
+-  ``HlsOriginOutbound (단위: Bytes, 평균)`` HLS를 이용해  원본서버로 보낸 양
+-  ``MpegDashOriginSession`` 연결된 MPEG-DASH 원본세션 수
+-  ``MpegDashOriginActiveSession`` 전송 중인 MPEG-DASH 원본세션 수
+-  ``MpegDashOriginInbound (단위: Bytes, 평균)`` MPEG-DASH를 이용해 원본서버부터 받은 양
+-  ``MpegDashOriginOutbound (단위: Bytes, 평균)`` MPEG-DASH를 이용해  원본서버로 보낸 양
 -  ``AllClientSession`` 연결된 전체 클라이언트 세션 수
 -  ``AllClientActiveSession`` 전송 중인 전체 클라이언트 세션 수
 -  ``AllClientInbound (단위: Bytes, 평균)`` 전체 클라이언트로부터 받은 양
@@ -102,6 +122,10 @@ STON 미디어 서버에서 모든 통계는 1초단위로 수집되며 최소 �
 -  ``HlsClientActiveSession`` 전송 중인 HLS 클라이언트 세션 수
 -  ``HlsClientInbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로부터 받은 양
 -  ``HlsClientOutbound (단위: Bytes, 평균)`` HLS를 이용해 클라이언트로 보낸 양
+-  ``MpegDashClientSession`` 연결된 MPEG-DASH 클라이언트 세션 수
+-  ``MpegDashClientActiveSession`` 전송 중인 MPEG-DASH 클라이언트 세션 수
+-  ``MpegDashClientInbound (단위: Bytes, 평균)`` MPEG-DASH를 이용해 클라이언트로부터 받은 양
+-  ``MpegDashClientOutbound (단위: Bytes, 평균)`` MPEG-DASH를 이용해 클라이언트로 보낸 양
 -  ``RtmpClientSession`` 연결된 RTMP 클라이언트 세션 수
 -  ``RtmpClientActiveSession`` 전송 중인 RTMP 클라이언트 세션 수
 -  ``RtmpClientInbound (단위: Bytes, 평균)`` RTMP를 이용해 클라이언트로부터 받은 양
