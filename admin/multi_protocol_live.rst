@@ -60,7 +60,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
    1가상호스트 - 멀티 채널
 
-단, 가상호스트에 속한 모든 채널의 원본 프로토콜(RTMP.Push 또는 RTMP.Pull 또는 HLS)은 동일해야 한다.
+단, 가상호스트에 속한 모든 채널의 원본 프로토콜(RTMP.Push 또는 RTMP.Pull 또는 HLS.Pull)은 동일해야 한다.
 
 .. note::
 
@@ -98,6 +98,11 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 - ``RTMP.Push`` 인코더로부터 LIVE 스트림이 RTMP로 Push되는 경우
 - ``RTMP.Pull`` 클라이언트가 LIVE 스트림을 RTMP로 요청(Pull)하는 경우
 - ``HLS.Pull`` 클라이언트가 LIVE 스트림을 HLS로 요청(Pull)하는 경우
+
+.. note::
+
+   채널을 생성(Push 또는 Pull)하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
+   http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
 
 
@@ -173,7 +178,7 @@ Adobe RTMP를 이용해 인코더로부터 LIVE 스트림을 Push받거나, 게�
 ------------------------------------
 
 LIVE 스트림을 인코더로부터 직접 Push받을 수 있다. 
-아래와 같이 ``Protocol="RTMP.push`` 설정으로 동작한다. ::
+아래와 같이 ``Protocol="RTMP.push"`` 설정으로 동작한다. ::
 
     # vhosts.xml
 
@@ -191,10 +196,6 @@ LIVE 스트림을 인코더로부터 직접 Push받을 수 있다.
    :align: center
 
    Push받을 때 채널이 생성된다.
-
-Push하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
-
-- http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
 
 
@@ -235,24 +236,24 @@ LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 �
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
 
-STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
+ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
 
    # vhosts.xml - <Vhosts><Vhost><OriginOptions><Rtmp>
    
-   <ABRs>
+   <ABR>
       <Stream Name="*_abr">
         <Pattern>*_720</Pattern>
         <Pattern>*_480</Pattern>
         <Pattern>*_360</Pattern>
       </Stream>
-   </ABRs>
+   </ABR>
 
--  ``<ABRs>``
+-  ``<ABR>``
    ABR로 구성할 스트림을 등록한다.
 
 -  ``<Stream>``
    하위의 멀티 ``<Pattern>`` 을 하나의 ABR 스트림으로 구성한다.
-   구성된 ABR 스트림은 ``Name`` 속성을 통해 제공된다.
+   구성된 ABR 스트림은 ``Name`` 을 URL로 접근이 가능하다.
 
 예를 들어 위와 같은 구성에 아래와 같이 3개의 스트림이 Push되었다고 가정해 보자. ::
 
@@ -260,13 +261,13 @@ STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 �
    /myLiveStream_480
    /myLiveStream_360
 
-"/myLiveStream_" 은 패턴 "*_"와 일치한다. 위의 3 스트림은 아래의 ABR 스트림으로 구성된다. ::
+"/myLiveStream_" 은 패턴 "*_"와 일치한다. 위의 세개의 스트림은 아래의 ABR 스트림으로 구성된다. ::
 
-   /myLiveStream_abr
+   /myLiveStream_abr         -> /myLiveStream_720 + /myLiveStream_480 + /myLiveStream_360
 
 조금 더 복잡한 예를 들어보자.
 아래와 같이 동시에 여러 Live 스트림이 입력되었다고 가정해 보자. 
-(패턴과 일치하는 스트림은 우측에 패턴을 별도로 명시하였다.) ::
+(일치하는 패턴은 우측에 명시하였다.) ::
 
    /myLiveStream_720          (*_720)
    /myLiveStream_480          (*_480)
@@ -279,7 +280,8 @@ STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 �
    /JohnLive_720              (*_720)
    /cctv                      X
 
- 이때 구성되는 ABR 스트림은 다음과 같다. ::
+
+이때 구성되는 ABR 스트림은 다음과 같다. ::
 
    /myLiveStream_abr           -> /myLiveStream_720 + /myLiveStream_480 + /myLiveStream_360
    /AliceLive_abr              -> /AliceLive_720 + /AliceLive_360
@@ -287,8 +289,8 @@ STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 �
    
 그림으로 표현하면 아래와 같다.
 
-      .. figure:: img/sms_live_channel_multi.png
-         :align: center
+    .. figure:: img/sms_live_channel_multi.png
+       :align: center
 
 이와 같은 방식은 각 스트림 이름을 정확히 알지 못해도 패턴만으로 구성을 자동화할 수 있다는 장점이 있다.
 
@@ -300,7 +302,7 @@ STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 �
 ------------------------------------
 
 최초 클라이언트 요청이 발생하면 LIVE 스트림을 원본서버로부터 Pull한다.
-아래와 같이 ``Protocol="RTMP.Pull`` 설정으로 동작한다. ::
+아래와 같이 ``Protocol="RTMP.Pull"`` 설정으로 동작한다. ::
 
     # vhosts.xml
 
@@ -318,10 +320,6 @@ STON 미디어 서버의 ABR 스트리밍은 사전에 패턴을 등록하여 �
    :align: center
 
    Pull하면 채널이 생성된다.
-
-Pull하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
-
-- http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
 
 
@@ -348,14 +346,13 @@ Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가
 
 
 
-
-
 .. _multi-protocol-live-adobe-rtmp-to-rtmp:
 
 RTMP to RTMP 전송
 ------------------------------------
 
-:ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
+LIVE 소스로부터 수신 받은 RTMP 스트림을 그대로 RTMP 클라이언트에게 전송한다. 
+대부분 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
 
    # server.xml - <Server><VHostDefault><Options><Rtmp>
    # vhosts.xml - <Vhosts><Vhost><Options><Rtmp>
@@ -452,10 +449,41 @@ Apple HLS
 서비스 시점에 임시적으로 생성되며 서비스가 끝나면 사라진다.
 
 
+
+.. _multi-protocol-live-apple-hls-pull-basic:
+
+[Pull] 기본동작
+------------------------------------
+
+최초 클라이언트 요청이 발생하면 LIVE 스트림을 원본서버로부터 Pull한다.
+아래와 같이 ``Protocol="HLS.Pull"`` 설정으로 동작한다. ::
+
+    # vhosts.xml
+
+    <Vhosts>
+        <Vhost Name="www.example.com/bar" Type="LIVE">
+            <Origin Protocol="HLS.Pull">
+               ...
+            </Origin>
+        </Vhost>
+    </Vhosts>
+
+가상호스트가 생성되었다면 별도의 설정없이 여러 스트림을 동시에 Pull할 수 있다.
+
+.. figure:: img/sms_live_rtmp_pull_multi.png
+   :align: center
+
+   Pull하면 채널이 생성된다.
+
+
+
 .. _multi-protocol-live-apple-hls-session:
 
-HLS 클라이언트
+HLS to HLS 전송
 ------------------------------------
+
+LIVE 소스로부터 수신 받은 HLS을 그대로 HLS 클라이언트에게 전송한다. 
+
 ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
@@ -468,137 +496,19 @@ HLS 클라이언트
 
 
 
-.. _multi-protocol-live-apple-hls-mp4segmentation:
+.. _multi-protocol-live-apple-hls-session:
 
-Packetizing
+HLS to RTMP 전송
 ------------------------------------
-MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+
+RTMP 전송을 위해서는 HLS의 Chunk들을 RTMP 스트림으로 변환해야 한다.
+
+::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
+   
+   <ClientKeepAliveSec>30</ClientKeepAliveSec>
 
-   <Packetizing Status="Active">
-      <Index Ver="3" Alternates="ON">index.m3u8</Index>
-      <Sequence>0</Sequence>
-      <Duration>10</Duration>
-      <AlternatesName>playlist.m3u8</AlternatesName>
-      <MP3SegmentType>TS</MP3SegmentType>
-   </Packetizing>
-
-
--  ``<Packetizing>``
-
-   - ``Status (기본: Active)`` 값이 ``Inactive`` 라면 Packetizing하지 않고 원본서버의 HLS 파일들을 릴레이한다.
-
--  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
-
-   - ``Ver (기본 3)`` 인덱스 파일 버전.
-     3인 경우 ``#EXT-X-VERSION:3`` 헤더가 명시되며 ``#EXTINF`` 의 시간 값이 소수점 3째 자리까지 표시된다.
-     1인 경우 ``#EXT-X-VERSION`` 헤더가 없으며, ``#EXTINF`` 의 시간 값이 정수(반올림)로 표시된다.
-
-   - ``Alternates (기본: ON)`` Stream Alternates 사용여부.
-
-     .. figure:: img/hls_alternates_on.png
-        :align: center
-
-        ON. ``<AlternatesName>`` 에서 TS목록을 서비스한다.
-
-     .. figure:: img/hls_alternates_off.png
-        :align: center
-
-        OFF. ``<Index>`` 에서 TS목록을 서비스한다.
-
--  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
-
--  ``<Duration> (기본: 10초)`` 콘텐츠를 분할(Segmentation)하는 기준 시간(초).
-   분할의 기준은 Video/Audio의 KeyFrame이다.
-   KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않을 수 있다.
-   만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
-
--  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
-
-      http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8
-
--  ``<MP3SegmentType> (기본: TS)`` MP3라면 Chunk포맷을 설정한다. (TS 또는 MP3)
-
-
-다음 URL이 호출되면 HTTP 원본서버의 /trip.mp4로부터 인덱스 파일을 생성한다. ::
-
-   http://www.example.com/bar/mp4:trip.mp4/index.m3u8
-
-``Alternates`` 속성이 ON이라면 ``<Index>`` 파일은 ``<AlternatesName>`` 파일을 서비스한다. ::
-
-   #EXTM3U
-   #EXT-X-VERSION:3
-   #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=200000,RESOLUTION=720x480
-   /bar/mp4:trip.mp4/playlist.m3u8
-
-``#EXT-X-STREAM-INF`` 의 Bandwidth와 Resolution은 영상을 분석하여 동적으로 제공한다.
-
-
-최종적으로 생성된 .ts 목록(버전 3)은 다음과 같다. ::
-
-   #EXTM3U
-   #EXT-X-TARGETDURATION:10
-   #EXT-X-VERSION:3
-   #EXT-X-MEDIA-SEQUENCE:0
-   #EXTINF:11.637,
-   /bar/mp4:trip.mp4/0.ts
-   #EXTINF:10.092,
-   /bar/mp4:trip.mp4/1.ts
-   #EXTINF:10.112,
-   /bar/mp4:trip.mp4/2.ts
-
-   ... (중략)...
-
-   #EXTINF:10.847,
-   /bar/mp4:trip.mp4/161.ts
-   #EXTINF:9.078,
-   /bar/mp4:trip.mp4/162.ts
-   #EXT-X-ENDLIST
-
-
-
-.. _multi-protocol-live-apple-hls-keyframe-duration:
-
-키 프레임과 <Duration>
-------------------------------------
-
-분할(Segmentation)의 경우 ``<Duration>`` 보다 Key Frame 간격이 우선한다. 아래 3가지 경우에서 분할이 어떻게 되는지 설명한다.
-
--  **KeyFrame 간격보다** ``<Duration>`` **설정이 큰 경우**
-   KeyFrame이 3초, ``<Duration>`` 이 20초라면 20초를 넘지 않는 KeyFrame의 배수인 18초로 분할된다.
-
--  **KeyFrame 간격과** ``<Duration>`` **이 비슷한 경우**
-   KeyFrame이 9초, ``<Duration>`` 이 10초라면 10초를 넘지 않는 KeyFrame의 배수인 9초로 분할된다.
-
--  **KeyFrame 간격이** ``<Duration>`` **설정보다 큰 경우**
-   KeyFrame단위로 분할된다.
-
-다음 클라이언트 요청에 대해 STON 미디어 서버가 어떻게 동작하는지 이해해보자. ::
-
-   GET /bar/mp4:trip.mp4/99.ts HTTP/1.1
-   Range: bytes=0-512000
-   Host: www.example.com
-
-1.	**STON Media Server** : 최초 로딩 (아무 것도 캐싱되어 있지 않음.)
-#.	**HTTP/HLS Client** : HTTP Range 요청 (100번째 파일의 최초 500KB 요청)
-#.	**STON Media Server** : /trip.mp4 파일 캐싱객체 생성
-#.	**STON Media Server** : /trip.mp4 파일 분석을 위해 필요한 부분만을 원본서버에서 다운로드
-#.	**STON Media Server** : 100번째(99.ts)파일 서비스를 위해 필요한 부분만을 원본서버에서 다운로드
-#.	**STON Media Server** : 100번째(99.ts)파일 생성 후 Range 서비스
-#.	**STON Media Server** : 서비스가 완료되면 99.ts파일 파괴
-
-.. note::
-
-   ``MP4Trimming`` 기능이 ``ON`` 이라면 Trimming된 MP4를 HLS로 변환할 수 있다. (HLS영상을 Trimming할 수 없다. HLS는 MP4가 아니라 MPEG2-TS 임에 주의하자.)
-   영상을 Trimming한 뒤, HLS로 변환하기 때문에 다음과 같이 표현하는 것이 자연스럽다. ::
-
-      /bar/mp4:trip.mp4?start=0&end=60/playlist.m3u8
-
-   동작에는 문제가 없지만 QueryString을 맨 뒤에 붙이는 HTTP 규격에 어긋난다.
-   이를 보완하기 위해 다음과 같은 표현해도 동작은 동일하다. ::
-
-      /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
-      /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
-
+-  ``<ClientKeepAliveSec> (기본: 30초)``
+   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
