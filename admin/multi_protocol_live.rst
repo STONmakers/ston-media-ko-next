@@ -53,7 +53,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
    채널의 생애(Life Cycle)
 
-하나의 가상호스트는 여러 채널을 동시에 서비스할 수 있다.
+하나의 가상호스트는 별도의 설정 없이도 여러 채널을 동시에 서비스할 수 있다.
 
 .. figure:: img/sms_live_channel_multi.png
    :align: center
@@ -119,10 +119,10 @@ LIVE 소스와 통신할 프로토콜을 지정해주어야 한다. ::
 
    중규모 채널구성
 
-Relay 레이어는 LIVE 소스(주로 인코더)로부터 LIVE 스트림을 Push받는다.
-Edge 레이어는 클라이언트 요청에 의해(=On demand) LIVE 스트림을 Relay 레이어로부터 Pull한다.
+Relay 서버는 LIVE 소스(주로 인코더)로부터 LIVE 스트림을 Push받는다.
+Edge 서버는 클라이언트 요청에 의해(=On demand) LIVE 스트림을 Relay 서버로부터 Pull한다.
 
-더 많은 사용자를 위해서는 다음과 같이 3계층도 가능하다.
+더 많은 사용자에게 서비스하기 위해 다음과 같이 3계층 구성도 사용된다.
 
 .. figure:: img/sms_live_channel_scaleout2.png
    :align: center
@@ -238,7 +238,7 @@ Active 소스와 연결이 종료되면 연결된 순서대로 Standby 소스가
 LIVE 스트림 Push를 통해 ABR(Adaptive bitrate) 스트리밍(streaming)을 구성할 수 있다.
 이를 위해서는 개별로 Push되는 스트림을 하나의 ABR 스트림으로 묶어 주어야 한다.
 
-기본적으로 STON 미디어 서버는 같은 소스를 다양한 Bitrate로 Push 해도 이를 알지 못하며, 각기 다른 LIVE 스트림으로 인식한다.
+기본적으로 STON 미디어 서버는 같은 소스를 다양한 Bitrate로 Push 해도 이를 알지 못하며, 다음처럼 각기 다른 LIVE 스트림으로 인식한다.
 
 .. figure:: img/sms_live_rtmp_push_abr1.png
    :align: center
@@ -262,7 +262,7 @@ ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
    하위의 멀티 ``<Pattern>`` 을 하나의 ABR 스트림으로 구성한다.
    구성된 ABR 스트림은 ``Name`` 을 URL로 접근이 가능하다.
 
-예를 들어 위와 같은 구성에 아래와 같이 3개의 스트림이 Push되었다고 가정해 보자. ::
+예를 들어 위와 같은 구성하에 다음처럼 각기 다른 Bitrate의 스트림들이 Push되었다고 가정해 보자. ::
 
    /myLiveStream_720
    /myLiveStream_480
@@ -286,18 +286,18 @@ ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
    /myLiveStream_360          (*_360)
    /AliceLive_720             (*_720)
    /AliceLive_360             (*_360)
-   /JamesLive_720_clips       X
-   /JamesLive_360_clips       X
-   /JohnLive_1080             X
+   /JamesLive_720_clips          X
+   /JamesLive_360_clips          X
+   /JohnLive_1080                X
    /JohnLive_720              (*_720)
-   /cctv                      X
+   /cctv                         X
 
 
 이때 구성되는 ABR 스트림은 다음과 같다. ::
 
-   /myLiveStream_abr           -> /myLiveStream_720 + /myLiveStream_480 + /myLiveStream_360
-   /AliceLive_abr              -> /AliceLive_720 + /AliceLive_360
-   /JohnLive_abr               -> /JohnLive_720
+   /myLiveStream_abr          -> /myLiveStream_720 + /myLiveStream_480 + /myLiveStream_360
+   /AliceLive_abr             -> /AliceLive_720 + /AliceLive_360
+   /JohnLive_abr              -> /JohnLive_720
    
 그림으로 표현하면 아래와 같다.
 
@@ -307,7 +307,7 @@ ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
     .. figure:: img/sms_live_channel_multi.png
        :align: center
 
-이와 같은 방식은 각 스트림 이름을 정확히 알지 못해도 패턴만으로 구성을 자동화할 수 있다는 장점이 있다.
+이와 같은 방식은 각 스트림 이름을 정확히 알지 못해도 패턴만으로 ABR 스트림 구성을 자동화할 수 있다는 장점이 있다.
 
 
 
@@ -371,7 +371,7 @@ Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가
 RTMP to RTMP 전송
 ------------------------------------
 
-LIVE 소스로부터 수신 받은 RTMP 스트림을 그대로 RTMP 클라이언트에게 전송한다. 
+LIVE 소스로부터 수신 받은 RTMP 스트림을 가공없이 RTMP 클라이언트에게 전송한다. 
 대부분 :ref:`multi-protocol-vod-adobe-rtmp-session` 설정을 그대로 사용하지만, ``<BufferSize>`` 의 의미가 다르다. ::
 
    # server.xml - <Server><VHostDefault><Options><Rtmp>
@@ -426,14 +426,14 @@ HLS 전송을 위해서는 RTMP 스트림을 Packetizing해야 한다.
    - ``ChunkCount (기본 3)`` 인덱스파일(m3u8)에서 제공할 Chunk개수를 지정한다.
 
 RTMP를 HLS로 변환할 때는 Streaming되는 Audio/Video를 Chunk(MPEG2-TS)파일로 만들어야 한다. 
-LIVE가 진행되면서 (기본 ``<Duration>`` 설정에서) 인덱스파일은 아래와 같이 변한다.
+(기본 ``<Duration>`` 설정인 경우) RTMP를 이용한 LIVE가 진행되면 신규 유저에게 제공되는 HLS는 아래와 같다.
 
 .. figure:: img/sms_live_rtmp_to_hls1.png
    :align: center
    
    RTMP시점보다 30초 전 시점부터 시청한다.
 
-``<Duration>`` 을 아래와 같이 줄이면 시청 시점을 RTMP와 최대한 맞출 수 있다. ::
+RTMP의 "현재시점" 과 최대한 맞추기 위해서는 ``<Duration>`` 을 줄일 필요가 있다. ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
@@ -494,6 +494,36 @@ Apple HLS
    :align: center
 
    Pull하면 채널이 생성된다.
+
+
+
+
+.. _multi-protocol-live-apple-hls-pull-multisource:
+
+[Pull] 다중화
+------------------------------------
+
+Active 소스와 연결이 성립되면 Standby 소스를 확보하기 위해 모든 원본서버 주소로 HLS를 요청한다.
+
+.. figure:: img/sms_live_hls_pull_multi_line1.png
+   :align: center
+
+   HLS Pull - 멀티소스 구성
+
+
+.. note::
+
+   소스는 최대 3개 (1 Active, 2 Standby)까지 구성이 가능하다.
+
+Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가 Active 소스로 승격된다.
+
+.. figure:: img/sms_live_hls_pull_multi_line2.png
+   :align: center
+
+   HLS Pull - Active 장애발생 처리
+
+이 때 각 소스간 서로 다른 Timestamp를 사용하여도 최초 Active 소스의 Timestamp가 승계되어 매끄러운(Seamless) 재생환경을 구성한다.
+
 
 
 
