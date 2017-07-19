@@ -482,17 +482,11 @@ Apple HLS
 HLS to HLS 전송
 ------------------------------------
 
-LIVE 소스로부터 수신 받은 HLS을 그대로 HLS 클라이언트에게 전송한다. 
+LIVE 소스로부터 수신 받은 HLS을 별도로 Packetizing하지 않고 HLS 클라이언트에게 전송한다. 
 
-::
 
-   # server.xml - <Server><VHostDefault><Options><Hls>
-   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
-   
-   <ClientKeepAliveSec>30</ClientKeepAliveSec>
-
--  ``<ClientKeepAliveSec> (기본: 30초)``
-   아무런 통신이 없는 상태로 설정된 시간이 경과하면 연결을 종료한다.
+.. figure:: img/sms_live_hls_to_hls.png
+   :align: center
 
 
 
@@ -502,4 +496,7 @@ HLS to RTMP 전송
 ------------------------------------
 
 RTMP 전송을 위해서는 HLS의 Chunk들을 RTMP 스트림으로 변환해야 한다. 
-아직 스펙을 정하기엔 구체적인 목적과 방향이 모호하여 보류한다.
+
+.. warning::
+
+   목적이 분명하지 않아 스펙이 구체화되지 않았다.
