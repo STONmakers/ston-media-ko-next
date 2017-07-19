@@ -45,7 +45,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 ====================================
 
 채널(Channel)은 1개의 LIVE 서비스를 의미한다.
-채널은 첫번째 참가자(Participant)에 의해 생성되고, 마지막 참가자와의 연결이 종로되면 자동으로 파괴된다. 
+채널은 첫번째 참가자(Participant)에 의해 생성되고, 마지막 참가자와의 연결이 종료되면 자동으로 파괴된다. 
 참가자(Participant)는 LIVE를 시청하는 클라이언트 또는 LIVE 인코더(Encoder)를 의미한다.
 
 .. figure:: img/sms_live_channel_lifycycle.png
@@ -60,7 +60,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
    1가상호스트 - 멀티 채널
 
-단, 가상호스트에 속한 모든 채널의 원본 프로토콜(RTMP.Push 또는 RTMP.Pull 또는 HLS.Pull)은 동일해야 한다.
+단, 가상호스트에 속한 모든 채널의 원본 프로토콜은 동일해야 한다.
 
 .. note::
 
@@ -75,7 +75,7 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 생성
 ------------------------------------
 
-원본 LIVE스트림과 통신할 프로토콜을 지정해주어야 한다. ::
+LIVE 소스와 통신할 프로토콜을 지정해주어야 한다. ::
 
     # vhosts.xml
 
@@ -89,8 +89,8 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
 -  ``<Origin>``
 
-   - ``Protocol (기본: RTMP.Push)`` LIVE를 위해 원본서버와 통신할 프로토콜( ``RTMP.Push`` 또는 ``RTMP.Pull`` 또는 ``HLS.Pull`` )을 설정한다.
-     채널이 생성되면 ``Protocol`` 을 변경해도 반영되지 않는다.
+   - ``Protocol (기본: RTMP.Push)`` LIVE를 위해 원본서버와 통신할 프로토콜( ``RTMP.Push`` , ``RTMP.Pull`` , ``HLS.Pull`` )을 설정한다.
+     채널이 생성되면 ``Protocol`` 이 변경되어도 반영되지 않는다.
 
 클라이언트 요청 프로토콜과 상관없이 ``<Origin Protocol="...">`` 설정으로 원본서버와 통신한다.
 채널이 생성되는 경우는 3가지 이다.
@@ -101,7 +101,8 @@ STON 미디어 서버는 원본 LIVE 스트림으로부터 Push받거나, 게시
 
 .. note::
 
-   채널을 생성(Push 또는 Pull)하는 대상을 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
+   누구나 채널을 생성(Push 또는 Pull)할 수 있다. 
+   이를 제한하고 싶다면 "서버접근제어" 나 "가상호스트 접근제어"를 사용한다. 
    http://ston.readthedocs.io/ko/latest/admin/access_control.html <http://ston.readthedocs.io/ko/latest/admin/access_control.html>`_
 
 
@@ -135,7 +136,7 @@ Edge 레이어는 클라이언트 요청에 의해(=On demand) LIVE 스트림을
 파괴
 ------------------------------------
 
-더 이상 채널에 연결된 참가자가 없을 경우 ``<ClientKeepAliveSec>`` 시간(초)만큼 채널을 유지한 뒤 파괴된다. ::
+채널에 연결된 참가자가 없을 경우 ``<ClientKeepAliveSec>`` 시간(초)만큼 채널을 유지한 뒤 파괴된다. ::
 
    # server.xml - <Server><VHostDefault><OriginOptions>
    # vhosts.xml - <Vhosts><Vhost><OriginOptions>
@@ -152,7 +153,7 @@ Edge 레이어는 클라이언트 요청에 의해(=On demand) LIVE 스트림을
    마지막 클라이언트의 연결이 종료된 후 설정된 시간(초)만큼 경과 후 채널을 파괴한다.
 
 (HLS처럼) 클라이언트가 항상 채널에 연결되어 있는 것은 아니다.
-채널을 즉시 파괴하면 자칫 너무 많은 생성/파괴가 발생할 수 있으며 이는 서비스 품질에 영향을 준다.
+채널을 즉시 파괴하면 자칫 너무 많은 생성/파괴가 발생할 수 있으며 이는 서비스 품질에 좋지 않은 영향을 줄 수 있다.
 따라서 서비스 특성에 맞추어 일정시간 채널을 유지하도록하여 서비스 품질을 보장한다.
 
 
