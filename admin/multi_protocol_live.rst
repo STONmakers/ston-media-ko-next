@@ -488,7 +488,7 @@ Apple HLS
 
 가상호스트가 생성되었다면 별도의 설정없이 여러 스트림을 동시에 Pull할 수 있다.
 
-.. figure:: img/sms_live_hls_pull_multi.png
+.. figure:: img/sms_live_rtmp_pull_multi.png
    :align: center
 
    Pull하면 채널이 생성된다.
