@@ -503,9 +503,9 @@ Apple HLS
 [Pull] 다중화
 ------------------------------------
 
-Active 소스와 연결이 성립되면 Standby 소스를 확보하기 위해 모든 원본서버 주소로 HLS를 요청한다.
+Active 소스와 연결이 성립되면(=채널이 정상적으로 생성되면) Standby 소스를 확보하기 위해 모든 원본서버 주소로 HLS를 요청한다.
 
-.. figure:: img/sms_live_hls_pull_multi_line1.png
+.. figure:: img/sms_live_rtmp_pull_multi_line1.png
    :align: center
 
    HLS Pull - 멀티소스 구성
@@ -517,7 +517,7 @@ Active 소스와 연결이 성립되면 Standby 소스를 확보하기 위해 �
 
 Active 소스와 연결이 종료되면 확보된 순서대로 Standby 소스가 Active 소스로 승격된다.
 
-.. figure:: img/sms_live_hls_pull_multi_line2.png
+.. figure:: img/sms_live_rtmp_pull_multi_line2.png
    :align: center
 
    HLS Pull - Active 장애발생 처리
@@ -533,10 +533,6 @@ HLS to HLS 전송
 ------------------------------------
 
 LIVE 소스로부터 수신 받은 HLS을 별도로 Packetizing하지 않고 HLS 클라이언트에게 전송한다. 
-
-
-.. figure:: img/sms_live_hls_to_hls.png
-   :align: center
 
 
 
