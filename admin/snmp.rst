@@ -141,17 +141,17 @@ SNMP를 통해 제공되는 가상호스트/View 개수와 기본시간(분)을 
 
 - VHostCount=0인 경우 ::
 
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "www.example.com"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "/foo"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "www.example.com/bar"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.1 = STRING: "www.example.com"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.2 = STRING: "/foo"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.3 = STRING: "www.example.com/bar"
     
 - VHostCount=5 경우 ::
 
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.1 = STRING: "www.example.com"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.2 = STRING: "/foo"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.3 = STRING: "www.example.com/bar"
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.4 = ""
-    SNMPv2-SMI::enterprises.40002.1.4.2.1.2.5 = ""
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.1 = STRING: "www.example.com"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.2 = STRING: "/foo"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.3 = STRING: "www.example.com/bar"
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.4 = ""
+    SNMPv2-SMI::enterprises.40001.2.4.2.1.2.5 = ""
 
 
 
