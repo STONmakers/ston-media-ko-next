@@ -180,15 +180,13 @@ Adobe RTMP를 이용해 인코더로부터 LIVE 스트림을 Push받거나, 게�
 ------------------------------------
 
 LIVE 스트림을 인코더로부터 직접 Push받을 수 있다. 
-아래와 같이 ``Protocol="RTMP.push"`` 설정으로 동작한다. ::
+아래와 같이 ``Protocol="RTMP.push"`` 설정으로 동작하며 원본서버 주소가 필요하지 않다. ::
 
     # vhosts.xml
 
     <Vhosts>
         <Vhost Name="www.example.com/bar" Type="LIVE">
-            <Origin Protocol="RTMP.push">
-               ...
-            </Origin>
+            <Origin Protocol="RTMP.push" />
         </Vhost>
     </Vhosts>
 
@@ -334,7 +332,7 @@ ABR 스트리밍은 사전에 패턴을 등록하여 동작한다. ::
 .. figure:: img/sms_live_rtmp_pull_multi.png
    :align: center
 
-   Pull하면 채널이 생성된다.
+   클라이언트 요청에 의해 채널이 생성된다.
 
 
 
@@ -462,7 +460,7 @@ Apple HLS
 
 원본서버에서 HTTP로 다운로드한 영상을 HLS(HTTP Live Streaming)으로 전송한다.
 
-.. figure:: img/vod_workflow_hls.png
+.. figure:: img/live_workflow_hls.png
    :align: center
 
 모든 인덱스/Chunk 파일은 동적으로 생성되며 별도의 저장공간을 소비하지 않는다.
