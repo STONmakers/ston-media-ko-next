@@ -9,7 +9,7 @@ v1.1.x
 1.1.1 (2017.7.31)
 ----------------------------
 
-- :ref:`multi-protocol-apple-hls` - MP4 Tracks(오디오 또는 비디오)를 선택적으로 HLS :ref:`multi-protocol-vod-apple-hls-packetizing` 한다.
+- :ref:`multi-protocol-apple-hls` - MP4 Tracks(오디오 또는 비디오)를 선택적으로 :ref:`multi-protocol-vod-apple-hls-packetizing` 한다.
 
 
 
