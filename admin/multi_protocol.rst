@@ -726,25 +726,28 @@ www.example.com                    http://www.example.com/mp4:http/mov/trip.mp4/
 
 
 
-.. _multi-protocol-apple-hls-mp4segmentation:
+.. _multi-protocol-vod-apple-hls-packetizing:
 
-MP4 Packetizing
+Packetizing
 ------------------------------------
-MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
+MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
 
    # server.xml - <Server><VHostDefault><Options><Hls>
    # vhosts.xml - <Vhosts><Vhost><Options><Hls>
 
-   <MP4 Packetizing="ON">
+   <Packetizing Status="Active">
       <Index Ver="3" Alternates="ON">index.m3u8</Index>
       <Sequence>0</Sequence>
       <Duration>10</Duration>
       <AlternatesName>playlist.m3u8</AlternatesName>
-   </MP4>
+      <MP4Tracks>All</MP4Tracks>
+      <MP3SegmentType>TS</MP3SegmentType>
+   </Packetizing>
 
--  ``<MP4>``
 
-   - ``Packetizing (기본: ON)`` 값이 ``OFF`` 라면 원본서버의 HLS 파일들을 릴레이한다.
+-  ``<Packetizing>``
+
+   - ``Status (기본: Active)`` 값이 ``Inactive`` 라면 Packetizing하지 않고 원본서버의 HLS 파일들을 릴레이한다.
 
 -  ``<Index> (기본: index.m3u8)`` HLS 인덱스(.m3u8) 파일명
 
@@ -766,7 +769,7 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일�
 
 -  ``<Sequence> (기본: 0)`` .ts 파일의 시작 번호. 이 수를 기준으로 순차적으로 증가한다.
 
--  ``<Duration> (기본: 10초)`` MP4를 분할(Segmentation)하는 기준 시간(초).
+-  ``<Duration> (기본: 10초)`` 콘텐츠를 분할(Segmentation)하는 기준 시간(초).
    분할의 기준은 Video/Audio의 KeyFrame이다.
    KeyFrame은 들쭉날쭉할 수 있으므로 정확히 분할되지 않을 수 있다.
    만약 10초로 분할하려는데 KeyFrame이 9초와 12초에 있다면 가까운 값(9초)을 선택한다.
@@ -774,6 +777,16 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일�
 -  ``<AlternatesName> (기본: playlist.m3u8)`` Stream Alternates 파일명. ::
 
       http://www.example.com/bar/mp4:trip.mp4/playlist.m3u8
+
+-  ``<MP4Tracks>``
+
+   -  ``All (기본)`` MP4파일에서 비디오/오디오를 Packetizing한다.
+
+   -  ``AudioOnly`` MP4파일에서 오디오만 Packetizing한다.
+
+   -  ``VideoOnly`` MP4파일에서 비디오만 Packetizing한다.
+
+-  ``<MP3SegmentType> (기본: TS)`` MP3라면 Chunk포맷을 설정한다. (TS 또는 MP3)
 
 
 다음 URL이 호출되면 HTTP 원본서버의 /trip.mp4로부터 인덱스 파일을 생성한다. ::
@@ -810,8 +823,6 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일�
    #EXTINF:9.078,
    /bar/mp4:trip.mp4/162.ts
    #EXT-X-ENDLIST
-
-
 
 
 
@@ -857,33 +868,6 @@ MP4 파일을 MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일�
 
       /bar/mp4:trip.mp4/playlist.m3u8?start=0&end=60
       /bar/mp4:trip.mp4?start=0/playlist.m3u8?end=60
-
-
-
-
-.. _multi-protocol-apple-hls-mp3segmentation:
-
-MP3 Packetizing
-------------------------------------
-
-MP3 파일을 Packetizing하고 인덱스 파일을 구성하는 정책을 설정한다.  ::
-
-   # server.xml - <Server><VHostDefault><Options><Hls>
-   # vhosts.xml - <Vhosts><Vhost><Options><Hls>
-
-   <MP3 Packetizing="ON" SegmentType="TS">
-       <Index Ver="3" Alternates="ON">index.m3u8</Index>
-       <Sequence>0</Sequence>
-       <Duration>10</Duration>
-       <AlternatesName>playlist.m3u8</AlternatesName>
-   </MP3>
-
--  ``<MP3>``
-
-   - ``SegmentType (기본: TS)`` 분할 포맷을 설정한다. (TS 또는 MP3)
-
-그외 모든 설정과 동작방식은 ``<MP4>`` 와 동일하다.
-
 
 
 
