@@ -62,7 +62,7 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
 가상호스트가 생성되면 멀티프로토콜(HTTP, HLS, RTMP) 서비스가 기본으로 활성화된다.
 
 .. note::
-
+   1 depth 디렉토리 Name 표현은 Adobe 미디어 서버의 Application과 같은 개념이다.
    RTMP 클라이언트는 URL의 첫번째 디렉토리를 Application으로 인식한다. ::
 
       rtmp://www.example.com/mp4:video.mp4
