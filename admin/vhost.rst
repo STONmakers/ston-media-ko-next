@@ -72,7 +72,9 @@ HTTP Pseudo-Streaming      .mp4            H.264           AAC
       .. figure:: img/rtmp_invalid_connect.jpg
          :align: center
 
-   따라서 RTMP 서비스를 제공한다면 1 depth 디렉토리 표현을 추가하는 것이 옳다.
+   따라서 RTMP 서비스를 제공한다면 아래와 같이 1 depth 디렉토리 표현을 추가해야 한다. ::
+
+      rtmp://www.example.com/bar/mp4:1.mp4
 
 
 ``<Vhost>`` 를 삭제하면 해당 가상호스트가 삭제된다.
