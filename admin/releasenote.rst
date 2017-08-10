@@ -33,8 +33,8 @@ v1.0.x
    - :ref:`multi-protocol-vod-apple-hls-packetizing`  – 시간값(PCR, PTS, DTS)계산식 변경을 통한 플레이어 호환성 강화
 
    - :ref:`multi-protocol-vod-apple-hls-packetizing`  – 분석과정 오류가 발생할 경우 정책 수정
-        | **Before**. 404 Not Found 응답
-        | **After**. 분석된 지점까지 서비스
+      | **Before**. 404 Not Found 응답
+      | **After**. 분석된 지점까지 서비스
 
    - 원본 통계 추가
 - :ref:`multi-protocol-mpeg-dash` - 클라이언트/원본 통계 추가
