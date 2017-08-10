@@ -168,7 +168,7 @@ WM접근 주소는 http://192.168.0.100:9500이 된다.
 기본 가상호스트(VHostDefault)와 개별 가상호스트에 대해 설정한다.
 좌측상단의 콤보박스를 선택하여 가상호스트를 선택할 수 있다.
 :ref:`vhost-defaultvhost` 는 모든 가상호스트가 상속받는 기본 설정이다.
-그러므로 별도로 재정의(Overriding)하지 않은 설정의 경우 :ref:`vhost-defaultvhost` 를 의 설정이 반영된다.
+그러므로 별도로 재정의(Overriding)하지 않은 설정의 경우 :ref:`vhost-defaultvhost` 의 설정이 반영된다.
 
 .. figure:: img_wm/sms_wm_vhost_menu.png
    :align: center

@@ -568,9 +568,6 @@ HTTP 세부통계는 다음과 같다. ::
    -  ``Completed`` 정상적으로 전송완료된 HTTP트랜잭션 횟수
    -  ``TimeRes`` HTTP 응답시간
    -  ``TimeComplete`` HTTP 트랜잭션 완료시간
-
--  ``Response`` 원본서버 연결에러
-   
    -  ``ConnectTimeout`` 연결실패
    -  ``ReceiveTimeout`` 전송지연
    -  ``Close`` 전송 중 원본서버에서 먼저 소켓 종료
