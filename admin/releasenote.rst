@@ -6,6 +6,13 @@ Appendix B: 릴리스 노트
 v1.1.x
 ====================================
 
+1.1.2 (2017.9.11)
+----------------------------
+
+- :ref:`multi-protocol-apple-hls` - MP4 Tracks을 QueryString을 통해 선택적으로 :ref:`multi-protocol-vod-apple-hls-packetizing` 한다.
+
+
+
 1.1.1 (2017.7.31)
 ----------------------------
 
