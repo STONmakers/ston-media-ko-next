@@ -786,11 +786,13 @@ MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는
 
    -  ``VideoOnly`` MP4파일에서 비디오만 Packetizing한다.
 
-   ``Param`` 속성을 설정할 경우 QueryString으로 다음과 같이 Audio 또는 Video만을 추출할 수 있다. 
-   다음은 ``Param=tracks`` 로 설정한 예제이다. ::
+   
+   기본 값 설정보다 ``Param`` 속성 설정을 통해 QueryString으로 선택적으로 Packetizing 할 수 있다. 
+   다음은 ``<MP4Trakcs Param="tracks">All</MP4Tracks>`` 로 설정한 예제이다. ::
 
        // 기본 (=전체재생)
        http://www.example.com/mp4:trip.mp4/index.m3u8
+       http://www.example.com/mp4:trip.mp4/index.m3u8?tracks=all
 
        // 오디오만 재생
        http://www.example.com/mp4:trip.mp4/index.m3u8?tracks=audioonly
@@ -798,8 +800,6 @@ MPEG2-TS(Transport Stream)로 Packetizing하고 인덱스 파일을 구성하는
        // 비디오만 재생
        http://www.example.com/mp4:trip.mp4/index.m3u8?tracks=videoonly
 
-       // 전체 재생
-       http://www.example.com/mp4:trip.mp4/index.m3u8?tracks=all
 
 -  ``<MP3SegmentType> (기본: TS)`` MP3라면 Chunk포맷을 설정한다. (TS 또는 MP3)
 
