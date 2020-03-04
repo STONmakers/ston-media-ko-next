@@ -2,7 +2,7 @@ STON Media Server 완벽 가이드
 ==========================
 
 :저자: STON 개발팀
-:최신버전: v20.01.0
+:최신버전: v20.03.0
 
 
 1부. 구성과 설정
@@ -49,6 +49,7 @@ STON Media Server 완벽 가이드
 
    admin/content_transform
    admin/adv_vhost
+   admin/access_control
    admin/adv_topics
 
 
